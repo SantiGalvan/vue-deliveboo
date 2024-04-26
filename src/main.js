@@ -1,6 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+
 import { createApp } from 'vue'
+//Importo il router
+import { router } from './router'
 import App from './App.vue'
 
 // Importiamo la libreria generica di FontAwesome
@@ -20,8 +23,8 @@ library.add(faCompass);
 library.add(faFacebook);
 
 const app = createApp(App)
-
 // Rendo le icone disponibili globalmente
 app.component('FontAwesomeIcon', FontAwesomeIcon);
+app.use(router)
 
 app.mount('#app')
