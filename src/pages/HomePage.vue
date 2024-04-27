@@ -30,8 +30,10 @@ export default {
 </script>
 
 <template>
-    <h1>PasqEat</h1>
-    <RestaurantsList :restaurants="restaurants" />
+    <div class="container">
+        <h1>PasqEat</h1>
+        <RestaurantsList :restaurants="restaurants" />
+    </div>
 </template>
 
 <style></style>
