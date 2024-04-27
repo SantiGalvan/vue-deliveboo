@@ -1,6 +1,6 @@
 <script>
 import axios from 'axios';
-import RestaurantsList from './restaurants/RestaurantsList.vue';
+import RestaurantsList from '../components/restaurants/RestaurantsList.vue';
 const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 export default {
     name: 'HomePage',

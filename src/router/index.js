@@ -1,7 +1,7 @@
 //Importo le funzioni di Vue Router
 import { createRouter, createWebHistory } from 'vue-router';
 //Importo le Pagine
-import HomePage from '../components/pages/HomePage.vue';
+import HomePage from '../pages/HomePage.vue';
 
 //Definisco le rotte
 const router = createRouter({
