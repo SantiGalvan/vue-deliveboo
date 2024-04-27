@@ -105,13 +105,22 @@ export default {
 
 @media screen and (min-width: 1200px) {
     .row {
-        height: 350px;
+        height: 500px;
     }
 
     .home-card {
-        height: 250px;
+        height: 300px;
         flex-direction: column;
         text-align: center;
+    }
+
+    .col-xl-4 {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+
+    .slider {
+        height: 300px;
     }
 }
 </style>
