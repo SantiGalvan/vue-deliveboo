@@ -1,3 +1,5 @@
+@use 'vars' as *;
+
 .loader-overlay {
     position: fixed;
     top: 0;
@@ -7,7 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.66);
+    background-color: $loader-background;
     z-index: 1;
 
     .spinner-border {
