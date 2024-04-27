@@ -1,5 +1,6 @@
 <script>
 import AppHeader from './components/AppHeader.vue'
+import { RouterView } from 'vue-router';
 
 export default {
   name: 'PasqEat',
@@ -13,7 +14,10 @@ export default {
   <AppHeader />
 
   <!-- Main -->
-  <main></main>
+  <main>
+    <RouterView />
+  </main>
+
 </template>
 
 <style lang="scss">
