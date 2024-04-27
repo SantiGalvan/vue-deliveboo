@@ -9,7 +9,7 @@ export default {
 <template>
 
   <main class="container pt-4">
-    <AppLoader />
+    <!-- <AppLoader /> -->
     <RouterView />
   </main>
 </template>
