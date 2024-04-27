@@ -12,7 +12,7 @@ export default {
             <div class="logo">
                 <a href="">
                     <figure>
-                        <img src="/src/assets/img/pasquet-logo.jpg" alt="PasqEat" class="img-fluid rounded-circle">
+                        <img src="/src/assets/img/pasqueat-logo.jpg" alt="PasqEat" class="img-fluid rounded-circle">
                     </figure>
                 </a>
             </div>
