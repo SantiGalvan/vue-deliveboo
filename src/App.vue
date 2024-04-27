@@ -10,6 +10,9 @@ export default {
 
 <template>
 
+  <!-- Loader -->
+  <!-- <AppLoader /> -->
+
   <!-- Header -->
   <AppHeader />
 
