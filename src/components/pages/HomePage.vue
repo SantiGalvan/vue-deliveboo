@@ -1,8 +1,10 @@
 <script>
 import axios from 'axios';
+import RestaurantsList from './restaurants/RestaurantsList.vue';
 const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 export default {
     name: 'HomePage',
+    components: { RestaurantsList },
     data: () => ({
         restaurants: [],
         categories: [],
@@ -10,7 +12,11 @@ export default {
     methods: {
         getRestaurants() {
             axios.get(defaultEndpoint)
-                .then(res => { this.restaurants = res.data.restaurants; this.categories = res.data.categories })
+                .then(res => {
+                    const { restaurants, categories } = res.data;
+                    this.restaurants = restaurants;
+                    this.categories = categories
+                })
                 .catch(err => {
                     console.error(err.message)
                 })
@@ -24,9 +30,8 @@ export default {
 </script>
 
 <template>
-    <ul>
-        <li v-for="category in categories" :key="category.id">{{ category.label }}</li>
-    </ul>
+    <h1>PasqEat</h1>
+    <RestaurantsList :restaurants="restaurants" />
 </template>
 
 <style></style>
