@@ -2,13 +2,14 @@
 import { RouterView } from 'vue-router';
 
 export default {
-  name: 'PasqEat'
+  name: 'PasqEat',
 }
 </script>
 
 <template>
 
   <main class="container pt-4">
+    <AppLoader />
     <RouterView />
   </main>
 </template>
