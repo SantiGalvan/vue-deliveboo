@@ -1,16 +1,23 @@
 <script>
+import AppHeader from './components/AppHeader.vue'
 import { RouterView } from 'vue-router';
 
 export default {
-  name: 'PasqEat'
+  name: 'PasqEat',
+  components: { AppHeader }
 }
 </script>
 
 <template>
 
-  <main class="container pt-4">
+  <!-- Header -->
+  <AppHeader />
+
+  <!-- Main -->
+  <main>
     <RouterView />
   </main>
+
 </template>
 
 <style lang="scss">
