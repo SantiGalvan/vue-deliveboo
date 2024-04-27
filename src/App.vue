@@ -1,10 +1,20 @@
 <script>
+import AppHeader from './components/AppHeader.vue'
+
 export default {
-  name: 'PasqEat'
+  name: 'PasqEat',
+  components: { AppHeader }
 }
 </script>
 
-<template></template>
+<template>
+
+  <!-- Header -->
+  <AppHeader />
+
+  <!-- Main -->
+  <main></main>
+</template>
 
 <style lang="scss">
 @use './assets/scss/style.scss';
