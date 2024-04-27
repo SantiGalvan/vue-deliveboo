@@ -1,1 +1,7 @@
 @use 'vars' as *;
+
+// Style Header
+@use '_header';
+
+// Style Main
+@use '_main';
