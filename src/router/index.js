@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 //Importo le Pagine
 import HomePage from '../pages/HomePage.vue';
+import RestaurantPage from '../pages/RestaurantPage.vue';
 
 //Definisco le rotte
 const router = createRouter({
@@ -11,6 +12,8 @@ const router = createRouter({
     linkExactActiveClass: 'active',
     routes: [
         { path: '/', name: 'home', component: HomePage },
+        { path: '/restaurants-categories', name: 'restaurants-categories-page', component: RestaurantPage },
+
     ]
 });
 export { router }
