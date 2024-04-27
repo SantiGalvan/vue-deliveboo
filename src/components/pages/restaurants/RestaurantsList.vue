@@ -28,7 +28,6 @@ export default {
                         <div class="card-body">
                             <img v-if="restaurant.image" :src="restaurant.image" class="float-start img-fluid"
                                 :alt="restaurant.restaurant_name">
-                            <!-- <p>{{ !isDetail ? abstract : project.content }}</p> -->
                         </div>
                     </div>
                 </div>
