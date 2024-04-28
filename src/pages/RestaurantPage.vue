@@ -1,11 +1,12 @@
 <script>
 import axios from 'axios';
 import RestaurantsList from '../components/restaurants/RestaurantsList.vue';
+import CategoriesList from '../components/categories/CategoriesList.vue';
 const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 let endpoint = null;
 export default {
     name: 'RestaurantPage',
-    components: { RestaurantsList },
+    components: { RestaurantsList, CategoriesList },
     data: () => ({
         restaurants: [],
         categories: [],
@@ -33,36 +34,23 @@ export default {
 
 <template>
     <div class="container-fluid container-lg">
-        <!--Questo sarà un comnponente-->
-        <ul class="d-flex list-unstyled gap-3 justify-content-center flex-wrap py-5">
-            <!--Categoria-->
-            <RouterLink :to="{ name: 'category-restaurants', params: { id: category.id } }"
-                v-for="category in categories" :key="category.id" @click="getRestaurants(category.id)"
-                class="text-decoration-none text-dark">
-                <li>
-                    {{ category.label }}
-                </li>
-            </RouterLink>
-        </ul>
+        <div class="upper-categories-filter">
+            <!--Lista delle Categorie-->
+            <CategoriesList :categories="categories" @get-restaurants="getRestaurants" />
+        </div>
         <!--Contenuto Principale-->
         <div class="main-content">
             <!--Sidebar-->
             <nav class="side-bar">
                 <h2>Filtri</h2>
-                <ul class="ps-0 list-unstyled">
-                    <!--Categoria-->
-                    <RouterLink :to="{ name: 'category-restaurants', params: { id: category.id } }"
-                        v-for="category in categories" :key="category.id" @click="getRestaurants(category.id)"
-                        class="text-decoration-none text-dark">
-                        <li class="text-decoration-none mb-2">
-                            {{ category.label }}
-                        </li>
-                    </RouterLink>
-                </ul>
-
+                <div class="side-categories-filter">
+                    <!--Lista delle Categorie-->
+                    <CategoriesList :categories="categories" @get-restaurants="getRestaurants" />
+                </div>
             </nav>
             <div>
                 <h1>Ristoranti</h1>
+                <!--Lista dei Ristoranti-->
                 <RestaurantsList :restaurants="restaurants" :categories="categories" />
             </div>
         </div>
@@ -87,6 +75,10 @@ export default {
     /* LA SIDE BAR AUMENTA DI LARGHEZZA*/
     .side-bar {
         display: block;
+    }
+
+    .upper-categories-filter {
+        display: none;
     }
 }
 </style>
