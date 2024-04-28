@@ -5,8 +5,8 @@ export default {
 </script>
 
 <template>
-    <header class="container-fluid">
-        <nav>
+    <header>
+        <nav class="container">
 
             <!-- Logo, parte sinistra -->
             <div class="logo">
