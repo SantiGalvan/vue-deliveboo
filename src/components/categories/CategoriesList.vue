@@ -11,10 +11,11 @@ export default {
 
 <template>
     <!--Lista Categorie-->
-    <ul class="d-flex list-unstyled gap-3 justify-content-center flex-wrap py-5">
+    <ul class="list-unstyled gap-3 justify-content-center flex-wrap">
         <!--Categoria-->
-        <RouterLink :to="{ name: 'category-restaurants', params: { id: category.id } }" v-for="category in categories"
-            :key="category.id" @click="$emit('get-restaurants', category.id)" class="text-decoration-none text-dark">
+        <RouterLink :to="{ name: 'category-restaurants', params: { slug: category.slug } }"
+            v-for="category in categories" :key="category.id" @click="$emit('get-restaurants', category.slug)"
+            class="text-decoration-none text-dark">
             <li>
                 {{ category.label }}
             </li>
@@ -22,4 +23,23 @@ export default {
     </ul>
 </template>
 
-<style></style>
+<style>
+ul {
+    display: flex;
+    padding: 30px 0px;
+}
+
+/*************** SOPRA I 992 PX (lg)********************/
+@media screen and (min-width:992px) {
+
+    /* LA SIDE BAR AUMENTA DI LARGHEZZA*/
+    ul {
+        display: block;
+
+        li {
+            border-bottom: 1px solid #E4E4E4;
+            padding: 5px 0px;
+        }
+    }
+}
+</style>
