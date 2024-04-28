@@ -32,9 +32,9 @@ export default {
 </script>
 
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid container-lg">
         <!--Questo sarà un comnponente-->
-        <ul class="d-flex list-unstyled gap-3 justify-content-center flex-wrap">
+        <ul class="d-flex list-unstyled gap-3 justify-content-center flex-wrap py-5">
             <!--Categoria-->
             <RouterLink :to="{ name: 'category-restaurants', params: { id: category.id } }"
                 v-for="category in categories" :key="category.id" @click="getRestaurants(category.id)">
