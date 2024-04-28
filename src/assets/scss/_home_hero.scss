@@ -1,0 +1,67 @@
+@use 'vars' as *;
+
+.hero {
+    // Background da cambiare
+    background-color: gray;
+
+    .col-12 {
+        height: 200px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        overflow: hidden;
+        text-align: center;
+        color: rgb(233, 229, 229);
+
+        .hero-img {
+            height: 100%;
+            width: auto;
+        }
+    }
+
+    .hero-col {
+        h1 {
+            font-size: 2rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+        }
+    }
+}
+
+@media screen and (min-width: 992px) {
+
+    .hero {
+        .col-lg-6 {
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+@media screen and (min-width: 1200px) {
+
+    .hero {
+        .col-lg-6 {
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-col {
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            p {
+                font-size: 1.4rem;
+                margin-bottom: 20px;
+            }
+        }
+    }
+}
