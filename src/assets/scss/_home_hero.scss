@@ -2,7 +2,7 @@
 
 .hero {
     // Background da cambiare
-    background-color: gray;
+    background-color: $header-background;
 
     .col-12 {
         height: 200px;
@@ -10,7 +10,7 @@
         margin-bottom: 10px;
         overflow: hidden;
         text-align: center;
-        color: rgb(233, 229, 229);
+        color: $hero-color;
 
         .hero-img {
             height: 100%;
