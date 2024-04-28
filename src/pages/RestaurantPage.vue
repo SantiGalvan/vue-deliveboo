@@ -2,7 +2,7 @@
 import axios from 'axios';
 import RestaurantsList from '../components/restaurants/RestaurantsList.vue';
 const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
-const endpoint = 'http://localhost:8000/api/';
+let endpoint = null;
 export default {
     name: 'RestaurantPage',
     components: { RestaurantsList },
@@ -11,7 +11,8 @@ export default {
         categories: [],
     }),
     methods: {
-        getRestaurants(endpoint) {
+        getRestaurants(id) {
+            if (id) endpoint = `http://localhost:8000/api/categories/${id}/restaurants`;
             axios.get(endpoint ?? defaultEndpoint)
                 .then(res => {
                     const { restaurants, categories } = res.data;
@@ -32,6 +33,7 @@ export default {
 
 <template>
     <div class="container-fluid">
+        <!--Questo sarà un comnponente-->
         <ul class="d-flex list-unstyled gap-3 justify-content-center flex-wrap">
             <!--Categoria-->
             <RouterLink :to="{ name: 'category-restaurants', params: { id: category.id } }"
@@ -42,7 +44,7 @@ export default {
             </RouterLink>
         </ul>
         <h1>Ristoranti</h1>
-        <RestaurantsList :restaurants="restaurants" />
+        <RestaurantsList :restaurants="restaurants" :categories="categories" />
     </div>
 </template>
 
