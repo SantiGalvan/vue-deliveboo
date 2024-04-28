@@ -23,7 +23,7 @@ export default {
     </ul>
 </template>
 
-<style>
+<style lang="scss" scoped>
 ul {
     display: flex;
     padding: 30px 0px;

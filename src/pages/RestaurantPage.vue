@@ -34,14 +34,14 @@ export default {
 
 <template>
     <div class="container-fluid container-lg">
-        <div class="upper-categories-filter">
+        <div class="d-lg-none upper-categories-filter">
             <!--Lista delle Categorie-->
             <CategoriesList :categories="categories" @get-restaurants="getRestaurants" />
         </div>
         <!--Contenuto Principale-->
         <div class="main-content pt-5">
             <!--Sidebar-->
-            <nav class="side-bar">
+            <nav class="side-bar d-none d-lg-block">
                 <h2>Filtri</h2>
                 <div class="side-categories-filter">
                     <!--Lista delle Categorie-->
@@ -49,10 +49,12 @@ export default {
                 </div>
             </nav>
             <div>
-                <div class="page-path align-items-center mb-5">
-                    <div class="text-decoration-underline text-center">Roma </div>
+                <div class="d-none d-lg-flex page-path align-items-center mb-5">
+                    <RouterLink :to="{ name: 'home' }" class="text-decoration-none text-dark">
+                        <div class="text-decoration-underline me-1">Home </div>
+                    </RouterLink>
                     <div><font-awesome-icon :icon="['fas', 'chevron-right']" :size="'xs'" /></div>
-                    <div><strong> Ristoranti</strong></div>
+                    <div class="ms-1"><strong> Ristoranti</strong></div>
                 </div>
 
                 <h1>Ristoranti</h1>
@@ -72,27 +74,5 @@ export default {
 .side-bar {
     flex-shrink: 0;
     flex-basis: 220px;
-    display: none;
-}
-
-.page-path {
-    display: none;
-}
-
-/*************** SOPRA I 992 PX (lg)********************/
-@media screen and (min-width:992px) {
-
-    /* LA SIDE BAR AUMENTA DI LARGHEZZA*/
-    .side-bar {
-        display: block;
-    }
-
-    .upper-categories-filter {
-        display: none;
-    }
-
-    .page-path {
-        display: flex;
-    }
 }
 </style>
