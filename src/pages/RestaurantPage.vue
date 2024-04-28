@@ -37,7 +37,8 @@ export default {
         <ul class="d-flex list-unstyled gap-3 justify-content-center flex-wrap py-5">
             <!--Categoria-->
             <RouterLink :to="{ name: 'category-restaurants', params: { id: category.id } }"
-                v-for="category in categories" :key="category.id" @click="getRestaurants(category.id)">
+                v-for="category in categories" :key="category.id" @click="getRestaurants(category.id)"
+                class="text-decoration-none text-dark">
                 <li>
                     {{ category.label }}
                 </li>
@@ -47,6 +48,17 @@ export default {
         <div class="main-content">
             <!--Sidebar-->
             <nav class="side-bar">
+                <h2>Filtri</h2>
+                <ul class="ps-0 list-unstyled">
+                    <!--Categoria-->
+                    <RouterLink :to="{ name: 'category-restaurants', params: { id: category.id } }"
+                        v-for="category in categories" :key="category.id" @click="getRestaurants(category.id)"
+                        class="text-decoration-none text-dark">
+                        <li class="text-decoration-none mb-2">
+                            {{ category.label }}
+                        </li>
+                    </RouterLink>
+                </ul>
 
             </nav>
             <div>
@@ -63,8 +75,8 @@ export default {
 }
 
 .side-bar {
-    background-color: black;
     flex-shrink: 0;
+    border: 1px solid black;
     flex-basis: 220px;
     display: none;
 }
