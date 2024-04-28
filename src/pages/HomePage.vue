@@ -1,39 +1,34 @@
 <script>
-import axios from 'axios';
-import RestaurantsList from '../components/restaurants/RestaurantsList.vue';
-const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 export default {
-    name: 'HomePage',
-    components: { RestaurantsList },
-    data: () => ({
-        restaurants: [],
-        categories: [],
-    }),
-    methods: {
-        getRestaurants() {
-            axios.get(defaultEndpoint)
-                .then(res => {
-                    const { restaurants, categories } = res.data;
-                    this.restaurants = restaurants;
-                    this.categories = categories
-                })
-                .catch(err => {
-                    console.error(err.message)
-                })
-                .then(() => { })
-        }
-    },
-    created() {
-        this.getRestaurants();
-    }
+    name: 'HomeHero'
 }
 </script>
 
 <template>
-    <div class="container">
-        <h1>PasqEat</h1>
-        <RestaurantsList :restaurants="restaurants" />
+    <div class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+
+                <!-- Immagine -->
+                <div class="col-12 col-lg-6 text-center">
+                    <img src="../assets/img/8219559_delivery_express_vespa_scooter_deliver_icon_1.png"
+                        alt="Immagine Hero" class="hero-img">
+                </div>
+
+                <!-- Testo -->
+                <div class="hero-col col-12 col-lg-6 text-center p-3">
+                    <h1>Consegna di cibo a domicilio dai tuoi ristoranti preferiti</h1>
+                    <p>I migliori ristoranti li trovi solo su PasqEat</p>
+
+                    <!-- Cambiare il buttone -->
+                    <button class="btn btn-success">Ristoranti
+                        <FontAwesomeIcon icon="fa-solid fa-arrow-down" class="fa-bounce" />
+                    </button>
+                </div>
+
+            </div>
+        </div>
     </div>
 </template>
 
-<style></style>
+<style lang="scss"></style>
