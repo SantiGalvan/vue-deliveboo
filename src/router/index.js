@@ -13,7 +13,7 @@ const router = createRouter({
     routes: [
         { path: '/', name: 'home', component: HomePage },
         { path: '/restaurants-categories', name: 'restaurants-categories-page', component: RestaurantPage },
-        { path: '/categories/:id/restaurants', name: 'category-restaurants', component: RestaurantPage },
+        { path: '/categories/:slug/restaurants', name: 'category-restaurants', component: RestaurantPage },
     ]
 });
 export { router }
