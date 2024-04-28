@@ -11,7 +11,7 @@ export default {
 
 <template>
     <div class="row mt-5 gap-3">
-        <div class="col-12" v-if="restaurants.length" v-for="restaurant in restaurants" :key="restaurant.id">
+        <div class="col-12" v-if="restaurants?.length" v-for="restaurant in restaurants" :key="restaurant.id">
             <!-- ProjectCard -->
             <div class="card my-3">
                 <div class="row g-0">
