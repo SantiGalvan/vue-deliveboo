@@ -43,9 +43,38 @@ export default {
                 </li>
             </RouterLink>
         </ul>
-        <h1>Ristoranti</h1>
-        <RestaurantsList :restaurants="restaurants" :categories="categories" />
+        <!--Contenuto Principale-->
+        <div class="main-content">
+            <!--Sidebar-->
+            <nav class="side-bar">
+
+            </nav>
+            <div>
+                <h1>Ristoranti</h1>
+                <RestaurantsList :restaurants="restaurants" :categories="categories" />
+            </div>
+        </div>
     </div>
 </template>
 
-<style></style>
+<style>
+.main-content {
+    display: flex;
+}
+
+.side-bar {
+    background-color: black;
+    flex-shrink: 0;
+    flex-basis: 220px;
+    display: none;
+}
+
+/*************** SOPRA I 992 PX (lg)********************/
+@media screen and (min-width:992px) {
+
+    /* LA SIDE BAR AUMENTA DI LARGHEZZA*/
+    .side-bar {
+        display: block;
+    }
+}
+</style>
