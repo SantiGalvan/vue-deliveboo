@@ -18,12 +18,6 @@ export default {
                     <div class="col">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title">{{ restaurant.restaurant_name }}</h5>
-                            <!-- <RouterLink v-if="!isDetail" class="btn btn-primary"
-                                :to="{ name: 'project-detail', params: { slug: project.slug } }">
-                                Vedi
-                            </RouterLink>
-                            <button v-else class="btn btn-secondary" @click="$router.back()">Torna Indietro
-                            </button> -->
                         </div>
                         <div class="card-body">
                             <img v-if="restaurant.image" :src="restaurant.image" class="float-start img-fluid"
