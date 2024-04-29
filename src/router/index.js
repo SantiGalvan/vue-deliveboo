@@ -11,6 +11,7 @@ const router = createRouter({
     linkExactActiveClass: 'active',
     routes: [
         { path: '/', name: 'home', component: HomePage },
+        { path: '/restaurants', name: 'restaurants', component: HomePage },
         { path: '/categories/:slug/restaurants', name: 'category-restaurants', component: HomePage },
     ]
 });
