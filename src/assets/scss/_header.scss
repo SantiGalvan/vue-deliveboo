@@ -39,6 +39,10 @@ header {
                 padding: 10px 15px;
                 background-color: $link-background;
                 border-radius: 10px;
+
+                &:hover {
+                    background-color: #f5c433;
+                }
             }
 
             .cart {
