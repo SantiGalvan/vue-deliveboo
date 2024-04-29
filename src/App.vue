@@ -1,11 +1,14 @@
 <script>
 import AppHeader from './components/AppHeader.vue'
+
 import CartCanvas from './components/CartCanvas.vue'
+import AppFooter from './components/AppFooter.vue'
+
 import { RouterView } from 'vue-router';
 
 export default {
   name: 'PasqEat',
-  components: { AppHeader, CartCanvas},
+  components: { AppHeader, CartCanvas, AppFooter},
   data: () => ({
       showCart: false,
       cartItems: [
@@ -60,7 +63,11 @@ export default {
   <!-- Main -->
   <main>
     <RouterView />
+
+    <!-- Footer -->
+    <AppFooter />
   </main>
+
 
 </template>
 

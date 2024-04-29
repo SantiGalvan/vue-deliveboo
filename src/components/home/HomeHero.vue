@@ -20,7 +20,7 @@ export default {
                     <h1>Consegna di cibo a domicilio dai tuoi ristoranti preferiti</h1>
                     <p>I migliori ristoranti li trovi solo su PasqEat</p>
 
-                    <a href="#home-page" class="btn btn-success">Ristoranti
+                    <a href="#home-page" class="btn btn-restaurant rounded-pill py-2 px-3">Ristoranti
                         <FontAwesomeIcon icon="fa-solid fa-arrow-down" class="fa-bounce" />
                     </a>
                 </div>

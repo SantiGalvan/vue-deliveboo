@@ -2,7 +2,25 @@
 
 .hero {
     // Background da cambiare
-    background-color: $header-background;
+    background-color: #fff;
+    position: relative;
+
+    .container {
+        position: relative;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $header-background;
+        border-radius: 0 0 50% 50% / 0 0 50% 50%;
+        transform: scaleX(1.5);
+
+    }
 
     .col-12 {
         height: 200px;
@@ -11,6 +29,15 @@
         overflow: hidden;
         text-align: center;
         color: $hero-color;
+
+        .btn-restaurant {
+            color: #000;
+            background-color: #FFD558;
+
+            &:hover {
+                background-color: #f5c433;
+            }
+        }
 
         .hero-img {
             height: 100%;
@@ -22,6 +49,7 @@
         h1 {
             font-size: 2rem;
         }
+
 
         p {
             font-size: 1.1rem;
