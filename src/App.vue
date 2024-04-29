@@ -42,10 +42,26 @@ export default {
     methods: {
       toggleCart () {
         this.showCart = !this.showCart;
+      },
+      addToCart(){
+
+      },
+      removeFromCart(){
+        
       }
     },
     created() {
-       
+        // Recupero i dati del carrello dalla sessione
+      const savedCartItems = sessionStorage.getItem('cartItems');
+      if (savedCartItems) {
+        this.cartItems = JSON.parse(savedCartItems);
+        this.isCartEmpty = false;
+      }
+
+      // Salvataggio i dati prima della chiusura
+      window.addEventListener('beforeunload', () => {
+        sessionStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+      });
     }
 }
 </script>
