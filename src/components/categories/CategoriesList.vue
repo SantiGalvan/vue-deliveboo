@@ -12,6 +12,10 @@ export default {
 <template>
     <!--Lista Categorie-->
     <ul class="list-unstyled gap-3 justify-content-center flex-wrap">
+        <RouterLink :to="{ name: 'restaurants' }" @click="$emit('get-restaurants', null)"
+            class="text-decoration-none text-dark">
+            <li>Tutti</li>
+        </RouterLink>
         <!--Categoria-->
         <RouterLink :to="{ name: 'category-restaurants', params: { slug: category.slug } }"
             v-for="category in categories" :key="category.id" @click="$emit('get-restaurants', category.slug)"
