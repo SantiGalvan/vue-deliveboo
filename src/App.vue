@@ -13,16 +13,25 @@ export default {
           id: 1,
           name: 'Penne',
           price: '10',
+          quantity: 1,
+        },
+        {
+          id: 2,
+          name: 'Penne Arrabbiata',
+          price: '19',
+          quantity: 1,
         },
         {
           id: 1,
           name: 'Penne',
           price: '10',
+          quantity: 1,
         },
         {
-          id: 1,
-          name: 'Penne',
-          price: '10',
+          id: 2,
+          name: 'Penne Arrabbiata',
+          price: '19',
+          quantity: 1,
         }
       ],
       isCartEmpty: false

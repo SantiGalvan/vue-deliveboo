@@ -6,8 +6,27 @@ export default {
     }),
     methods: {
     },
-    created() {
-       
+    computed: {
+    
+        groupedCartItems() {
+            const groupedItems = {};
+            this.cartItems.forEach(item => {
+                if (!groupedItems[item.id]) {
+                    groupedItems[item.id] = { ...item };
+                } else {
+                    groupedItems[item.id].quantity += 1;
+                }
+            });
+            return Object.values(groupedItems);
+        },
+
+        calculateTotal(){
+            let totalOrder = 0;
+            this.cartItems.forEach(item => { 
+                totalOrder += parseFloat(item.price);
+            });
+            return totalOrder.toFixed(2)
+        }
     }
 };
 </script>
@@ -28,13 +47,27 @@ export default {
                 Nessun articolo nel carrello, aggiungi un piatto! 
             </div>
             <div v-else>
-                <ul>
-                    <li v-for="cart in cartItems">
-                        <div>{{ cart.name }}</div>
-                        <div>{{ cart.price }}</div>
-                        <div>{{ cart.quantity }}</div>
-                    </li>
-                </ul>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome Piatto</th>
+                            <th>Prezzo</th>
+                            <th>Quantità</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in groupedCartItems" :key="item.id">
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <strong>TOTALE:</strong><span>€ {{ calculateTotal }}</span>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>
