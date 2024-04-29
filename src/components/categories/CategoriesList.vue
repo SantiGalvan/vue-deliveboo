@@ -30,7 +30,7 @@ export default {
 <style lang="scss" scoped>
 ul {
     display: flex;
-    padding: 30px 0px;
+    padding: 20px 0px;
 }
 
 /*************** SOPRA I 992 PX (lg)********************/

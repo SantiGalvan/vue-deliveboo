@@ -10,12 +10,13 @@ export default {
 </script>
 
 <template>
-    <div class="row mt-3 gap-3">
-        <div class="col-12" v-if="restaurants?.length" v-for="restaurant in restaurants" :key="restaurant.id">
+    <div class="row mt-3">
+        <div class="col-12 col-md-6 " :class="restaurants.length < 3 ? 'col-lg-6' : 'col-lg-4'"
+            v-if="restaurants?.length" v-for="restaurant in restaurants" :key="restaurant.id">
             <!-- ProjectCard -->
             <div class="card my-3">
-                <div class="row g-0">
-                    <div class="col">
+                <div class="row">
+                    <div class="col-12">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="card-title">{{ restaurant.restaurant_name }}</h5>
                         </div>
@@ -26,8 +27,6 @@ export default {
                     </div>
                 </div>
             </div>
-
-
         </div>
         <h4 v-else>Non ci sono Ristoranti</h4>
     </div>

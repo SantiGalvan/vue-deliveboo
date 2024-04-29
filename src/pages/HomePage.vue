@@ -69,13 +69,13 @@ export default {
         <div class="main-content pt-5">
             <!--Sidebar-->
             <nav class="side-bar d-none d-lg-block">
-                <h2>Filtri</h2>
+                <h3 class="mb-0 pt-2">Filtri</h3>
                 <div class="side-categories-filter">
                     <!--Lista delle Categorie-->
                     <CategoriesList :categories="categories" @get-restaurants="getRestaurants" />
                 </div>
             </nav>
-            <div>
+            <div class="w-100">
                 <h1 class="d-inline">Ristoranti</h1>
                 <h1 class="d-inline" v-if="category">: {{ capitalize(category) }}</h1>
                 <!--Lista dei Ristoranti-->
