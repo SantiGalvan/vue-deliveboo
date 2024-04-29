@@ -1,10 +1,40 @@
 <script>
 import AppHeader from './components/AppHeader.vue'
+import CartCanvas from './components/CartCanvas.vue'
 import { RouterView } from 'vue-router';
 
 export default {
   name: 'PasqEat',
-  components: { AppHeader }
+  components: { AppHeader, CartCanvas},
+  data: () => ({
+      showCart: false,
+      cartItems: [
+        {
+          id: 1,
+          name: 'Penne',
+          price: '10',
+        },
+        {
+          id: 1,
+          name: 'Penne',
+          price: '10',
+        },
+        {
+          id: 1,
+          name: 'Penne',
+          price: '10',
+        }
+      ],
+      isCartEmpty: false
+    }),
+    methods: {
+      toggleCart () {
+        this.showCart = !this.showCart;
+      }
+    },
+    created() {
+       
+    }
 }
 </script>
 
@@ -12,9 +42,11 @@ export default {
 
   <!-- Loader -->
   <!-- <AppLoader /> -->
-
   <!-- Header -->
-  <AppHeader />
+  <AppHeader @toggle-cart="toggleCart" :cartItems="cartItems" :isCartEmpty="isCartEmpty"/>
+
+  <!-- Cart Canvas -->
+  <CartCanvas @toggle-cart="toggleCart" :showCart="showCart" :cartItems="cartItems" :isCartEmpty="isCartEmpty"/>
 
   <!-- Main -->
   <main>
