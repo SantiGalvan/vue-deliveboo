@@ -1,10 +1,11 @@
 <script>
 import AppHeader from './components/AppHeader.vue'
+import AppFooter from './components/AppFooter.vue'
 import { RouterView } from 'vue-router';
 
 export default {
   name: 'PasqEat',
-  components: { AppHeader }
+  components: { AppHeader, AppFooter }
 }
 </script>
 
@@ -19,7 +20,11 @@ export default {
   <!-- Main -->
   <main>
     <RouterView />
+
+    <!-- Footer -->
+    <AppFooter />
   </main>
+
 
 </template>
 
