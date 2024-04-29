@@ -1,7 +1,8 @@
 <script>
 export default {
-    name: 'AppHeader'
-}
+    name: 'AppHeader',
+    props: { cartItems: Number, isCartEmpty: Boolean },
+};
 </script>
 
 <template>
@@ -16,7 +17,7 @@ export default {
                     </figure>
                 </a>
             </div>
-
+            <!-- {{ console.log(cartItems, isCartEmpty) }} -->
             <!-- Carrello e registrazione, parte destra -->
             <div class="links">
                 <ul>
@@ -25,12 +26,14 @@ export default {
                     <li>
 
                         <!-- L'icona del carrello si deve vedere solo se c'è un elemento al suo interno -->
-                        <a href="" class="cart">
+                        <button data-bs-toggle="offcanvas" data-bs-target="#buttonCanvas" aria-controls="buttonCanvas"
+                        class="btn btn-light cart" 
+                        type="button" 
+                        @click="$emit('toggle-cart')">
                             <img src="/src/assets/img/carrello.png" alt="carrello" class="img-fluid">
-
-                            <!-- All'inserimento di un elemento nel carrello aggiungiamo il numero -->
-                            <span>1</span>
-                        </a>
+                            <span v-if="!isCartEmpty">{{cartItems.length}}</span>
+                        </button>
+                        
                     </li>
 
                     <!-- Registrati -->
