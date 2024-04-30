@@ -59,10 +59,13 @@ export default {
             } else {
                 //Faccio un filtro su restaurants
                 return this.restaurants.filter(restaurant =>
-                    /*Verifico se alcune delle sue categorie è contenuta
-                     nell'array selectedCategories*/
-                    restaurant.categories.some(category =>
-                        this.selectedCategories.includes(category.id)
+                    //Controllo se possiede tutte le categorie selezionate
+                    this.selectedCategories.every(selectedCategoryId =>
+                        /*Controllo se le categorie del ristorante 
+                        corrispondono all'id di una o più categoria selezionata*/
+                        restaurant.categories.some(category =>
+                            category.id === selectedCategoryId
+                        )
                     )
                 );
             }
