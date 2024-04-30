@@ -15,7 +15,7 @@ export default {
     data: () => ({
         restaurants: [],
         categories: [],
-        category: null,
+        selectedCategories: [],
     }),
     methods: {
 
@@ -45,7 +45,22 @@ export default {
             if (!string) {
                 return '';
             }
+
             return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+    },
+    computed: {
+        //Computed per filtrare i ristoranti in base una o più categorie
+        filteredRestaurants() {
+            if (this.selectedCategories.length === 0) {
+                return this.restaurants;
+            } else {
+                return this.restaurants.filter(restaurant =>
+                    restaurant.categories.some(category =>
+                        this.selectedCategories.includes(category.id)
+                    )
+                );
+            }
         }
     },
     created() {
@@ -55,15 +70,18 @@ export default {
 </script>
 
 <template>
-
     <!-- Hero -->
     <HomeHero />
-
     <!-- Home Page -->
     <section class="container-fluid container-lg mb-5" id="home-page">
         <div class="d-lg-none upper-categories-filter">
-            <!--Lista delle Categorie-->
-            <CategoriesList :categories="categories" @get-restaurants="getRestaurants" />
+            <!--Lista Categorie-->
+            <div>
+                <div v-for="category in categories" :key="category.id">
+                    <input type="checkbox" :value="category.id" v-model="selectedCategories">
+                    <label>{{ category.label }}</label>
+                </div>
+            </div>
         </div>
         <!--Contenuto Principale-->
         <div class="main-content pt-5">
@@ -71,15 +89,20 @@ export default {
             <nav class="side-bar d-none d-lg-block">
                 <h3 class="mb-0 pt-2">Filtri</h3>
                 <div class="side-categories-filter">
-                    <!--Lista delle Categorie-->
-                    <CategoriesList :categories="categories" @get-restaurants="getRestaurants" />
+                    <!--Lista Categorie-->
+                    <div class="mt-4">
+                        <div v-for="category in categories" :key="category.id">
+                            <input type="checkbox" :value="category.id" v-model="selectedCategories">
+                            <label class="ms-2">{{ category.label }}</label>
+                        </div>
+                    </div>
                 </div>
             </nav>
             <div class="w-100">
                 <h1 class="d-inline">Ristoranti</h1>
                 <h1 class="d-inline" v-if="category">: {{ capitalize(category) }}</h1>
                 <!--Lista dei Ristoranti-->
-                <RestaurantsList :restaurants="restaurants" :categories="categories" />
+                <RestaurantsList :filteredRestaurants="filteredRestaurants" />
             </div>
         </div>
     </section>
