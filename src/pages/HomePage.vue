@@ -1,24 +1,20 @@
 <script>
 import axios from 'axios';
 import RestaurantsList from '../components/restaurants/RestaurantsList.vue';
-import CategoriesList from '../components/categories/CategoriesList.vue';
 import HomeHero from '../components/home/HomeHero.vue';
-import { Logger } from 'sass';
-import { faBreadSlice } from '@fortawesome/free-solid-svg-icons';
 
 const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 let endpoint = null;
 
 export default {
     name: 'HomePage',
-    components: { RestaurantsList, CategoriesList, HomeHero },
+    components: { RestaurantsList, HomeHero },
     data: () => ({
         restaurants: [],
         categories: [],
         selectedCategories: [],
     }),
     methods: {
-
         //Chiamata axios per ricevere i ristoranti e le categorie
         getRestaurants(slug) {
 
