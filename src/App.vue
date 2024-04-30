@@ -52,7 +52,7 @@ export default {
     },
     created() {
         // Recupero i dati del carrello dalla sessione
-      const savedCartItems = sessionStorage.getItem('cartItems');
+      const savedCartItems = localStorage.getItem('cartItems');
       if (savedCartItems) {
         this.cartItems = JSON.parse(savedCartItems);
         this.isCartEmpty = false;
@@ -60,7 +60,7 @@ export default {
 
       // Salvataggio i dati prima della chiusura
       window.addEventListener('beforeunload', () => {
-        sessionStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+        localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
       });
     }
 }
