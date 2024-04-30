@@ -1,7 +1,7 @@
 <script>
 export default {
     name: 'RestaurantsList',
-    props: { restaurants: Array },
+    props: { filteredRestaurants: Array },
     data: () => ({
     }),
     methods: {
@@ -11,8 +11,8 @@ export default {
 
 <template>
     <div class="row mt-3">
-        <div class="col-12 col-md-6 col-lg-4" v-if="restaurants?.length" v-for="restaurant in restaurants"
-            :key="restaurant.id">
+        <div class="col-12 col-md-6 col-lg-4" v-if="filteredRestaurants?.length"
+            v-for="restaurant in filteredRestaurants" :key="restaurant.id">
             <!-- ProjectCard -->
             <div class="card my-3">
                 <div class="row">
