@@ -52,10 +52,15 @@ export default {
     computed: {
         //Computed per filtrare i ristoranti in base una o più categorie
         filteredRestaurants() {
+            //Controllo se non ci sono categorie selezionate
             if (this.selectedCategories.length === 0) {
+                //Restituisco tutti i Ristoranti
                 return this.restaurants;
             } else {
+                //Faccio un filtro su restaurants
                 return this.restaurants.filter(restaurant =>
+                    /*Verifico se alcune delle sue categorie è contenuta
+                     nell'array selectedCategories*/
                     restaurant.categories.some(category =>
                         this.selectedCategories.includes(category.id)
                     )
