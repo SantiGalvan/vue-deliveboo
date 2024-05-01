@@ -2,6 +2,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 //Importo le Pagine
 import HomePage from '../pages/HomePage.vue';
+import RestaurantShow from '../pages/RestaurantShow.vue'
+// import RestaurantsList from '../components/restaurants/RestaurantsList.vue';
 
 //Definisco le rotte
 const router = createRouter({
@@ -10,9 +12,13 @@ const router = createRouter({
     linkActiveClass: 'partial-active',
     linkExactActiveClass: 'active',
     routes: [
+        //Rotta della HomePage
         { path: '/', name: 'home', component: HomePage },
-        { path: '/restaurants', name: 'restaurants', component: HomePage },
-        { path: '/categories/:slug/restaurants', name: 'category-restaurants', component: HomePage },
+
+        // { path: '/restaurants', name: 'restaurants', component: HomePage },
+
+        //Rotta per la vista del singolo Ristorante
+        { path: '/restaurants/:slug', name: 'restaurant-show', component: RestaurantShow },
     ]
 });
 export { router }
