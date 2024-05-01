@@ -48,7 +48,7 @@ export default {
 
     <div class="row mt-3">
         <div class="col-12 col-md-6 col-lg-4" v-for="dish in dishes" :key="dish.id">
-            <!-- Dish Card -->
+            <!-- Dish Card --> <!--Questo sarà un componente Card-->
             <div class="card my-3">
                 <div class="row">
                     <div class="col-12">
