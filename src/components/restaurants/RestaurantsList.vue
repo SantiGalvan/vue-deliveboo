@@ -21,8 +21,8 @@ export default {
                             <h5 class="card-title">{{ restaurant.restaurant_name }}</h5>
                         </div>
                         <div class="card-body">
-                            <img v-if="restaurant.image" :src="restaurant.image" class="float-start img-fluid"
-                                :alt="restaurant.restaurant_name">
+                            <img v-if="restaurant.image" :src="`http://127.0.0.1:8000/storage/${restaurant.image}`"
+                                class="float-start img-fluid" :alt="restaurant.restaurant_name">
                         </div>
                     </div>
                 </div>
