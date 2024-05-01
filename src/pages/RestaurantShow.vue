@@ -4,27 +4,23 @@ const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 export default {
     name: 'RestaurantShow',
     data: () => ({
-        name: null,
-        city: null,
-        address: null,
-        cap: null,
-        phone: null,
-        image: null,
+        restaurant: null,
         dishes: null,
     }),
     methods: {
-        fetchDishes() {
+
+        fetchRestaurantAndDishes() {
+            //Recupero lo slug
             const slug = this.$route.params.slug
-            console.log(slug)
+            //Costruisco l'endpoint
             axios.get(`${defaultEndpoint}${slug}`)
                 .then(res => {
-                    this.name = res.data['restaurant_name'];
-                    this.city = res.data['city'];
-                    this.address = res.data['address'];
-                    this.cap = res.data['cap'];
-                    this.phone = res.data['phone'];
-                    this.image = res.data['image'];
-                    this.dishes = res.data['dishes']
+                    //Faccio il destructuring
+                    const { restaurant, restaurant_dishes } = res.data;
+                    //Recupero i dati del ristorante
+                    this.restaurant = restaurant
+                    //prendo solo i piatti del ristorante
+                    this.dishes = restaurant_dishes['dishes']
                 })
                 .catch(err => {
                     console.error(err.message)
@@ -40,19 +36,19 @@ export default {
 
 <template>
     <h1>Ciao</h1>
+    <!--Informazioni del Ristorante-->
     <ul>
-        <li>{{ name }}</li>
-        <li>{{ city }}</li>
-        <li>{{ address }}</li>
-        <li>{{ cap }}</li>
-        <li>{{ phone }}</li>
-        <li>{{ image }}</li>
-
+        <li>{{ restaurant.restaurant_name }}</li>
+        <li>{{ restaurant.city }}</li>
+        <li>{{ restaurant.address }}</li>
+        <li>{{ restaurant.cap }}</li>
+        <li>{{ restaurant.phone }}</li>
+        <li>{{ restaurant.image }}</li>
     </ul>
+
     <div class="row mt-3">
         <div class="col-12 col-md-6 col-lg-4" v-for="dish in dishes" :key="dish.id">
             <!-- Dish Card -->
-            <!-- <RouterLink :to="{ name: 'restaurant-show', params: { slug: restaurant.slug } }"> -->
             <div class="card my-3">
                 <div class="row">
                     <div class="col-12">
@@ -66,7 +62,6 @@ export default {
                     </div>
                 </div>
             </div>
-            <!-- </RouterLink> -->
         </div>
     </div>
 </template>
