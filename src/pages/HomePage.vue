@@ -40,6 +40,11 @@ export default {
                 console.log(label, category)
                 return category != label
             })
+        },
+
+        getSelectedCategories(label) {
+            if (!this.selectedCategoriesLabel.includes(label))
+                this.selectedCategoriesLabel.push(label);
         }
     },
     computed: {
@@ -92,9 +97,13 @@ export default {
                 <div class="side-categories-filter">
                     <!--Lista Categorie-->
                     <div class="mt-4">
-                        <div v-for="category in categories" :key="category.id">
-                            <input type="checkbox" :value="category.label" v-model="selectedCategoriesLabel">
-                            <label class="ms-2">{{ category.label }}</label>
+                        <div class="category-card" v-for="category in categories" :key="category.id">
+                            <div @click="getSelectedCategories(category.label)">
+                                <p>
+                                    <img src="/src/assets/img/caprese.png" :alt="category.label"
+                                        class="category-image-sm me-2">{{ category.label }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -122,6 +131,15 @@ export default {
 .main-content {
     display: flex;
     gap: 20px;
+}
+
+.category-card {
+    cursor: pointer;
+}
+
+.category-image-sm {
+    width: 20px;
+    height: 20px;
 }
 
 .default-cursor {
