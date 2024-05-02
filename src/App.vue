@@ -11,7 +11,7 @@ export default {
   components: { AppHeader, CartCanvas, AppFooter },
   data: () => ({
     showCart: false,
-    cartItems: [],
+    cartDishes: [],
     isCartEmpty: false
   }),
   methods: {
@@ -21,9 +21,14 @@ export default {
     addToCart() {
 
     },
-    removeFromCart(item) {
+    removeFromCart(dish) {
+      const dishToDelete = this.cartDishes.findIndex(item => {
+        return item.id === dish.id
+      })
+      if (dishToDelete !== -1) {
+        this.cartDishes.splice(dishToDelete, 1)
+      }
 
-      console.log(item)
     },
 
     //recupero il piatto e lo pusho in cartItems
@@ -34,22 +39,21 @@ export default {
         price: dish.price,
         quantity: 1,
       }
-      this.cartItems.push(dishInfo)
-
+      this.cartDishes.push(dishInfo)
     }
 
   },
   created() {
     // Recupero i dati del carrello dalla sessione
-    const savedCartItems = localStorage.getItem('cartItems');
-    if (savedCartItems) {
-      this.cartItems = JSON.parse(savedCartItems);
+    const savedCartDishes = localStorage.getItem('cartDishes');
+    if (savedCartDishes) {
+      this.cartDishes = JSON.parse(savedCartDishes);
       this.isCartEmpty = false;
     }
 
     // Salvataggio i dati prima della chiusura
     window.addEventListener('beforeunload', () => {
-      localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+      localStorage.setItem('cartDishes', JSON.stringify(this.cartDishes));
     });
   }
 }
@@ -60,15 +64,15 @@ export default {
   <!-- Loader -->
   <!-- <AppLoader /> -->
   <!-- Header -->
-  <AppHeader @toggle-cart="toggleCart" :cartItems="cartItems" :isCartEmpty="isCartEmpty" />
+  <AppHeader @toggle-cart="toggleCart" :cartDishes="cartDishes" :isCartEmpty="isCartEmpty" />
 
   <!-- Cart Canvas -->
-  <CartCanvas @removeFromCart="removeFromCart" @toggle-cart="toggleCart" :showCart="showCart" :cartItems="cartItems"
-    :isCartEmpty="isCartEmpty" />
+  <CartCanvas @removeFromCart="removeFromCart" @handleDish="handleDish" @toggle-cart="toggleCart" :showCart="showCart"
+    :cartDishes="cartDishes" :isCartEmpty="isCartEmpty" />
 
   <!-- Main -->
   <main>
-    <RouterView @dish-cart="handleDish" />
+    <RouterView @dishCart="handleDish" />
 
     <!-- Footer -->
     <AppFooter />
