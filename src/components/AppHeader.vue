@@ -1,4 +1,6 @@
 <script>
+import { RouterLink } from 'vue-router';
+
 export default {
     name: 'AppHeader',
     props: { cartDishes: Array },
@@ -12,11 +14,11 @@ export default {
 
             <!-- Logo, parte sinistra -->
             <div class="logo">
-                <a href="">
+                <RouterLink :to="{ name: 'home' }">
                     <figure>
                         <img src="/src/assets/img/pasqueat-logo.jpg" alt="PasqEat" class="img-fluid rounded-circle">
                     </figure>
-                </a>
+                </RouterLink>
             </div>
             <!-- Carrello e registrazione, parte destra -->
             <div class="links">
