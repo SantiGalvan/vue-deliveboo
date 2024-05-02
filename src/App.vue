@@ -11,32 +11,7 @@ export default {
   components: { AppHeader, CartCanvas, AppFooter },
   data: () => ({
     showCart: false,
-    cartItems: [
-      {
-        id: 1,
-        name: 'Penne',
-        price: '10',
-        quantity: 1,
-      },
-      {
-        id: 2,
-        name: 'Penne Arrabbiata',
-        price: '19',
-        quantity: 1,
-      },
-      {
-        id: 1,
-        name: 'Penne',
-        price: '10',
-        quantity: 1,
-      },
-      {
-        id: 2,
-        name: 'Penne Arrabbiata',
-        price: '19',
-        quantity: 1,
-      }
-    ],
+    cartItems: [],
     isCartEmpty: false
   }),
   methods: {
@@ -50,6 +25,7 @@ export default {
 
     },
 
+    //recupero il piatto e lo pusho in cartItems
     handleDish(dish) {
       const dishInfo = {
         id: dish.id,

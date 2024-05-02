@@ -7,7 +7,10 @@ export default {
     methods: {
     },
     computed: {
-
+        /*Faccio un ciclo su i piatti contenuti in cartItems
+        se groupedItems non contiene l'id del piatto
+        viene pushato altrimenti vuiene aumentata la quantita 
+        del piatto */
         groupedCartItems() {
             const groupedItems = {};
             this.cartItems.forEach(item => {
@@ -19,7 +22,8 @@ export default {
             });
             return Object.values(groupedItems);
         },
-
+        /*Calcolo il totale dell'ordine
+        sommando i prezzi dei piatti in cartItems*/
         calculateTotal() {
             let totalOrder = 0;
             this.cartItems.forEach(item => {
@@ -32,7 +36,6 @@ export default {
 </script>
 
 <template>
-
     <div v-if="showCart" class="offcanvas offcanvas-end" :class="{ 'show': showCart }" data-bs-scroll="true"
         data-bs-backdrop="false" tabindex="-1" id="buttonCanvas" aria-labelledby="buttonCanvasLabel">
         <div class="offcanvas-header">
