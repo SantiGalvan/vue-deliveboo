@@ -12,7 +12,6 @@ export default {
   data: () => ({
     showCart: false,
     cartDishes: [],
-    isCartEmpty: false
   }),
   methods: {
     toggleCart() {
@@ -48,7 +47,6 @@ export default {
     const savedCartDishes = localStorage.getItem('cartDishes');
     if (savedCartDishes) {
       this.cartDishes = JSON.parse(savedCartDishes);
-      this.isCartEmpty = false;
     }
 
     // Salvataggio i dati prima della chiusura

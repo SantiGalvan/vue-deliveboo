@@ -26,7 +26,7 @@ export default {
                         <button data-bs-toggle="offcanvas" data-bs-target="#buttonCanvas" aria-controls="buttonCanvas"
                             class="btn btn-light cart" type="button" @click="$emit('toggle-cart')">
                             <img src="/src/assets/img/carrello.png" alt="carrello" class="img-fluid">
-                            <span v-if="!isCartEmpty">{{ cartDishes.length }}</span>
+                            <span v-if="cartDishes.length">{{ cartDishes.length }}</span>
                         </button>
                     </li>
                     <!-- Registrati -->
