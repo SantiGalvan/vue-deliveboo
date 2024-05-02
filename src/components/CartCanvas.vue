@@ -1,7 +1,8 @@
 <script>
 export default {
     name: 'CartCanvas',
-    props: { showCart: Boolean, cartDishes: Array, isCartEmpty: Boolean },
+    props: { showCart: Boolean, cartDishes: Array },
+    emits: ['remove-from-cart', 'handle-dish', 'toggle-cart'],
     data: () => ({
     }),
     methods: {
@@ -43,7 +44,7 @@ export default {
             <button type="button" class="btn-close" @click="$emit('toggle-cart')"></button>
         </div>
         <div class="offcanvas-body">
-            <div v-if="isCartEmpty">
+            <div v-if="!cartDishes.length">
                 Nessun articolo nel carrello, aggiungi un piatto!
             </div>
             <div v-else>

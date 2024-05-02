@@ -3,10 +3,10 @@ import axios from 'axios';
 const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 export default {
     name: 'RestaurantShow',
-    // emits: { dishCart: this.dish },
+    emits: ['dish-cart'],
     data: () => ({
-        restaurant: null,
-        dishes: null,
+        restaurant: {},
+        dishes: {},
     }),
     methods: {
 

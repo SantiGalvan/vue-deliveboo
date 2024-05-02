@@ -1,7 +1,8 @@
 <script>
 export default {
     name: 'AppHeader',
-    props: { cartDishes: Array, isCartEmpty: Boolean },
+    props: { cartDishes: Array },
+    emits: ['toggle-cart'],
 };
 </script>
 
