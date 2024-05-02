@@ -1,7 +1,7 @@
 <script>
 export default {
     name: 'AppHeader',
-    props: { cartItems: Number, isCartEmpty: Boolean },
+    props: { cartItems: Array, isCartEmpty: Boolean },
 };
 </script>
 
