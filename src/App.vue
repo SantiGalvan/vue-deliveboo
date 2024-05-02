@@ -8,62 +8,58 @@ import { RouterView } from 'vue-router';
 
 export default {
   name: 'PasqEat',
-  components: { AppHeader, CartCanvas, AppFooter},
+  components: { AppHeader, CartCanvas, AppFooter },
   data: () => ({
-      showCart: false,
-      cartItems: [
-        {
-          id: 1,
-          name: 'Penne',
-          price: '10',
-          quantity: 1,
-        },
-        {
-          id: 2,
-          name: 'Penne Arrabbiata',
-          price: '19',
-          quantity: 1,
-        },
-        {
-          id: 1,
-          name: 'Penne',
-          price: '10',
-          quantity: 1,
-        },
-        {
-          id: 2,
-          name: 'Penne Arrabbiata',
-          price: '19',
-          quantity: 1,
-        }
-      ],
-      isCartEmpty: false
-    }),
-    methods: {
-      toggleCart () {
-        this.showCart = !this.showCart;
-      },
-      addToCart(){
+    showCart: false,
+    cartDishes: [],
+  }),
+  methods: {
+    toggleCart() {
+      this.showCart = !this.showCart;
+    },
 
-      },
-      removeFromCart(){
-        
+    removeFromCart(dish) {
+      const dishToDelete = this.cartDishes.findIndex(item => {
+        return item.id === dish.id
+      })
+      if (dishToDelete !== -1) {
+        this.cartDishes.splice(dishToDelete, 1)
+      }
+
+    },
+
+    //recupero il piatto e lo pusho in cartItems
+    handleDish(dish) {
+      const dishInfo = {
+        id: dish.id,
+        name: dish.name,
+        price: dish.price,
+        restaurant_id: dish.restaurant_id,
+        quantity: 1,
+      }
+      if (this.cartDishes.length === 0 || this.cartDishes[0].restaurant_id === dish.restaurant_id) {
+        this.cartDishes.push(dishInfo)
+      }
+      else {
+        return
       }
     },
-    created() {
-        // Recupero i dati del carrello dalla sessione
-      const savedCartItems = localStorage.getItem('cartItems');
-      if (savedCartItems) {
-        this.cartItems = JSON.parse(savedCartItems);
-        this.isCartEmpty = false;
-      }
 
-      // Salvataggio i dati prima della chiusura
-      window.addEventListener('beforeunload', () => {
-        localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
-      });
+  },
+  created() {
+    // Recupero i dati del carrello dalla sessione
+    const savedCartDishes = localStorage.getItem('cartDishes');
+    if (savedCartDishes) {
+      this.cartDishes = JSON.parse(savedCartDishes);
     }
+
+    // Salvataggio i dati prima della chiusura
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('cartDishes', JSON.stringify(this.cartDishes));
+    });
+  },
 }
+
 </script>
 
 <template>
@@ -71,14 +67,15 @@ export default {
   <!-- Loader -->
   <!-- <AppLoader /> -->
   <!-- Header -->
-  <AppHeader @toggle-cart="toggleCart" :cartItems="cartItems" :isCartEmpty="isCartEmpty"/>
+  <AppHeader @toggle-cart="toggleCart" :cartDishes="cartDishes" />
 
   <!-- Cart Canvas -->
-  <CartCanvas @toggle-cart="toggleCart" :showCart="showCart" :cartItems="cartItems" :isCartEmpty="isCartEmpty"/>
+  <CartCanvas @removeFromCart="removeFromCart" @handleDish="handleDish" @toggle-cart="toggleCart" :showCart="showCart"
+    :cartDishes="cartDishes" />
 
   <!-- Main -->
   <main>
-    <RouterView />
+    <RouterView @dishCart="handleDish" />
 
     <!-- Footer -->
     <AppFooter />

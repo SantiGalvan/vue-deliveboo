@@ -1,7 +1,8 @@
 <script>
 export default {
     name: 'AppHeader',
-    props: { cartItems: Array, isCartEmpty: Boolean },
+    props: { cartDishes: Array },
+    emits: ['toggle-cart'],
 };
 </script>
 
@@ -17,25 +18,18 @@ export default {
                     </figure>
                 </a>
             </div>
-            <!-- {{ console.log(cartItems, isCartEmpty) }} -->
             <!-- Carrello e registrazione, parte destra -->
             <div class="links">
                 <ul>
-
                     <!-- Carrello -->
                     <li>
-
                         <!-- L'icona del carrello si deve vedere solo se c'è un elemento al suo interno -->
                         <button data-bs-toggle="offcanvas" data-bs-target="#buttonCanvas" aria-controls="buttonCanvas"
-                        class="btn btn-light cart" 
-                        type="button" 
-                        @click="$emit('toggle-cart')">
+                            class="btn btn-light cart" type="button" @click="$emit('toggle-cart')">
                             <img src="/src/assets/img/carrello.png" alt="carrello" class="img-fluid">
-                            <span v-if="!isCartEmpty">{{cartItems.length}}</span>
+                            <span v-if="cartDishes.length">{{ cartDishes.length }}</span>
                         </button>
-                        
                     </li>
-
                     <!-- Registrati -->
                     <li>
                         <a href="http://127.0.0.1:8000/" target="_blank">Registrati</a>
