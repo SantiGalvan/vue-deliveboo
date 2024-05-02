@@ -17,9 +17,7 @@ export default {
     toggleCart() {
       this.showCart = !this.showCart;
     },
-    addToCart() {
 
-    },
     removeFromCart(dish) {
       const dishToDelete = this.cartDishes.findIndex(item => {
         return item.id === dish.id
@@ -36,25 +34,32 @@ export default {
         id: dish.id,
         name: dish.name,
         price: dish.price,
+        restaurant_id: dish.restaurant_id,
         quantity: 1,
       }
       this.cartDishes.push(dishInfo)
-    }
+      if (this.cartDishes.length === 0 || this.cartDishes[0].restaurant_id === dish.restaurant_id) {
+      }
+      else {
+        alert('Porca madonna')
+      }
+    },
 
-  },
-  created() {
-    // Recupero i dati del carrello dalla sessione
-    const savedCartDishes = localStorage.getItem('cartDishes');
-    if (savedCartDishes) {
-      this.cartDishes = JSON.parse(savedCartDishes);
-    }
+    created() {
+      // Recupero i dati del carrello dalla sessione
+      const savedCartDishes = localStorage.getItem('cartDishes');
+      if (savedCartDishes) {
+        this.cartDishes = JSON.parse(savedCartDishes);
+      }
 
-    // Salvataggio i dati prima della chiusura
-    window.addEventListener('beforeunload', () => {
-      localStorage.setItem('cartDishes', JSON.stringify(this.cartDishes));
-    });
+      // Salvataggio i dati prima della chiusura
+      window.addEventListener('beforeunload', () => {
+        localStorage.setItem('cartDishes', JSON.stringify(this.cartDishes));
+      });
+    },
   }
 }
+
 </script>
 
 <template>
@@ -62,11 +67,11 @@ export default {
   <!-- Loader -->
   <!-- <AppLoader /> -->
   <!-- Header -->
-  <AppHeader @toggle-cart="toggleCart" :cartDishes="cartDishes" :isCartEmpty="isCartEmpty" />
+  <AppHeader @toggle-cart="toggleCart" :cartDishes="cartDishes" />
 
   <!-- Cart Canvas -->
   <CartCanvas @removeFromCart="removeFromCart" @handleDish="handleDish" @toggle-cart="toggleCart" :showCart="showCart"
-    :cartDishes="cartDishes" :isCartEmpty="isCartEmpty" />
+    :cartDishes="cartDishes" />
 
   <!-- Main -->
   <main>
