@@ -3,6 +3,7 @@ import axios from 'axios';
 const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 export default {
     name: 'RestaurantShow',
+    // emits: { dishCart: this.dish },
     data: () => ({
         restaurant: null,
         dishes: null,
@@ -50,14 +51,18 @@ export default {
             <div class="col-12 col-md-6 col-lg-4" v-for="dish in dishes" :key="dish.id">
                 <!-- Dish Card --> <!--Questo sarà un componente Card-->
                 <div class="card my-3">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="card-title">{{ dish.name }}</h5>
-                            </div>
-                            <div class="card-body">
-                                <img v-if="dish.image" :src="`http://127.0.0.1:8000/storage/${dish.image}`"
-                                    class="float-start img-fluid" :alt="dish.name">
+                    <div class="row g-0">
+                        <div class="img-card col-md-5">
+                            <img v-if="dish.image" :src="`http://127.0.0.1:8000/storage/${dish.image}`"
+                                class="img-fluid rounded-start" :alt="dish.name">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body d-flex justify-content-between">
+                                <span>{{ dish.name }}</span>
+                                <div>
+                                    <button type="button" @click="$emit('dish-cart', dish)"><font-awesome-icon
+                                            :icon="['fas', 'plus']" /></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -67,4 +72,14 @@ export default {
     </section>
 </template>
 
-<style></style>
+<style lang="scss" scoped>
+.img-card {
+    height: 200px;
+
+
+    img {
+        height: 100%;
+        width: 100%;
+    }
+}
+</style>
