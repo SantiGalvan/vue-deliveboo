@@ -53,6 +53,7 @@ export default {
                             <th>Nome Piatto</th>
                             <th>Prezzo</th>
                             <th>Quantità</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,6 +61,12 @@ export default {
                             <td>{{ item.name }}</td>
                             <td>{{ item.price }}</td>
                             <td>{{ item.quantity }}</td>
+                            <td class="d-flex gap-3">
+                                <button @click="$emit('handle-dish', item)"><font-awesome-icon
+                                        :icon="['fas', 'plus']" /></button>
+                                <button @click="$emit('remove-from-cart', item)"><font-awesome-icon
+                                        :icon="['fas', 'minus']" /></button>
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot>

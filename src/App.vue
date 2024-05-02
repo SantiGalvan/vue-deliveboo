@@ -21,8 +21,9 @@ export default {
     addToCart() {
 
     },
-    removeFromCart() {
+    removeFromCart(item) {
 
+      console.log(item)
     },
 
     //recupero il piatto e lo pusho in cartItems
@@ -62,7 +63,8 @@ export default {
   <AppHeader @toggle-cart="toggleCart" :cartItems="cartItems" :isCartEmpty="isCartEmpty" />
 
   <!-- Cart Canvas -->
-  <CartCanvas @toggle-cart="toggleCart" :showCart="showCart" :cartItems="cartItems" :isCartEmpty="isCartEmpty" />
+  <CartCanvas @removeFromCart="removeFromCart" @toggle-cart="toggleCart" :showCart="showCart" :cartItems="cartItems"
+    :isCartEmpty="isCartEmpty" />
 
   <!-- Main -->
   <main>
