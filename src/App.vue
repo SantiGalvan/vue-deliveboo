@@ -37,27 +37,27 @@ export default {
         restaurant_id: dish.restaurant_id,
         quantity: 1,
       }
-      this.cartDishes.push(dishInfo)
       if (this.cartDishes.length === 0 || this.cartDishes[0].restaurant_id === dish.restaurant_id) {
+        this.cartDishes.push(dishInfo)
       }
       else {
-        alert('Porca madonna')
+        return
       }
     },
 
-    created() {
-      // Recupero i dati del carrello dalla sessione
-      const savedCartDishes = localStorage.getItem('cartDishes');
-      if (savedCartDishes) {
-        this.cartDishes = JSON.parse(savedCartDishes);
-      }
+  },
+  created() {
+    // Recupero i dati del carrello dalla sessione
+    const savedCartDishes = localStorage.getItem('cartDishes');
+    if (savedCartDishes) {
+      this.cartDishes = JSON.parse(savedCartDishes);
+    }
 
-      // Salvataggio i dati prima della chiusura
-      window.addEventListener('beforeunload', () => {
-        localStorage.setItem('cartDishes', JSON.stringify(this.cartDishes));
-      });
-    },
-  }
+    // Salvataggio i dati prima della chiusura
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('cartDishes', JSON.stringify(this.cartDishes));
+    });
+  },
 }
 
 </script>
