@@ -1,7 +1,7 @@
 <script>
 export default {
     name: 'CartCanvas',
-    props: { showCart: Boolean, cartItems: Array, isCartEmpty: Boolean },
+    props: { showCart: Boolean, cartDishes: Array, isCartEmpty: Boolean },
     data: () => ({
     }),
     methods: {
@@ -11,23 +11,23 @@ export default {
         se groupedItems non contiene l'id del piatto
         viene pushato altrimenti vuiene aumentata la quantita 
         del piatto */
-        groupedCartItems() {
-            const groupedItems = {};
-            this.cartItems.forEach(item => {
-                if (!groupedItems[item.id]) {
-                    groupedItems[item.id] = { ...item };
+        groupedCartDishes() {
+            const groupedDishes = {};
+            this.cartDishes.forEach(dish => {
+                if (!groupedDishes[dish.id]) {
+                    groupedDishes[dish.id] = { ...dish };
                 } else {
-                    groupedItems[item.id].quantity += 1;
+                    groupedDishes[dish.id].quantity += 1;
                 }
             });
-            return Object.values(groupedItems);
+            return Object.values(groupedDishes);
         },
         /*Calcolo il totale dell'ordine
         sommando i prezzi dei piatti in cartItems*/
         calculateTotal() {
             let totalOrder = 0;
-            this.cartItems.forEach(item => {
-                totalOrder += parseFloat(item.price);
+            this.cartDishes.forEach(dish => {
+                totalOrder += parseFloat(dish.price);
             });
             return totalOrder.toFixed(2)
         }
@@ -57,14 +57,16 @@ export default {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in groupedCartItems" :key="item.id">
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.price }}</td>
-                            <td>{{ item.quantity }}</td>
+                        <tr v-for="dish in groupedCartDishes" :key="dish.id">
+                            <td>{{ dish.name }}</td>
+                            <td>{{ dish.price }}</td>
+                            <td>{{ dish.quantity }}</td>
                             <td class="d-flex gap-3">
-                                <button @click="$emit('handle-dish', item)"><font-awesome-icon
+                                <!--Bottone per aumentare quantità nel carrello-->
+                                <button @click="$emit('handle-dish', dish)"><font-awesome-icon
                                         :icon="['fas', 'plus']" /></button>
-                                <button @click="$emit('remove-from-cart', item)"><font-awesome-icon
+                                <!--Bottone per diminuire quantità nel carrello-->
+                                <button @click="$emit('remove-from-cart', dish)"><font-awesome-icon
                                         :icon="['fas', 'minus']" /></button>
                             </td>
                         </tr>
