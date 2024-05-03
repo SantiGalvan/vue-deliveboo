@@ -16,59 +16,45 @@ export default {
     }),
     methods: {
         //Chiamata axios per ricevere i ristoranti e le categorie
-        getRestaurants(slug) {
-            if (slug) {
-                endpoint = `http://localhost:8000/api/categories/${slug}/restaurants`;
-            } else {
+        getRestaurants() {
+            //Se ci sono categorie selezionate
+            if (this.selectedCategoriesLabel.length > 0) {
+                // Converto le etichette di categoria selezionate in una stringa di query
+                const queryParams = this.selectedCategoriesLabel.join(',');
                 endpoint = defaultEndpoint;
+                //Aggiungo all'endpoint la chiave e la categoria
+                endpoint += `?categories=${queryParams}`;
             }
-            axios.get(endpoint)
+            axios.get(endpoint ?? defaultEndpoint)
                 .then(res => {
                     const { restaurants, categories } = res.data;
                     this.restaurants = restaurants;
                     this.categories = categories
-                    this.category = slug
                 })
                 .catch(err => {
                     console.error(err.message)
                 })
-                .then(() => { })
+                //Riporto l'endpoint al valore di default
+                .then(() => { endpoint = defaultEndpoint })
         },
+
         //Funzione per rimuovere una categoria da quelle selezionate
         closeBadge(label) {
             this.selectedCategoriesLabel = this.selectedCategoriesLabel.filter(category => {
-                console.log(label, category)
                 return category != label
             })
+            this.getRestaurants();
         },
 
+        //Funzione per aggiungere la categoria selezionata
         getSelectedCategories(label) {
             if (!this.selectedCategoriesLabel.includes(label))
                 this.selectedCategoriesLabel.push(label);
+            // Rieffettuo la chiamata con i nuovi filtri
+            this.getRestaurants();
         }
     },
-    computed: {
-        //Computed per filtrare i ristoranti in base una o più categorie
-        filteredRestaurants() {
-            //Controllo se non ci sono categorie selezionate
-            if (this.selectedCategoriesLabel.length === 0) {
-                //Restituisco tutti i Ristoranti
-                return this.restaurants;
-            } else {
-                //Faccio un filtro su restaurants
-                return this.restaurants.filter(restaurant =>
-                    //Controllo se possiede tutte le categorie selezionate
-                    this.selectedCategoriesLabel.every(selectedCategoryLabel =>
-                        /*Controllo se le categorie del ristorante 
-                        corrispondono all'id di una o più categoria selezionata*/
-                        restaurant.categories.some(category =>
-                            category.label === selectedCategoryLabel
-                        )
-                    )
-                );
-            }
-        },
-    },
+
     created() {
         this.getRestaurants();
     }
@@ -121,7 +107,7 @@ export default {
                     </div>
                 </div>
                 <!--Lista dei Ristoranti-->
-                <RestaurantsList :filteredRestaurants="filteredRestaurants" />
+                <RestaurantsList :restaurants="restaurants" />
             </div>
         </div>
     </section>
