@@ -3,7 +3,7 @@ import { RouterLink } from 'vue-router';
 
 export default {
     name: 'RestaurantsList',
-    props: { filteredRestaurants: Array },
+    props: { restaurants: Array },
     data: () => ({
     }),
     methods: {
@@ -13,8 +13,8 @@ export default {
 
 <template>
     <div class="row mt-3">
-        <div class="col-12 col-md-6 col-lg-4" v-if="filteredRestaurants?.length"
-            v-for="restaurant in filteredRestaurants" :key="restaurant.id">
+        <div class="col-12 col-md-6 col-lg-4" v-if="restaurants?.length" v-for="restaurant in restaurants"
+            :key="restaurant.id">
             <!-- RestaurantctCard --> <!--Questo sarà un componente Card-->
             <RouterLink class="text-decoration-none"
                 :to="{ name: 'restaurant-show', params: { slug: restaurant.slug } }">
