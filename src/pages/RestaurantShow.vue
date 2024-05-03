@@ -53,8 +53,7 @@ export default {
                 <div class="card my-3">
                     <div class="row g-0">
                         <div class="img-card col-md-5">
-                            <img v-if="dish.image" :src="`http://127.0.0.1:8000/storage/${dish.image}`"
-                                class="img-fluid rounded-start" :alt="dish.name">
+                            <img v-if="dish.image" :src="dish.image" class="img-fluid rounded-start" :alt="dish.name">
                         </div>
                         <div class="col-md-7">
                             <div class="card-body d-flex justify-content-between">
