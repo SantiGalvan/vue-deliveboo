@@ -79,6 +79,10 @@ export default {
                     </tfoot>
                 </table>
             </div>
+
+            <!-- routerlink per la pagina di checkout -->
+            <RouterLink :to="{name: 'checkout-page'}" @click="$emit('toggle-cart')">Procedi al Checkout</RouterLink>
+
         </div>
     </div>
 
