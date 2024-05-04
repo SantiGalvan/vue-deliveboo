@@ -2,6 +2,7 @@
 import axios from 'axios';
 import RestaurantsList from '../components/restaurants/RestaurantsList.vue';
 import HomeHero from '../components/home/HomeHero.vue';
+import { store } from '../data/store';
 
 const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 let endpoint = null;
@@ -13,15 +14,21 @@ export default {
         restaurants: [],
         categories: [],
         selectedCategoriesLabel: [],
+        store
     }),
     methods: {
         //Chiamata axios per ricevere i ristoranti e le categorie
         getRestaurants() {
+            // Setto la flag del loder a true
+            store.isLoading = true;
+
             //Se ci sono categorie selezionate
             if (this.selectedCategoriesLabel.length > 0) {
+
                 // Converto le etichette di categoria selezionate in una stringa di query
                 const queryParams = this.selectedCategoriesLabel.join(',');
                 endpoint = defaultEndpoint;
+
                 //Aggiungo all'endpoint la chiave e la categoria
                 endpoint += `?categories=${queryParams}`;
             }
@@ -29,13 +36,19 @@ export default {
                 .then(res => {
                     const { restaurants, categories } = res.data;
                     this.restaurants = restaurants;
-                    this.categories = categories
+                    this.categories = categories;
                 })
                 .catch(err => {
                     console.error(err.message)
                 })
+
                 //Riporto l'endpoint al valore di default
-                .then(() => { endpoint = defaultEndpoint })
+                .then(() => {
+                    endpoint = defaultEndpoint;
+
+                    // Setto la flag del loder a false
+                    store.isLoading = false;
+                })
         },
 
         //Funzione per rimuovere una categoria da quelle selezionate
@@ -64,9 +77,11 @@ export default {
 <template>
     <!-- Hero -->
     <HomeHero />
+
     <!-- Home Page -->
     <section class="container-fluid container-lg mb-5" id="home-page">
         <div class="d-lg-none upper-categories-filter">
+
             <!--Lista Categorie-->
             <div class="d-flex flex-wrap gap-3 mt-4 justify-content-center">
                 <div v-for="category in categories" :key="category.id">
@@ -75,8 +90,10 @@ export default {
                 </div>
             </div>
         </div>
+
         <!--Contenuto Principale-->
         <div class="main-content pt-5">
+
             <!--Sidebar-->
             <nav class="side-bar d-none d-lg-block">
                 <h3 class="mb-0 pt-2">Filtri</h3>
@@ -94,20 +111,22 @@ export default {
                     </div>
                 </div>
             </nav>
+
             <div class="w-100 text-center text-lg-start">
-                <h1 class="d-inline">Ristoranti</h1>
+                <h1 class="d-inline" v-if="!store.isLoading">Ristoranti</h1>
                 <div class="d-flex gap-2 button-dismissable justify-content-center justify-content-lg-start"
                     v-if="selectedCategoriesLabel.length">
                     <!--Badge-->
                     <div class="btn btn-primary default-cursor mt-2 d-flex align-items-center"
-                        v-for="category in selectedCategoriesLabel" :key="category">
+                        v-for="category in selectedCategoriesLabel" :key="category" v-if="!store.isLoading">
                         {{ category }}
                         <button type="button" class="btn btn-sm btn-close" data-bs-dismiss="button" aria-label="Close"
                             @click="closeBadge(category)"></button>
                     </div>
                 </div>
+
                 <!--Lista dei Ristoranti-->
-                <RestaurantsList :restaurants="restaurants" />
+                <RestaurantsList :restaurants="restaurants" v-if="!store.isLoading" />
             </div>
         </div>
     </section>

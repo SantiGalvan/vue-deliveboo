@@ -1,5 +1,7 @@
 <script>
 import axios from 'axios';
+import { store } from '../data/store';
+
 const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 export default {
     name: 'RestaurantShow',
@@ -7,10 +9,14 @@ export default {
     data: () => ({
         restaurant: {},
         dishes: {},
+        store
     }),
     methods: {
 
         fetchRestaurantAndDishes() {
+            // Setto la flag del loder a true
+            store.isLoading = true;
+
             //Recupero lo slug
             const slug = this.$route.params.slug
             //Costruisco l'endpoint
@@ -22,11 +28,16 @@ export default {
                     this.restaurant = restaurant
                     //prendo solo i piatti del ristorante
                     this.dishes = restaurant_dishes['dishes']
+                    console.log('ristorante:', this.restaurant);
+                    console.log('piatti:', this.dishes);
                 })
                 .catch(err => {
                     console.error(err.message)
                 })
-                .then(() => { })
+                .then(() => {
+                    // Setto la flag del loder a false
+                    store.isLoading = false;
+                })
         }
     },
     created() {
