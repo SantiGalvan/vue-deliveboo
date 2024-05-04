@@ -2,24 +2,13 @@
 
 .hero {
     // Background da cambiare
-    background-color: #fff;
+    border-radius: 0 0 100% 100% / 0 0 25% 25%;
+    background-image: linear-gradient(to left, #1e498b, #006fac, #0095bd, #00b8c0, #49daba);
+    background-size: cover;
     position: relative;
 
     .container {
         position: relative;
-    }
-
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: $header-background;
-        border-radius: 0 0 50% 50% / 0 0 50% 50%;
-        transform: scaleX(1.5);
-
     }
 
     .col-12 {
@@ -29,15 +18,6 @@
         overflow: hidden;
         text-align: center;
         color: $hero-color;
-
-        .btn-restaurant {
-            color: #000;
-            background-color: #FFD558;
-
-            &:hover {
-                background-color: #f5c433;
-            }
-        }
 
         .hero-img {
             height: 100%;

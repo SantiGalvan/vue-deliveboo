@@ -1,0 +1,24 @@
+@use '../vars' as *;
+
+.main-content {
+    display: flex;
+    gap: 20px;
+}
+
+.category-card {
+    cursor: pointer;
+}
+
+.category-image-sm {
+    width: 20px;
+    height: 20px;
+}
+
+.default-cursor {
+    cursor: default;
+}
+
+.side-bar {
+    flex-shrink: 0;
+    flex-basis: 220px;
+}

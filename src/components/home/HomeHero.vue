@@ -21,7 +21,7 @@ export default {
                     <p>I migliori ristoranti li trovi solo su PasqEat</p>
 
                     <a href="#home-page" class="btn btn-restaurant rounded-pill py-2 px-3">Ristoranti
-                        <FontAwesomeIcon icon="fa-solid fa-arrow-down" class="fa-bounce" />
+                        <FontAwesomeIcon icon="fa-solid fa-arrow-down" class="fa-bounce arrow-down" />
                     </a>
                 </div>
 
