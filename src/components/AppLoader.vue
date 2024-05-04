@@ -7,7 +7,7 @@ export default {
 
 <template>
     <div class="loader-overlay">
-        <div class=" spinner spinner-border text-warning" role="status">
+        <div class="spinner spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
         <img class="img-fluid rounded-circle" src="../assets/img/pasqueat-logo.jpg" alt="">
