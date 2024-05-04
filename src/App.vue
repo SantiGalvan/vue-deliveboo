@@ -18,6 +18,7 @@ export default {
       this.showCart = !this.showCart;
     },
 
+    //recupero il piatto e lo rimuovo da cartItems
     removeFromCart(dish) {
       const dishToDelete = this.cartDishes.findIndex(item => {
         return item.id === dish.id

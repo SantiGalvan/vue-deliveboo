@@ -6,6 +6,11 @@ export default {
     data: () => ({
     }),
     methods: {
+        //Salvo i dati del carrello nel local storage
+        saveCartToLocalStorage() {
+            // Converto l'array del carrello in una stringa JSON
+            localStorage.setItem('cart', JSON.stringify(this.cartDishes));
+        }
     },
     computed: {
         /*Faccio un ciclo su i piatti contenuti in cartItems
@@ -31,7 +36,8 @@ export default {
                 totalOrder += parseFloat(dish.price);
             });
             return totalOrder.toFixed(2)
-        }
+        },
+
     }
 };
 </script>
@@ -81,7 +87,8 @@ export default {
             </div>
 
             <!-- routerlink per la pagina di checkout -->
-            <RouterLink :to="{name: 'checkout-page'}" @click="$emit('toggle-cart')">Procedi al Checkout</RouterLink>
+            <RouterLink :to="{ name: 'checkout-page' }" @click="saveCartToLocalStorage">Procedi al Checkout
+            </RouterLink>
 
         </div>
     </div>
