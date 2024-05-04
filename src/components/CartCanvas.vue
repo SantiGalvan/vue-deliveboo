@@ -4,7 +4,7 @@ export default {
     name: 'CartCanvas',
     components: { CartDetail },
     props: { showCart: Boolean, cartDishes: Array },
-    emits: ['toggle-cart'],
+    emits: ['toggle-cart', 'remove-from-cart', 'handle-dish'],
     data: () => ({
     }),
     methods: {
@@ -12,6 +12,16 @@ export default {
         saveCartToLocalStorage() {
             // Converto l'array del carrello in una stringa JSON
             localStorage.setItem('cart', JSON.stringify(this.cartDishes));
+        },
+
+        //Mando l'evento al componente padre tramite metodo
+        handleDish(dish) {
+            this.$emit('handle-dish', dish);
+        },
+
+        //Mando l'evento al componente padre tramite metodo
+        removeFromCart(dish) {
+            this.$emit('remove-from-cart', dish);
         }
     },
 };
@@ -29,13 +39,12 @@ export default {
                 Nessun articolo nel carrello, aggiungi un piatto!
             </div>
             <div v-else>
-                <CartDetail :cartDishes="cartDishes" @removeFromCart="removeFromCart" @handleDish="handleDish" />
+                <!--Dettaglio del carrello-->
+                <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish" />
             </div>
-
-            <!-- routerlink per la pagina di checkout -->
+            <!-- Routerlink per la pagina di checkout -->
             <RouterLink :to="{ name: 'checkout-page' }" @click="saveCartToLocalStorage">Procedi al Checkout
             </RouterLink>
-
         </div>
     </div>
 

@@ -72,12 +72,12 @@ export default {
   <AppLoader v-if="store.isLoading" />
 
   <!-- Cart Canvas -->
-  <CartCanvas @removeFromCart="removeFromCart" @handleDish="handleDish" @toggle-cart="toggleCart" :showCart="showCart"
-    :cartDishes="cartDishes" />
+  <CartCanvas @remove-from-cart="removeFromCart" @handle-dish="handleDish" @toggle-cart="toggleCart"
+    :showCart="showCart" :cartDishes="cartDishes" />
 
   <!-- Main -->
   <main>
-    <RouterView @dishCart="handleDish" />
+    <RouterView @dish-cart="handleDish" />
 
     <!-- Footer -->
     <AppFooter v-if="!store.isLoading" />

@@ -5,6 +5,8 @@ export default {
     emits: ['remove-from-cart', 'handle-dish'],
     data: () => ({
     }),
+    methods: {
+    },
     computed: {
         /*Faccio un ciclo su i piatti contenuti in cartItems
         se groupedItems non contiene l'id del piatto
