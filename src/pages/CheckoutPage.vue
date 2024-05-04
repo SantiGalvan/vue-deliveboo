@@ -1,7 +1,8 @@
 <script>
+import CartDetail from '../components/cart/CartDetail.vue';
 export default {
     name: 'CheckoutPage',
-    components: {},
+    components: { CartDetail },
     data: () => ({
         cartDishes: [],
     }),
@@ -12,33 +13,17 @@ export default {
                 this.cartDishes = JSON.parse(savedCart);
             }
             console.log(this.cartDishes);
+        },
+
+        //Mando l'evento al componente padre tramite metodo
+        handleDish(dish) {
+            this.$emit('handle-dish', dish);
+        },
+
+        //Mando l'evento al componente padre tramite metodo
+        removeFromCart(dish) {
+            this.$emit('remove-from-cart', dish);
         }
-    },
-    computed: {
-        /*Faccio un ciclo su i piatti contenuti in cartItems
-       se groupedItems non contiene l'id del piatto
-       viene pushato altrimenti vuiene aumentata la quantita 
-       del piatto */
-        // groupedCartDishes() {
-        //     const groupedDishes = {};
-        //     this.cartDishes.forEach(dish => {
-        //         if (!groupedDishes[dish.id]) {
-        //             groupedDishes[dish.id] = { ...dish };
-        //         } else {
-        //             groupedDishes[dish.id].quantity += 1;
-        //         }
-        //     });
-        //     return Object.values(groupedDishes);
-        // },
-        /*Calcolo il totale dell'ordine
-        sommando i prezzi dei piatti in cartItems*/
-        // calculateTotal() {
-        //     let totalOrder = 0;
-        //     this.cartDishes.forEach(dish => {
-        //         totalOrder += parseFloat(dish.price);
-        //     });
-        //     return totalOrder.toFixed(2)
-        // },
     },
     created() {
         this.getCartDishes();
@@ -49,6 +34,7 @@ export default {
 
 <template>
     <h1>Checkout</h1>
+    <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish" />
 
 
 
