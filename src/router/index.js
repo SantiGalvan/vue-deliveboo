@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../pages/HomePage.vue';
 import RestaurantShow from '../pages/RestaurantShow.vue'
 // import RestaurantsList from '../components/restaurants/RestaurantsList.vue';
+import CheckoutPage from '../pages/CheckoutPage.vue'
 
 //Definisco le rotte
 const router = createRouter({
@@ -19,6 +20,8 @@ const router = createRouter({
 
         //Rotta per la vista del singolo Ristorante
         { path: '/restaurants/:slug', name: 'restaurant-show', component: RestaurantShow },
+        //Rotta per il checkout
+        { path: '/checkout-page', name: 'checkout-page', component: CheckoutPage }
     ]
 });
 export { router }
