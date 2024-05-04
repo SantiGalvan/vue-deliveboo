@@ -1,15 +1,9 @@
 @use 'vars' as *;
 
 .hero {
-    // Background da cambiare
     border-radius: 0 0 100% 100% / 0 0 25% 25%;
     background-image: linear-gradient(to left, #1e498b, #006fac, #0095bd, #00b8c0, #49daba);
     background-size: cover;
-    position: relative;
-
-    .container {
-        position: relative;
-    }
 
     .col-12 {
         height: 200px;

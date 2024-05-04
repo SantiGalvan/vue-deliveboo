@@ -71,7 +71,7 @@ export default {
             <div class="d-flex flex-wrap gap-3 mt-4 justify-content-center">
                 <div v-for="category in categories" :key="category.id">
                     <input type="checkbox" :value="category.label" v-model="selectedCategoriesLabel">
-                    <label class="ms-2">{{ category.label }}</label>
+                    <label class="category-image-sm ms-2">{{ category.label }}</label>
                 </div>
             </div>
         </div>
