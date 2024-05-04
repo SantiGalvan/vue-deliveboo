@@ -28,8 +28,6 @@ export default {
                     this.restaurant = restaurant
                     //prendo solo i piatti del ristorante
                     this.dishes = restaurant_dishes['dishes']
-                    console.log('ristorante:', this.restaurant);
-                    console.log('piatti:', this.dishes);
                 })
                 .catch(err => {
                     console.error(err.message)
