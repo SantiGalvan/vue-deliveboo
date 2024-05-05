@@ -1,19 +1,14 @@
 <script>
 import CartDetail from '../components/cart/CartDetail.vue';
+import { store } from '../data/store';
 export default {
     name: 'CheckoutPage',
     components: { CartDetail },
     data: () => ({
-        cartDishes: [],
+        store,
+        cartDishes: store.cartDishes
     }),
     methods: {
-        getCartDishes() {
-            const savedCart = localStorage.getItem('cart');
-            if (savedCart) {
-                this.cartDishes = JSON.parse(savedCart);
-            }
-            console.log(this.cartDishes);
-        },
 
         //Mando l'evento al componente padre tramite metodo
         handleDish(dish) {
@@ -25,10 +20,6 @@ export default {
             this.$emit('remove-from-cart', dish);
         }
     },
-    created() {
-        this.getCartDishes();
-    }
-
 }
 </script>
 
