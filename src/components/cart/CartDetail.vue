@@ -1,11 +1,16 @@
 <script>
+import { store } from '../../data/store';
+
 export default {
     name: 'CartDetail',
-    props: { cartDishes: Array },
-    emits: ['remove-from-cart', 'handle-dish'],
+    emits: ['remove-from-cart', 'handle-dish', 'remove-row'],
     data: () => ({
+        //importo lo store e sincronizzo i prodotti del carrello
+        store,
+        cartDishes: store.cartDishes
     }),
     methods: {
+       
     },
     computed: {
         /*Faccio un ciclo su i piatti contenuti in cartItems
@@ -32,6 +37,13 @@ export default {
             });
             return totalOrder.toFixed(2)
         },
+    },
+     // Watch per monitorare le modifiche di store.cartDishes
+    watch: {
+        'store.cartDishes': function(newCartDishes) {
+            // Aggiorna cartDishes con i nuovi dati dello store
+            this.cartDishes = newCartDishes;
+        }
     }
 };
 </script>
@@ -53,11 +65,20 @@ export default {
                 <td>{{ dish.price }}</td>
                 <td>{{ dish.quantity }}</td>
                 <td class="d-flex gap-3">
-                    <!--Bottone per aumentare quantità nel carrello-->
-                    <button @click="$emit('handle-dish', dish)"><font-awesome-icon :icon="['fas', 'plus']" /></button>
+                    
                     <!--Bottone per diminuire quantità nel carrello-->
                     <button @click="$emit('remove-from-cart', dish)"><font-awesome-icon
                             :icon="['fas', 'minus']" /></button>
+                    
+                    <!--Bottone per aumentare quantità nel carrello-->
+                    <button @click="$emit('handle-dish', dish)"><font-awesome-icon :icon="['fas', 'plus']" /></button>
+                    
+                    <!-- Bottone di eliminazione di una riga intera (ovvero di un prodotto e le sue quantità) -->
+                    <button class="rounded px-2 py-1 btn-outline-index red text-white fw-semibold"
+                    @click="$emit('remove-row', dish)">
+                        <font-awesome-icon :icon="['fas', 'trash-can']" />
+                    </button>
+                    
                 </td>
             </tr>
         </tbody>
