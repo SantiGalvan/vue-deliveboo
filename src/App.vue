@@ -10,10 +10,12 @@ export default {
   components: { AppHeader, CartCanvas, AppFooter },
   data: () => ({
     showCart: false,
-    cartDishes: [],
-    store
+    store,
+    cartDishes: []
   }),
   methods: {
+
+    //toggle del carrello
     toggleCart() {
       this.showCart = !this.showCart;
     },
@@ -46,17 +48,34 @@ export default {
       }
     },
 
+    // rimuovo un prodotto e tutte le quantità di esso
+    removeRow(dish) {
+      this.cartDishes = this.cartDishes.filter(item => item.id !== dish.id);
+      // una volta rimosso sincronizzo il localStorage e lo store
+      this.updateLocalStorage();
+    },
+
+    // sincronizzo localStorage e store
+    updateLocalStorage() {
+      localStorage.setItem('cartDishes', JSON.stringify(this.cartDishes));
+      store.cartDishes = this.cartDishes;
+    }
+
   },
   created() {
-    // Recupero i dati del carrello dalla sessione
+    // Al caricamento della pagina sincronizzo i prodotti del carrello 
+    // con quelli salvati in localstorage e store
     const savedCartDishes = localStorage.getItem('cartDishes');
     if (savedCartDishes) {
       this.cartDishes = JSON.parse(savedCartDishes);
+      store.cartDishes = this.cartDishes;
     }
 
-    // Salvataggio i dati prima della chiusura
+    //aggiungendo un eventlistener alla pagina sono in grado di salvare il cart in
+    // localStorage prima della chiusura
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('cartDishes', JSON.stringify(this.cartDishes));
+      store.cartDishes = this.cartDishes;
     });
   },
 }
@@ -73,7 +92,7 @@ export default {
 
   <!-- Cart Canvas -->
   <CartCanvas @remove-from-cart="removeFromCart" @handle-dish="handleDish" @toggle-cart="toggleCart"
-    :showCart="showCart" :cartDishes="cartDishes" />
+    :showCart="showCart" :cartDishes="cartDishes" @remove-row="removeRow"/>
 
   <!-- Main -->
   <main>

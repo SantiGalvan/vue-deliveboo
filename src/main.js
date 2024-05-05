@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
     faArrowLeft, faMagnifyingGlass,
     faArrowDown, faChevronRight, faPlus,
-    faMinus
+    faMinus, faTrashCan
 } from '@fortawesome/free-solid-svg-icons'
 
 import { faCompass } from '@fortawesome/free-regular-svg-icons'
@@ -27,7 +27,7 @@ import AppLoader from './components/AppLoader.vue'
 
 // Icone da caricare
 library.add(faArrowLeft, faMagnifyingGlass, faArrowDown,
-    faChevronRight, faPlus, faMinus);
+    faChevronRight, faPlus, faMinus, faTrashCan);
 library.add(faCompass);
 library.add(faFacebook);
 
