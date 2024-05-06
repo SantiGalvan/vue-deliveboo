@@ -6,7 +6,7 @@ export default {
     props: { showCart: Boolean, cartDishes: Array },
     emits: ['toggle-cart', 'remove-from-cart', 'handle-dish', 'remove-row', "empty-cart"],
     data: () => ({
-        
+
     }),
     methods: {
 
@@ -14,17 +14,17 @@ export default {
         handleDish(dish) {
             this.$emit('handle-dish', dish);
         },
-        
+
         //Mando l'evento al componente padre tramite metodo
         removeFromCart(dish) {
             this.$emit('remove-from-cart', dish);
         },
-        
+
         //Mando l'evento al componente padre tramite metodo
         removeRow(dish) {
             this.$emit('remove-row', dish);
         },
-          
+
         //Mando l'evento al componente padre tramite metodo
         emptyCart() {
             this.$emit('empty-cart');
@@ -46,11 +46,14 @@ export default {
             </div>
             <div v-else>
                 <!--Dettaglio del carrello-->
-                <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish" @remove-row="removeRow"  @empty-cart="emptyCart"/>
+                <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish"
+                    @remove-row="removeRow" @empty-cart="emptyCart" />
             </div>
             <!-- Routerlink per la pagina di checkout -->
-            <RouterLink :to="{ name: 'checkout-page' }">Procedi al Checkout
-            </RouterLink>
+            <div v-if="cartDishes.length">
+                <RouterLink :to="{ name: 'checkout-page' }">Procedi al Checkout
+                </RouterLink>
+            </div>
         </div>
     </div>
 
