@@ -3,7 +3,7 @@ import { store } from '../../data/store';
 
 export default {
     name: 'CartDetail',
-    emits: ['remove-from-cart', 'handle-dish', 'remove-row'],
+    emits: ['remove-from-cart', 'handle-dish', 'remove-row', 'empty-cart'],
     data: () => ({
         //importo lo store e sincronizzo i prodotti del carrello
         store,
@@ -80,6 +80,14 @@ export default {
                     </button>
                     
                 </td>
+            </tr>
+            <tr v-show="cartDishes.length">
+                <!-- Bottone di eliminazione di una riga intera (ovvero di un prodotto e le sue quantità) -->
+                <button class="rounded px-2 py-1 btn-outline-index red text-white fw-semibold"
+                @click="$emit('empty-cart')">
+                    <font-awesome-icon :icon="['fas', 'trash-can']" />
+                    <span><strong>Svuota il carrello</strong></span>
+                </button>
             </tr>
         </tbody>
         <tfoot>

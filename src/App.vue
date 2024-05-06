@@ -11,7 +11,7 @@ export default {
   data: () => ({
     showCart: false,
     store,
-    cartDishes: []
+    cartDishes: [],
   }),
   methods: {
 
@@ -33,6 +33,7 @@ export default {
 
     //recupero il piatto e lo pusho in cartItems
     handleDish(dish) {
+
       const dishInfo = {
         id: dish.id,
         name: dish.name,
@@ -40,6 +41,8 @@ export default {
         restaurant_id: dish.restaurant_id,
         quantity: 1,
       }
+
+
       if (this.cartDishes.length === 0 || this.cartDishes[0].restaurant_id === dish.restaurant_id) {
         this.cartDishes.push(dishInfo)
       }
@@ -55,6 +58,12 @@ export default {
       this.updateLocalStorage();
     },
 
+    // rimuovo un prodotto e tutte le quantità di esso
+    emptyCart() {
+      this.cartDishes = [];
+      this.updateLocalStorage()
+    },
+
     // sincronizzo localStorage e store
     updateLocalStorage() {
       localStorage.setItem('cartDishes', JSON.stringify(this.cartDishes));
@@ -66,6 +75,7 @@ export default {
     // Al caricamento della pagina sincronizzo i prodotti del carrello 
     // con quelli salvati in localstorage e store
     const savedCartDishes = localStorage.getItem('cartDishes');
+
     if (savedCartDishes) {
       this.cartDishes = JSON.parse(savedCartDishes);
       store.cartDishes = this.cartDishes;
@@ -92,11 +102,11 @@ export default {
 
   <!-- Cart Canvas -->
   <CartCanvas @remove-from-cart="removeFromCart" @handle-dish="handleDish" @toggle-cart="toggleCart"
-    :showCart="showCart" :cartDishes="cartDishes" @remove-row="removeRow"/>
+    :showCart="showCart" :cartDishes="cartDishes" @remove-row="removeRow"  @empty-cart="emptyCart"/>
 
   <!-- Main -->
   <main>
-    <RouterView @dish-cart="handleDish" @remove-from-cart="removeFromCart" @handle-dish="handleDish"  @remove-row="removeRow"/>
+    <RouterView @dish-cart="handleDish" @remove-from-cart="removeFromCart" @handle-dish="handleDish"  @remove-row="removeRow" @empty-cart="emptyCart"/>
 
     <!-- Footer -->
     <AppFooter v-if="!store.isLoading" />

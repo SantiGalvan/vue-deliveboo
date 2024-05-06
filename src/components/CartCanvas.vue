@@ -4,7 +4,7 @@ export default {
     name: 'CartCanvas',
     components: { CartDetail },
     props: { showCart: Boolean, cartDishes: Array },
-    emits: ['toggle-cart', 'remove-from-cart', 'handle-dish', 'remove-row'],
+    emits: ['toggle-cart', 'remove-from-cart', 'handle-dish', 'remove-row', "empty-cart"],
     data: () => ({
         
     }),
@@ -24,6 +24,11 @@ export default {
         removeRow(dish) {
             this.$emit('remove-row', dish);
         },
+          
+        //Mando l'evento al componente padre tramite metodo
+        emptyCart() {
+            this.$emit('empty-cart');
+        },
     },
 };
 </script>
@@ -41,7 +46,7 @@ export default {
             </div>
             <div v-else>
                 <!--Dettaglio del carrello-->
-                <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish" @remove-row="removeRow"/>
+                <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish" @remove-row="removeRow"  @empty-cart="emptyCart"/>
             </div>
             <!-- Routerlink per la pagina di checkout -->
             <RouterLink :to="{ name: 'checkout-page' }">Procedi al Checkout
