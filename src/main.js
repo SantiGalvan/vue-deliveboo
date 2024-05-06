@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { createApp } from 'vue'
 //Importiamo il router
 import { router } from './router'
-import App from './App.vue'
+import App from './App.vue';
+import vueBraintree from 'vue-braintree';
 
 // Importiamo la libreria generica di FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -35,6 +36,6 @@ const app = createApp(App)
 // Rendiamo le icone disponibili globalmente
 app.component('FontAwesomeIcon', FontAwesomeIcon);
 app.component('AppLoader', AppLoader);
-app.use(router)
+app.use(router, vueBraintree)
 
 app.mount('#app')
