@@ -84,3 +84,15 @@
     object-fit: cover;
     transition: transform 0.8s;
 }
+
+.catogry-label {
+    border-radius: 39% 61% 45% 55% / 62% 56% 44% 38%;
+    background-color: #27cabc56;
+    padding: 8px;
+    margin-top: 5px;
+
+    img {
+        width: 28px;
+        height: auto;
+    }
+}
