@@ -25,12 +25,6 @@ export default {
 
 <template>
    
-    <v-braintree
-    :authorization= "authorization"
-    @success="onSuccess"
-    locale="it_IT"
-    @error="onError" 
-    />
     
     {{ authorization }}
 </template>
