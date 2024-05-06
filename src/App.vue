@@ -5,6 +5,7 @@ import AppFooter from './components/AppFooter.vue'
 import { RouterView } from 'vue-router';
 import { store } from './data/store';
 
+
 export default {
   name: 'PasqEat',
   components: { AppHeader, CartCanvas, AppFooter },
@@ -102,11 +103,12 @@ export default {
 
   <!-- Cart Canvas -->
   <CartCanvas @remove-from-cart="removeFromCart" @handle-dish="handleDish" @toggle-cart="toggleCart"
-    :showCart="showCart" :cartDishes="cartDishes" @remove-row="removeRow"  @empty-cart="emptyCart"/>
+    :showCart="showCart" :cartDishes="cartDishes" @remove-row="removeRow" @empty-cart="emptyCart" />
 
   <!-- Main -->
   <main>
-    <RouterView @dish-cart="handleDish" @remove-from-cart="removeFromCart" @handle-dish="handleDish"  @remove-row="removeRow" @empty-cart="emptyCart"/>
+    <RouterView @dish-cart="handleDish" @remove-from-cart="removeFromCart" @handle-dish="handleDish"
+      @remove-row="removeRow" @empty-cart="emptyCart" />
 
     <!-- Footer -->
     <AppFooter v-if="!store.isLoading" />
