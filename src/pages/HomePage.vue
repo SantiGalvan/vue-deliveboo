@@ -2,6 +2,7 @@
 import axios from 'axios';
 import RestaurantsList from '../components/restaurants/RestaurantsList.vue';
 import HomeHero from '../components/home/HomeHero.vue';
+import { store } from '../data/store';
 
 const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 let endpoint = null;
@@ -13,15 +14,21 @@ export default {
         restaurants: [],
         categories: [],
         selectedCategoriesLabel: [],
+        store
     }),
     methods: {
         //Chiamata axios per ricevere i ristoranti e le categorie
         getRestaurants() {
+            // Setto la flag del loder a true
+            store.isLoading = true;
+
             //Se ci sono categorie selezionate
             if (this.selectedCategoriesLabel.length > 0) {
+
                 // Converto le etichette di categoria selezionate in una stringa di query
                 const queryParams = this.selectedCategoriesLabel.join(',');
                 endpoint = defaultEndpoint;
+
                 //Aggiungo all'endpoint la chiave e la categoria
                 endpoint += `?categories=${queryParams}`;
             }
@@ -29,13 +36,19 @@ export default {
                 .then(res => {
                     const { restaurants, categories } = res.data;
                     this.restaurants = restaurants;
-                    this.categories = categories
+                    this.categories = categories;
                 })
                 .catch(err => {
                     console.error(err.message)
                 })
+
                 //Riporto l'endpoint al valore di default
-                .then(() => { endpoint = defaultEndpoint })
+                .then(() => {
+                    endpoint = defaultEndpoint;
+
+                    // Setto la flag del loder a false
+                    store.isLoading = false;
+                })
         },
 
         //Funzione per aggiungere la categoria selezionata
@@ -109,7 +122,7 @@ export default {
                 <!-- Lista Ristoranti -->
                 <div class="w-100 text-center text-lg-start">
                     <h1 class="d-inline">Ristoranti</h1>
-                    <RestaurantsList :restaurants="restaurants" />
+                    <RestaurantsList :restaurants="restaurants" v-if="!store.isLoading"/>
                 </div>
             </div>
         </section>

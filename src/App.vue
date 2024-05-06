@@ -1,10 +1,9 @@
 <script>
 import AppHeader from './components/AppHeader.vue'
-
 import CartCanvas from './components/CartCanvas.vue'
 import AppFooter from './components/AppFooter.vue'
-
 import { RouterView } from 'vue-router';
+import { store } from './data/store';
 
 export default {
   name: 'PasqEat',
@@ -12,6 +11,7 @@ export default {
   data: () => ({
     showCart: false,
     cartDishes: [],
+    store
   }),
   methods: {
     toggleCart() {
@@ -64,10 +64,11 @@ export default {
 
 <template>
 
-  <!-- Loader -->
-  <!-- <AppLoader /> -->
   <!-- Header -->
   <AppHeader @toggle-cart="toggleCart" :cartDishes="cartDishes" />
+
+  <!-- Loader -->
+  <AppLoader v-if="store.isLoading" />
 
   <!-- Cart Canvas -->
   <CartCanvas @removeFromCart="removeFromCart" @handleDish="handleDish" @toggle-cart="toggleCart" :showCart="showCart"
@@ -78,7 +79,7 @@ export default {
     <RouterView @dishCart="handleDish" />
 
     <!-- Footer -->
-    <AppFooter />
+    <AppFooter v-if="!store.isLoading" />
   </main>
 
 
