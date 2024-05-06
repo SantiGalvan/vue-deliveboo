@@ -13,24 +13,16 @@ export default {
 
 <template>
     <div class="row mt-3">
-        <div class="col-12 col-md-6 col-lg-4" v-if="restaurants?.length" v-for="restaurant in restaurants"
+        <div class="col-12 col-sm-6 col-md-6 col-lg-4 my-3" v-if="restaurants?.length" v-for="restaurant in restaurants"
             :key="restaurant.id">
             <!-- RestaurantctCard --> <!--Questo sarà un componente Card-->
             <RouterLink class="text-decoration-none"
                 :to="{ name: 'restaurant-show', params: { slug: restaurant.slug } }">
-                <div class="card my-3">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="card-title">{{ restaurant.restaurant_name }}</h5>
-                            </div>
-                            <div class="card-body">
-                                <img v-if="restaurant.image" :src="restaurant.image" class="float-start img-fluid"
-                                    :alt="restaurant.restaurant_name">
-                            </div>
-                        </div>
-                    </div>
+                <div class="card rounded-4">
+                    <img v-if="restaurant.image" :src="restaurant.image" class="img-fluid"
+                        :alt="restaurant.restaurant_name">
                 </div>
+                <h5 class="mt-3 ms-2 text-black">{{ restaurant.restaurant_name }}</h5>
             </RouterLink>
         </div>
         <h4 v-else>Non ci sono Ristoranti</h4>
