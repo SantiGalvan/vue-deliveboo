@@ -18,14 +18,19 @@ export default {
         //Mando l'evento al componente padre tramite metodo
         removeFromCart(dish) {
             this.$emit('remove-from-cart', dish);
-        }
+        },
+        
+        //Mando l'evento al componente padre tramite metodo
+        removeRow(dish) {
+            this.$emit('remove-row', dish);
+        },
     },
 }
 </script>
 
 <template>
     <h1>Checkout</h1>
-    <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish" />
+    <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish" @remove-row="removeRow" />
 
 
 
