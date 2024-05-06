@@ -36,6 +36,6 @@ const app = createApp(App)
 // Rendiamo le icone disponibili globalmente
 app.component('FontAwesomeIcon', FontAwesomeIcon);
 app.component('AppLoader', AppLoader);
-app.use(router, vueBraintree)
+app.use(router)
 
 app.mount('#app')
