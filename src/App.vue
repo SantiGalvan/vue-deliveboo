@@ -76,7 +76,7 @@ export default {
 
   <!-- Main -->
   <main>
-    <RouterView @dishCart="handleDish" />
+    <RouterView @dishCart="handleDish" @remove-dish="removeFromCart" :cartDishes="cartDishes" />
 
     <!-- Footer -->
     <AppFooter v-if="!store.isLoading" />
