@@ -38,20 +38,20 @@ export default {
                 .then(() => { endpoint = defaultEndpoint })
         },
 
-        //Funzione per rimuovere una categoria da quelle selezionate
-        closeBadge(label) {
-            this.selectedCategoriesLabel = this.selectedCategoriesLabel.filter(category => {
-                return category != label
-            })
+        //Funzione per aggiungere la categoria selezionata
+        getSelectedCategories(label) {
+            if (!this.selectedCategoriesLabel.includes(label)) {
+                this.selectedCategoriesLabel.push(label);
+            } else {
+                this.selectedCategoriesLabel = this.selectedCategoriesLabel.filter(category => category !== label);
+            }
+            // Rieffettuo la chiamata con i nuovi filtri
             this.getRestaurants();
         },
 
-        //Funzione per aggiungere la categoria selezionata
-        getSelectedCategories(label) {
-            if (!this.selectedCategoriesLabel.includes(label))
-                this.selectedCategoriesLabel.push(label);
-            // Rieffettuo la chiamata con i nuovi filtri
-            this.getRestaurants();
+        // Verifico se dentro selectedCategoriesLabel è inclusa una categoria, se è presente restituisce true
+        isSelected(category) {
+            return this.selectedCategoriesLabel.includes(category.label);
         }
     },
 
@@ -62,78 +62,58 @@ export default {
 </script>
 
 <template>
-    <!-- Hero -->
-    <HomeHero />
-    <!-- Home Page -->
-    <section class="container-fluid container-lg mb-5" id="home-page">
-        <div class="d-lg-none upper-categories-filter">
-            <!--Lista Categorie-->
-            <div class="d-flex flex-wrap gap-3 mt-4 justify-content-center">
-                <div v-for="category in categories" :key="category.id">
-                    <input type="checkbox" :value="category.label" v-model="selectedCategoriesLabel">
-                    <label class="category-image-sm ms-2">{{ category.label }}</label>
+    <div>
+        <!-- Hero -->
+        <HomeHero />
+
+        <!-- Home Page -->
+        <section class="container-fluid container-lg mb-5 justify-content-center" id="home-page">
+            <!-- Filtri categorie -->
+            <div class="d-lg-none upper-categories-filter">
+                <div class="d-flex flex-wrap mt-4 justify-content-center">
+                    <ul
+                        class="list-unstyled list-filter gap-2 d-flex flex-wrap justify-content-center align-items-center">
+                        <li v-for="category in categories" :key="category.id"
+                            @click="getSelectedCategories(category.label)"
+                            class="d-flex flex-row align-items-center my-2 me-2">
+                            <div class="icon-bg" :class="{ 'selected': isSelected(category) }">
+                                <img :src="category.img" :alt="category.label" class="category-image-sm">
+                            </div>
+                            <span class="mt-1 ms-2">{{ category.label }}</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <!--Contenuto Principale-->
-        <div class="main-content pt-5">
-            <!--Sidebar-->
-            <nav class="side-bar d-none d-lg-block">
-                <h3 class="mb-0 pt-2">Filtri</h3>
-                <div class="side-categories-filter">
-                    <!--Lista Categorie-->
-                    <div class="mt-4">
-                        <div class="category-card" v-for="category in categories" :key="category.id">
-                            <div @click="getSelectedCategories(category.label)">
-                                <p>
-                                    <img src="/src/assets/img/caprese.png" :alt="category.label"
-                                        class="category-image-sm me-2">{{ category.label }}
-                                </p>
-                            </div>
+
+            <!-- Main Content -->
+            <div class="d-flex gap-4 pt-5">
+                <!-- Sidebar filtri categorie -->
+                <nav class="side-bar d-none d-lg-block">
+                    <h3 class="mb-0 pt-2">Filtri</h3>
+                    <div class="side-categories-filter">
+                        <div class="mt-4">
+                            <ul class="list-unstyled list-filter">
+                                <li v-for="category in categories" :key="category.id"
+                                    @click="getSelectedCategories(category.label)"
+                                    class="d-flex align-items-center my-3 pb-2 border-1 border-bottom border-secondary-subtle">
+                                    <div class="icon-bg" :class="{ 'selected': isSelected(category) }">
+                                        <img :src="category.img" :alt="category.label" class="category-image-sm">
+                                    </div>
+                                    <span class="mt-1 ms-2">{{ category.label }}</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
+                </nav>
+
+                <!-- Lista Ristoranti -->
+                <div class="w-100 text-center text-lg-start">
+                    <h1 class="d-inline">Ristoranti</h1>
+                    <RestaurantsList :restaurants="restaurants" />
                 </div>
-            </nav>
-            <div class="w-100 text-center text-lg-start">
-                <h1 class="d-inline">Ristoranti</h1>
-                <div class="d-flex gap-2 button-dismissable justify-content-center justify-content-lg-start"
-                    v-if="selectedCategoriesLabel.length">
-                    <!--Badge-->
-                    <div class="btn btn-primary default-cursor mt-2 d-flex align-items-center"
-                        v-for="category in selectedCategoriesLabel" :key="category">
-                        {{ category }}
-                        <button type="button" class="btn btn-sm btn-close" data-bs-dismiss="button" aria-label="Close"
-                            @click="closeBadge(category)"></button>
-                    </div>
-                </div>
-                <!--Lista dei Ristoranti-->
-                <RestaurantsList :restaurants="restaurants" />
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </template>
 
-<style>
-.main-content {
-    display: flex;
-    gap: 20px;
-}
-
-.category-card {
-    cursor: pointer;
-}
-
-.category-image-sm {
-    width: 20px;
-    height: 20px;
-}
-
-.default-cursor {
-    cursor: default;
-}
-
-.side-bar {
-    flex-shrink: 0;
-    flex-basis: 220px;
-}
-</style>
+<style></style>
