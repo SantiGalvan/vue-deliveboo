@@ -15,7 +15,8 @@ export default {
     <div class="row mt-3">
         <div class="col-12 col-sm-6 col-md-6 col-lg-4 my-3" v-if="restaurants?.length" v-for="restaurant in restaurants"
             :key="restaurant.id">
-            <!-- RestaurantctCard --> <!--Questo sarà un componente Card-->
+
+            <!-- RestaurantctCard -->
             <RouterLink class="text-decoration-none"
                 :to="{ name: 'restaurant-show', params: { slug: restaurant.slug } }">
                 <div class="card rounded-4">
