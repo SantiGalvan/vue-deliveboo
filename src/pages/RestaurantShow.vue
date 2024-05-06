@@ -47,6 +47,19 @@ export default {
 
             const minus = this.cartDishes.find(dish => dish.id === id)
             return minus;
+        }
+    },
+    computed: {
+        groupedCartDishes() {
+            const groupedDishes = {};
+            this.cartDishes.forEach(dish => {
+                if (!groupedDishes[dish.id]) {
+                    groupedDishes[dish.id] = { ...dish };
+                } else {
+                    groupedDishes[dish.id].quantity += 1;
+                }
+            });
+            return Object.values(groupedDishes);
         },
         calculateTotal() {
             let totalOrder = 0;
@@ -82,7 +95,7 @@ export default {
             <div class="row mt-3">
 
                 <!-- Piatti -->
-                <div class="col">
+                <div class="col col-lg-8">
 
                     <!-- Titolo -->
                     <div class="d-flex align-items-center">
@@ -121,13 +134,70 @@ export default {
                     </div>
                 </div>
 
-                <!-- Bottone CheckOut -->
-                <button v-if="cartDishes.length" class="btn btn-success w-75 m-auto rounded-5 price-btn d-md-none">
-                    Ordinane {{ cartDishes.length }} a {{ calculateTotal() }}
-                </button>
+                <!-- Bottoni CheckOut md -->
+                <div v-if="cartDishes.length" class="d-flex justify-content-center gap-4 price-btn">
+                    <button class="btn w-50 rounded-5 d-lg-none">
+                        Ordinane <strong>{{ cartDishes.length }}</strong> a <strong>{{ calculateTotal }} €</strong>
+                    </button>
+                    <button class="btn btn-remove w-25 rounded-5 d-lg-none">
+                        Svuota
+                    </button>
+                </div>
 
                 <!-- Carrello -->
-                <div class="d-none col"></div>
+                <div class="d-none d-lg-block col-lg-4">
+                    <div class="cart-card">
+
+                        <!-- Titolo -->
+                        <div class="d-flex align-items-center justify-content-center cart-title gap-2">
+                            <img src="/src/assets/img/shopping-bag.png" alt="Carrello" class="menu-img">
+                            <h3 class="mb-0">Il tuo ordine</h3>
+                        </div>
+
+                        <!-- Contenuto del Carello -->
+                        <div class="cart-content">
+                            <div class="row align-items-center my-3" v-for="dish in groupedCartDishes" :key="dish.id">
+                                <div class="col-2 text-end">
+                                    <p class="fs-5 mb-0"><strong>{{ dish.quantity }}x</strong></p>
+
+
+                                </div>
+                                <div class="col">
+                                    <p class="fs-5 mb-0 lh-1 fw-medium">{{ dish.name }}</p>
+                                </div>
+                                <div class="col-3">
+                                    <p class="fs-5 mb-0"><strong>{{ formattedPrice(dish.price) }} €</strong></p>
+                                </div>
+                                <div class="col-12 d-flex justify-content-around align-items-center py-4">
+                                    <!-- Bottone Rimozione -->
+                                    <button v-if="showMinus(dish.id)" @click="$emit('remove-dish', dish)"
+                                        class="dish-btn">
+                                        <FontAwesomeIcon :icon="['fas', 'minus']" />
+                                    </button>
+
+                                    <button class="btn btn-sm btn-remove rounded-5">Rimuovi</button>
+
+                                    <!-- Bottone Aggiunta -->
+                                    <button @click="$emit('dish-cart', dish)" class="dish-btn">
+                                        <FontAwesomeIcon :icon="['fas', 'plus']" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottone CheckOut lg -->
+                        <div class="d-flex align-items-center justify-content-center btn-container gap-2">
+                            <button v-if="cartDishes.length" class="btn rounded-5 mt-2">
+                                Ordina
+                                <strong>{{ cartDishes.length }}</strong>
+                                a
+                                <strong>{{ calculateTotal }} €</strong>
+                            </button>
+                            <button v-if="cartDishes.length" class="btn btn-remove rounded-5 mt-2">Svuota</button>
+                        </div>
+
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -204,5 +274,75 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
+}
+
+.btn {
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.7);
+
+    background-color: #ffb10a;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+    &:hover {
+        background-color: #ffc342;
+        color: #fff;
+    }
+}
+
+// Da cambiare
+.btn-remove {
+    background-color: #F73F34;
+
+    &:hover {
+        background-color: red;
+        color: #fff;
+    }
+}
+
+.cart-card {
+    background-color: #fff;
+    box-shadow: rgba(50, 50, 93, 0.2) 0px 13px 27px -5px, rgba(0, 0, 0, 0.2) 0px 8px 16px -8px;
+
+    border-radius: 20px;
+
+    position: sticky;
+    left: 0;
+    top: 0;
+}
+
+.cart-title {
+    height: 100px;
+}
+
+.btn-container {
+    height: 80px;
+}
+
+.cart-content {
+    min-height: calc(400px - 180px);
+    max-height: calc(700px - 180px);
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+
+// Scrollbar
+.cart-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.cart-content::-webkit-scrollbar-thumb {
+    background-color: #ffb10a;
+    border-radius: 4px;
+}
+
+.cart-content::-webkit-scrollbar-thumb:hover {
+    background-color: #ffc342;
+}
+
+.cart-content::-webkit-scrollbar-track {
+    background-color: transparent;
 }
 </style>
