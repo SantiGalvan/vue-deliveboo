@@ -2,15 +2,23 @@
 // import axios from axios
 import axios from 'axios';
 import CartDetail from '../components/cart/CartDetail.vue';
+import PaymentComponent from '../components/cart/PaymentComponent.vue';
+
+//registro lo store
 import { store } from '../data/store';
+
+// Dichiaro gli endpoint da utilizzare nelle chiamate
 const endpoint = 'http://localhost:8000/api/restaurants/restaurant';
+const tokenGenerateEndpoint = 'http://127.0.0.1:8000/api/orders/generate'
+
 export default {
     name: 'CheckoutPage',
-    components: { CartDetail },
+    components: { CartDetail, PaymentComponent },
     data: () => ({
         store,
         cartDishes: store.cartDishes,
         restaurant: [],
+        tokenApi: ''
     }),
     methods: {
 
@@ -60,7 +68,13 @@ export default {
         }
     },
     created() {
-        this.getRestaurant()
+        this.getRestaurant();
+    },
+    mounted() {
+        axios.get(tokenGenerateEndpoint)
+        .then(res=> {
+            this.tokenApi = res.data.token
+        })
     }
 }
 </script>
@@ -93,9 +107,11 @@ export default {
         </section>
         <!-- Display del pagamento -->
         <section id="checkout-payment">
-
+            <!-- Importo il componente del pagamento -->
+            <PaymentComponent :authorization="tokenApi" />
         </section>
     </div>
+
     <!--Altrimenti mostro il redirect ai ristoranti-->
     <div v-else>
         <span>Non ci sono articoli nel carrello </span>
