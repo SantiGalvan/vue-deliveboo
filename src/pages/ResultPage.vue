@@ -45,7 +45,14 @@ export default {
 
         <p>{{ apiResponse.message }}</p>
         <p>Abbiamo ricevuto l'ordine!A breve ti arriverà la consegna.</p>
+
+        <RouterLink :to="{ name: 'home' }">
+            <button class="btn btn-primary">
+                Torna alla Home
+            </button>
+        </RouterLink>
     </div>
+
 
 </template>
 
