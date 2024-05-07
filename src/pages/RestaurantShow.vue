@@ -6,7 +6,7 @@ const defaultEndpoint = 'http://localhost:8000/api/restaurants/';
 
 export default {
     name: 'RestaurantShow',
-    emits: ['dish-cart', 'remove-dish'],
+    emits: ['dish-cart', 'empty-cart', 'remove-from-cart', 'remove-row'],
     props: { cartDishes: Array },
     data: () => ({
         restaurant: {},
@@ -118,7 +118,7 @@ export default {
                                 <div class="d-flex">
 
                                     <!-- Bottone Rimozione -->
-                                    <button v-if="showMinus(dish.id)" @click="$emit('remove-dish', dish)"
+                                    <button v-if="showMinus(dish.id)" @click="$emit('remove-from-cart', dish)"
                                         class="dish-btn">
                                         <FontAwesomeIcon :icon="['fas', 'minus']" />
                                     </button>
@@ -136,10 +136,14 @@ export default {
 
                 <!-- Bottoni CheckOut md -->
                 <div v-if="cartDishes.length" class="d-flex justify-content-center gap-4 price-btn">
-                    <button class="btn w-50 rounded-5 d-lg-none">
+
+                    <!-- Bottone Ordina -->
+                    <RouterLink :to="{ name: 'checkout-page' }" class="btn w-50 rounded-5 d-lg-none">
                         Ordinane <strong>{{ cartDishes.length }}</strong> a <strong>{{ calculateTotal }} €</strong>
-                    </button>
-                    <button class="btn btn-remove w-25 rounded-5 d-lg-none">
+                    </RouterLink>
+
+                    <!-- Bottone Svuota -->
+                    <button @click="$emit('empty-cart')" class="btn btn-remove w-25 rounded-5 d-lg-none">
                         Svuota
                     </button>
                 </div>
@@ -157,43 +161,66 @@ export default {
                         <!-- Contenuto del Carello -->
                         <div class="cart-content">
                             <div class="row align-items-center my-3" v-for="dish in groupedCartDishes" :key="dish.id">
+
+                                <!-- Quantità - Nome prodotto - Prezzo -->
                                 <div class="col-2 text-end">
+
+                                    <!-- Quantità -->
                                     <p class="fs-5 mb-0"><strong>{{ dish.quantity }}x</strong></p>
-
-
                                 </div>
                                 <div class="col">
+
+                                    <!-- Nome del prodotto -->
                                     <p class="fs-5 mb-0 lh-1 fw-medium">{{ dish.name }}</p>
                                 </div>
                                 <div class="col-3">
+
+                                    <!-- Prezzo -->
                                     <p class="fs-5 mb-0"><strong>{{ formattedPrice(dish.price) }} €</strong></p>
                                 </div>
+
+                                <!-- Bottoni Carrello -->
                                 <div class="col-12 d-flex justify-content-around align-items-center py-4">
+
                                     <!-- Bottone Rimozione -->
-                                    <button v-if="showMinus(dish.id)" @click="$emit('remove-dish', dish)"
+                                    <button v-if="showMinus(dish.id)" @click="$emit('remove-from-cart', dish)"
                                         class="dish-btn">
                                         <FontAwesomeIcon :icon="['fas', 'minus']" />
                                     </button>
 
-                                    <button class="btn btn-sm btn-remove rounded-5">Rimuovi</button>
+                                    <!-- Bottone rimozione riga -->
+                                    <button @click="$emit('remove-row', dish)" class="btn btn-sm btn-remove rounded-5">
+                                        Rimuovi
+                                    </button>
 
                                     <!-- Bottone Aggiunta -->
                                     <button @click="$emit('dish-cart', dish)" class="dish-btn">
                                         <FontAwesomeIcon :icon="['fas', 'plus']" />
                                     </button>
+
                                 </div>
+
                             </div>
                         </div>
 
                         <!-- Bottone CheckOut lg -->
                         <div class="d-flex align-items-center justify-content-center btn-container gap-2">
-                            <button v-if="cartDishes.length" class="btn rounded-5 mt-2">
+
+                            <!-- Bottone Ordina -->
+                            <RouterLink :to="{ name: 'checkout-page' }" v-if="cartDishes.length"
+                                class="btn rounded-5 mt-2">
                                 Ordina
                                 <strong>{{ cartDishes.length }}</strong>
                                 a
                                 <strong>{{ calculateTotal }} €</strong>
+                            </RouterLink>
+
+                            <!-- Bottone Svuota -->
+                            <button @click="$emit('empty-cart')" v-if="cartDishes.length"
+                                class="btn btn-remove rounded-5 mt-2">
+                                Svuota
                             </button>
-                            <button v-if="cartDishes.length" class="btn btn-remove rounded-5 mt-2">Svuota</button>
+
                         </div>
 
                     </div>
