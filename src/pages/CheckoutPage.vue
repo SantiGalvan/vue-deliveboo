@@ -1,4 +1,5 @@
 <script>
+// Rimuovi questo import
 // import axios from axios
 import axios from 'axios';
 import CartDetail from '../components/cart/CartDetail.vue';
@@ -14,6 +15,9 @@ const tokenGenerateEndpoint = 'http://127.0.0.1:8000/api/orders/generate'
 export default {
     name: 'CheckoutPage',
     components: { CartDetail, PaymentComponent },
+    // Cambia il nome della prop qui
+    props: { showCart: Boolean },
+    emits: ['toggle-cart', 'remove-from-cart', 'handle-dish', 'remove-row', "empty-cart"],
     data: () => ({
         store,
         cartDishes: store.cartDishes,
@@ -21,27 +25,6 @@ export default {
         tokenApi: ''
     }),
     methods: {
-
-        //Mando l'evento al componente padre tramite metodo
-        handleDish(dish) {
-            this.$emit('handle-dish', dish);
-        },
-
-        //Mando l'evento al componente padre tramite metodo
-        removeFromCart(dish) {
-            this.$emit('remove-from-cart', dish);
-        },
-
-        //Mando l'evento al componente padre tramite metodo
-        removeRow(dish) {
-            this.$emit('remove-row', dish);
-        },
-
-        //Mando l'evento al componente padre tramite metodo
-        emptyCart() {
-            this.$emit('empty-cart');
-        },
-
         getRestaurant() {
             // Setto la flag del loder a true
             store.isLoading = true;
@@ -49,7 +32,6 @@ export default {
             axios.get(`${endpoint}/${restaurantId}`)
                 .then(res => {
                     this.restaurant = res.data;
-                    console.log(this.restaurant);
                 })
                 .catch(err => {
                     console.error(err.message)
@@ -58,8 +40,38 @@ export default {
                     // Setto la flag del loder a false
                     store.isLoading = false;
                 })
-        }
+        },
+        formattedPrice(price) {
+            return price.replace('.', ',')
+        },
     },
+    computed: {
+        /*Faccio un ciclo su i piatti contenuti in cartItems
+        se groupedItems non contiene l'id del piatto
+        viene pushato altrimenti vuiene aumentata la quantita 
+        del piatto */
+        groupedCartDishes() {
+            const groupedDishes = {};
+            this.cartDishes.forEach(dish => {
+                if (!groupedDishes[dish.id]) {
+                    groupedDishes[dish.id] = { ...dish };
+                } else {
+                    groupedDishes[dish.id].quantity += 1;
+                }
+            });
+            return Object.values(groupedDishes);
+        },
+        /*Calcolo il totale dell'ordine
+        sommando i prezzi dei piatti in cartItems*/
+        calculateTotal() {
+            let totalOrder = 0;
+            this.cartDishes.forEach(dish => {
+                totalOrder += parseFloat(dish.price);
+            });
+            return totalOrder.toFixed(2)
+        },
+    },
+
     // Watch per monitorare le modifiche di store.cartDishes
     watch: {
         'store.cartDishes': function (newCartDishes) {
@@ -80,49 +92,227 @@ export default {
 </script>
 
 <template>
-    <div class="container">
-        <h1>Checkout</h1>
-        <!--Mostro il dettaglio del carrello solo 
-        se c'è almeno un piatto nel carrello-->
-        <div v-if="cartDishes.length">
-            <!-- Inserisco le informazioni del ristorante in cui sto effettuando l'ordine -->
-            <section id="checkout-restaurant-info">
-                <ul>
-                    <p>{{ restaurant.length }}</p>
-                    <li>Il tuo ordine presso {{ restaurant.restaurant_name }}</li>
-                    <li>{{ restaurant.city }}</li>
-                    <li>{{ restaurant.address }}</li>
-                    <li>{{ restaurant.cap }}</li>
-                    <li>{{ restaurant.phone }}</li>
-                    <li>{{ restaurant.image }}</li>
-                </ul>
-            </section>
-            <!-- Di seguito trovo le informazioni dei prodotti inseriti nel carrello -->
-            <section id="checkout-cart">
-                <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish"
-                    @remove-row="removeRow" @empty-cart="emptyCart" />
-            </section>
-            <!-- Form in cui inserirò le informazioni del cliente -->
-            <section id="checkout-info">
+    <section id="restaurant-show">
+        <div class="container py-4">
 
-            </section>
-            <!-- Display del pagamento -->
-            <section id="checkout-payment">
-                <!-- Importo il componente del pagamento -->
-                <PaymentComponent :authorization="tokenApi" />
-            </section>
+            <!-- Titolo e categorie -->
+            <div class="d-flex align-items-center">
+
+            </div>
+
+            <!-- Piatti e carrello -->
+            <div class="row mt-3">
+                <h1 class="text-center mb-5">{{ restaurant.restaurant_name }}</h1>
+
+                <!-- Carrello -->
+                <div class="col-12 col-sm-12 col-md-12 col-lg-5 mb-6">
+                    <div class="cart-card">
+                        <!-- Titolo -->
+                        <div class="d-flex align-items-center justify-content-center cart-title gap-2">
+                            <img src="/src/assets/img/shopping-bag.png" alt="Carrello" class="menu-img">
+                            <h3 class="mb-0">Il tuo ordine</h3>
+                        </div>
+
+                        <!-- Contenuto del Carello -->
+                        <div class="cart-content">
+                            <div class="row align-items-center my-3" v-for="dish in groupedCartDishes" :key="dish.id">
+
+                                <!-- Quantità - Nome prodotto - Prezzo -->
+                                <div class="col-2 text-end">
+
+                                    <!-- Quantità -->
+                                    <p class="fs-5 mb-0"><strong>{{ dish.quantity }}x</strong></p>
+                                </div>
+                                <div class="col">
+
+                                    <!-- Nome del prodotto -->
+                                    <p class="fs-5 mb-0 lh-1 fw-medium">{{ dish.name }}</p>
+                                </div>
+                                <div class="col-3">
+
+                                    <!-- Prezzo -->
+                                    <p class="fs-5 mb-0"><strong>{{ formattedPrice(dish.price) }} €</strong></p>
+                                </div>
+
+                                <!-- Bottoni Carrello -->
+                                <div class="col-12 d-flex justify-content-around align-items-center py-4">
+
+                                    <!-- Bottone Rimozione -->
+                                    <button @click="$emit('remove-from-cart', dish)" class="dish-btn">
+                                        <FontAwesomeIcon :icon="['fas', 'minus']" />
+                                    </button>
+
+                                    <!-- Bottone rimozione riga -->
+                                    <button @click="$emit('remove-row', dish)" class="btn btn-sm btn-remove rounded-5">
+                                        Rimuovi
+                                    </button>
+
+                                    <!-- Bottone Aggiunta -->
+                                    <button @click="$emit('dish-cart', dish)" class="dish-btn">
+                                        <FontAwesomeIcon :icon="['fas', 'plus']" />
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Bottone CheckOut lg -->
+                        <div class="d-flex align-items-center justify-content-around btn-container mb-2">
+                            <p class="fs-5 mb-0 lh-1 fw-medium">Prezzo Totale: {{ calculateTotal }}€ </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--TODO Col per il form futuro -->
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                </div>
+            </div>
+
         </div>
-
-        <!--Altrimenti mostro il redirect ai ristoranti-->
-        <div v-else>
-            <span>Non ci sono articoli nel carrello </span>
-            <RouterLink :to="{ name: 'home' }">
-                <button class="btn btn-primary"><font-awesome-icon :icon="['fas', 'arrow-left']" /> Va ai
-                    Ristoranti</button>
-            </RouterLink>
-        </div>
-    </div>
-
+    </section>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#restaurant-show {
+    ul {
+        list-style: none;
+    }
+}
+
+.list-filter {
+    .icon-bg {
+        border-radius: 39% 61% 45% 55% / 62% 56% 44% 38%;
+        background-color: #27cabc56;
+        padding: 12px;
+
+        &.selected {
+            background-color: #2CCCBC;
+        }
+
+        img {
+            width: 30px;
+            height: auto;
+            margin: auto;
+        }
+    }
+
+
+    span {
+        font-size: 16px;
+        font-weight: 500;
+    }
+}
+
+.menu-img {
+    width: 40px;
+    height: auto;
+}
+
+.dish-card {
+
+    padding: 30px 0;
+
+    .dish-img {
+        height: 120px;
+        margin: 0;
+        width: 120px;
+        border-radius: 20px;
+    }
+
+    transition: transform 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.03);
+
+    }
+
+}
+
+.dish-btn {
+    border-radius: 50%;
+    border: 0;
+    color: #2CCCBC;
+    background-color: #00a08323;
+}
+
+.price-btn {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.btn {
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.7);
+
+    background-color: #ffb10a;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+    &:hover {
+        background-color: #ffc342;
+        color: #fff;
+    }
+}
+
+// Da cambiare
+.btn-remove {
+    background-color: #F73F34;
+
+    &:hover {
+        background-color: red;
+        color: #fff;
+    }
+}
+
+.cart-card {
+    background-color: #fff;
+    box-shadow: rgba(50, 50, 93, 0.2) 0px 13px 27px -5px, rgba(0, 0, 0, 0.2) 0px 8px 16px -8px;
+
+    border-radius: 20px;
+
+    position: sticky;
+    left: 0;
+    top: 0;
+}
+
+.cart-title {
+    height: 100px;
+}
+
+.btn-container {
+    height: 80px;
+}
+
+.cart-content {
+    min-height: calc(400px - 180px);
+    max-height: calc(700px - 180px);
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+
+// Scrollbar
+.cart-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.cart-content::-webkit-scrollbar-thumb {
+    background-color: #ffb10a;
+    border-radius: 4px;
+}
+
+.cart-content::-webkit-scrollbar-thumb:hover {
+    background-color: #ffc342;
+}
+
+.cart-content::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+</style>
