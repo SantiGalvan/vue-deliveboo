@@ -60,11 +60,6 @@ export default {
 
 </template>
 
-    </div>
-
-
-</template>
-
 <style lang="scss" scoped>
 img {
     width: 30px;
