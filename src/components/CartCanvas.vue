@@ -1,38 +1,35 @@
 <script>
+import CartDetail from './cart/CartDetail.vue';
 export default {
     name: 'CartCanvas',
+    components: { CartDetail },
     props: { showCart: Boolean, cartDishes: Array },
-    emits: ['remove-from-cart', 'handle-dish', 'toggle-cart'],
+    emits: ['toggle-cart', 'remove-from-cart', 'handle-dish', 'remove-row', "empty-cart"],
     data: () => ({
+
     }),
     methods: {
-    },
-    computed: {
-        /*Faccio un ciclo su i piatti contenuti in cartItems
-        se groupedItems non contiene l'id del piatto
-        viene pushato altrimenti vuiene aumentata la quantita 
-        del piatto */
-        groupedCartDishes() {
-            const groupedDishes = {};
-            this.cartDishes.forEach(dish => {
-                if (!groupedDishes[dish.id]) {
-                    groupedDishes[dish.id] = { ...dish };
-                } else {
-                    groupedDishes[dish.id].quantity += 1;
-                }
-            });
-            return Object.values(groupedDishes);
+
+        //Mando l'evento al componente padre tramite metodo
+        handleDish(dish) {
+            this.$emit('handle-dish', dish);
         },
-        /*Calcolo il totale dell'ordine
-        sommando i prezzi dei piatti in cartItems*/
-        calculateTotal() {
-            let totalOrder = 0;
-            this.cartDishes.forEach(dish => {
-                totalOrder += parseFloat(dish.price);
-            });
-            return totalOrder.toFixed(2)
-        }
-    }
+
+        //Mando l'evento al componente padre tramite metodo
+        removeFromCart(dish) {
+            this.$emit('remove-from-cart', dish);
+        },
+
+        //Mando l'evento al componente padre tramite metodo
+        removeRow(dish) {
+            this.$emit('remove-row', dish);
+        },
+
+        //Mando l'evento al componente padre tramite metodo
+        emptyCart() {
+            this.$emit('empty-cart');
+        },
+    },
 };
 </script>
 
@@ -48,36 +45,14 @@ export default {
                 Nessun articolo nel carrello, aggiungi un piatto!
             </div>
             <div v-else>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nome Piatto</th>
-                            <th>Prezzo</th>
-                            <th>Quantità</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="dish in groupedCartDishes" :key="dish.id">
-                            <td>{{ dish.name }}</td>
-                            <td>{{ dish.price }}</td>
-                            <td>{{ dish.quantity }}</td>
-                            <td class="d-flex gap-3">
-                                <!--Bottone per aumentare quantità nel carrello-->
-                                <button @click="$emit('handle-dish', dish)"><font-awesome-icon
-                                        :icon="['fas', 'plus']" /></button>
-                                <!--Bottone per diminuire quantità nel carrello-->
-                                <button @click="$emit('remove-from-cart', dish)"><font-awesome-icon
-                                        :icon="['fas', 'minus']" /></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <strong>TOTALE:</strong><span>€ {{ calculateTotal }}</span>
-                        </tr>
-                    </tfoot>
-                </table>
+                <!--Dettaglio del carrello-->
+                <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish"
+                    @remove-row="removeRow" @empty-cart="emptyCart" />
+            </div>
+            <!-- Routerlink per la pagina di checkout -->
+            <div v-if="cartDishes.length">
+                <RouterLink :to="{ name: 'checkout-page' }">Procedi al Checkout
+                </RouterLink>
             </div>
         </div>
     </div>

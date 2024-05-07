@@ -5,19 +5,23 @@ import AppFooter from './components/AppFooter.vue'
 import { RouterView } from 'vue-router';
 import { store } from './data/store';
 
+
 export default {
   name: 'PasqEat',
   components: { AppHeader, CartCanvas, AppFooter },
   data: () => ({
     showCart: false,
+    store,
     cartDishes: [],
-    store
   }),
   methods: {
+
+    //toggle del carrello
     toggleCart() {
       this.showCart = !this.showCart;
     },
 
+    //recupero il piatto e lo rimuovo da cartItems
     removeFromCart(dish) {
       const dishToDelete = this.cartDishes.findIndex(item => {
         return item.id === dish.id
@@ -30,6 +34,7 @@ export default {
 
     //recupero il piatto e lo pusho in cartItems
     handleDish(dish) {
+
       const dishInfo = {
         id: dish.id,
         name: dish.name,
@@ -37,6 +42,8 @@ export default {
         restaurant_id: dish.restaurant_id,
         quantity: 1,
       }
+
+
       if (this.cartDishes.length === 0 || this.cartDishes[0].restaurant_id === dish.restaurant_id) {
         this.cartDishes.push(dishInfo)
       }
@@ -45,17 +52,41 @@ export default {
       }
     },
 
-  },
-  created() {
-    // Recupero i dati del carrello dalla sessione
-    const savedCartDishes = localStorage.getItem('cartDishes');
-    if (savedCartDishes) {
-      this.cartDishes = JSON.parse(savedCartDishes);
+    // rimuovo un prodotto e tutte le quantità di esso
+    removeRow(dish) {
+      this.cartDishes = this.cartDishes.filter(item => item.id !== dish.id);
+      // una volta rimosso sincronizzo il localStorage e lo store
+      this.updateLocalStorage();
+    },
+
+    // rimuovo un prodotto e tutte le quantità di esso
+    emptyCart() {
+      this.cartDishes = [];
+      this.updateLocalStorage()
+    },
+
+    // sincronizzo localStorage e store
+    updateLocalStorage() {
+      localStorage.setItem('cartDishes', JSON.stringify(this.cartDishes));
+      store.cartDishes = this.cartDishes;
     }
 
-    // Salvataggio i dati prima della chiusura
+  },
+  created() {
+    // Al caricamento della pagina sincronizzo i prodotti del carrello 
+    // con quelli salvati in localstorage e store
+    const savedCartDishes = localStorage.getItem('cartDishes');
+
+    if (savedCartDishes) {
+      this.cartDishes = JSON.parse(savedCartDishes);
+      store.cartDishes = this.cartDishes;
+    }
+
+    //aggiungendo un eventlistener alla pagina sono in grado di salvare il cart in
+    // localStorage prima della chiusura
     window.addEventListener('beforeunload', () => {
       localStorage.setItem('cartDishes', JSON.stringify(this.cartDishes));
+      store.cartDishes = this.cartDishes;
     });
   },
 }
@@ -71,12 +102,15 @@ export default {
   <AppLoader v-if="store.isLoading" />
 
   <!-- Cart Canvas -->
-  <CartCanvas @removeFromCart="removeFromCart" @handleDish="handleDish" @toggle-cart="toggleCart" :showCart="showCart"
-    :cartDishes="cartDishes" />
+  <CartCanvas @remove-from-cart="removeFromCart" @handle-dish="handleDish" @toggle-cart="toggleCart"
+    :showCart="showCart" :cartDishes="cartDishes" @remove-row="removeRow" @empty-cart="emptyCart" />
 
   <!-- Main -->
   <main>
-    <RouterView @dishCart="handleDish" @remove-dish="removeFromCart" :cartDishes="cartDishes" />
+
+    <RouterView @dish-cart="handleDish" @remove-from-cart="removeFromCart" @handle-dish="handleDish"
+      @remove-row="removeRow" @empty-cart="emptyCart" />
+
 
     <!-- Footer -->
     <AppFooter v-if="!store.isLoading" />

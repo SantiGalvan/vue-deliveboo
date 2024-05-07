@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 
 export const store = reactive({
-    isLoading: false
+    isLoading: false,
+    cartDishes: [],
 });

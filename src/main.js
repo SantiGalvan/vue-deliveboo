@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { createApp } from 'vue'
 //Importiamo il router
 import { router } from './router'
-import App from './App.vue'
+import App from './App.vue';
 
 // Importiamo la libreria generica di FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
     faArrowLeft, faMagnifyingGlass,
     faArrowDown, faChevronRight, faPlus,
-    faMinus
+    faMinus, faTrashCan
 } from '@fortawesome/free-solid-svg-icons'
 
 import { faCompass } from '@fortawesome/free-regular-svg-icons'
@@ -27,7 +27,7 @@ import AppLoader from './components/AppLoader.vue'
 
 // Icone da caricare
 library.add(faArrowLeft, faMagnifyingGlass, faArrowDown,
-    faChevronRight, faPlus, faMinus);
+    faChevronRight, faPlus, faMinus, faTrashCan);
 library.add(faCompass);
 library.add(faFacebook);
 
