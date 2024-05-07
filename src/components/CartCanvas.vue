@@ -30,6 +30,26 @@ export default {
             this.$emit('empty-cart');
         },
     },
+    computed: {
+        groupedCartDishes() {
+            const groupedDishes = {};
+            this.cartDishes.forEach(dish => {
+                if (!groupedDishes[dish.id]) {
+                    groupedDishes[dish.id] = { ...dish };
+                } else {
+                    groupedDishes[dish.id].quantity += 1;
+                }
+            });
+            return Object.values(groupedDishes);
+        },
+        calculateTotal() {
+            let totalOrder = 0;
+            this.cartDishes.forEach(dish => {
+                totalOrder += parseFloat(dish.price);
+            });
+            return totalOrder.toFixed(2)
+        }
+    },
 };
 </script>
 

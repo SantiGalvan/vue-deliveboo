@@ -102,8 +102,8 @@ export default {
   <AppLoader v-if="store.isLoading" />
 
   <!-- Cart Canvas -->
-  <CartCanvas @remove-from-cart="removeFromCart" @handle-dish="handleDish" @toggle-cart="toggleCart"
-    :showCart="showCart" :cartDishes="cartDishes" @remove-row="removeRow" @empty-cart="emptyCart" />
+  <!-- <CartCanvas @remove-from-cart="removeFromCart" @handle-dish="handleDish" @toggle-cart="toggleCart"
+    :showCart="showCart" :cartDishes="cartDishes" @remove-row="removeRow" @empty-cart="emptyCart" /> -->
 
   <!-- Main -->
   <main>

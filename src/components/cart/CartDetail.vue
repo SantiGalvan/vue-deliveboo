@@ -10,7 +10,7 @@ export default {
         cartDishes: store.cartDishes
     }),
     methods: {
-       
+
     },
     computed: {
         /*Faccio un ciclo su i piatti contenuti in cartItems
@@ -38,9 +38,9 @@ export default {
             return totalOrder.toFixed(2)
         },
     },
-     // Watch per monitorare le modifiche di store.cartDishes
+    // Watch per monitorare le modifiche di store.cartDishes
     watch: {
-        'store.cartDishes': function(newCartDishes) {
+        'store.cartDishes': function (newCartDishes) {
             // Aggiorna cartDishes con i nuovi dati dello store
             this.cartDishes = newCartDishes;
         }
@@ -65,26 +65,26 @@ export default {
                 <td>{{ dish.price }}</td>
                 <td>{{ dish.quantity }}</td>
                 <td class="d-flex gap-3">
-                    
+
                     <!--Bottone per diminuire quantità nel carrello-->
                     <button @click="$emit('remove-from-cart', dish)"><font-awesome-icon
                             :icon="['fas', 'minus']" /></button>
-                    
+
                     <!--Bottone per aumentare quantità nel carrello-->
                     <button @click="$emit('handle-dish', dish)"><font-awesome-icon :icon="['fas', 'plus']" /></button>
-                    
+
                     <!-- Bottone di eliminazione di una riga intera (ovvero di un prodotto e le sue quantità) -->
                     <button class="rounded px-2 py-1 btn-outline-index red text-white fw-semibold"
-                    @click="$emit('remove-row', dish)">
+                        @click="$emit('remove-row', dish)">
                         <font-awesome-icon :icon="['fas', 'trash-can']" />
                     </button>
-                    
+
                 </td>
             </tr>
             <tr v-show="cartDishes.length">
                 <!-- Bottone di eliminazione di una riga intera (ovvero di un prodotto e le sue quantità) -->
                 <button class="rounded px-2 py-1 btn-outline-index red text-white fw-semibold"
-                @click="$emit('empty-cart')">
+                    @click="$emit('empty-cart')">
                     <font-awesome-icon :icon="['fas', 'trash-can']" />
                     <span><strong>Svuota il carrello</strong></span>
                 </button>
