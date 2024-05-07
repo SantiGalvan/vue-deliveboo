@@ -72,53 +72,55 @@ export default {
     },
     mounted() {
         axios.get(tokenGenerateEndpoint)
-        .then(res=> {
-            this.tokenApi = res.data.token
-        })
+            .then(res => {
+                this.tokenApi = res.data.token
+            })
     }
 }
 </script>
 
 <template>
-    <h1>Checkout</h1>
-    <!--Mostro il dettaglio del carrello solo 
-    se c'è almeno un piatto nel carrello-->
-    <div v-if="cartDishes.length">
-        <!-- Inserisco le informazioni del ristorante in cui sto effettuando l'ordine -->
-        <section id="checkout-restaurant-info">
-            <ul>
-                <p>{{ restaurant.length }}</p>
-                <li>Il tuo ordine presso {{ restaurant.restaurant_name }}</li>
-                <li>{{ restaurant.city }}</li>
-                <li>{{ restaurant.address }}</li>
-                <li>{{ restaurant.cap }}</li>
-                <li>{{ restaurant.phone }}</li>
-                <li>{{ restaurant.image }}</li>
-            </ul>
-        </section>
-        <!-- Di seguito trovo le informazioni dei prodotti inseriti nel carrello -->
-        <section id="checkout-cart">
-            <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish"
-                @remove-row="removeRow" @empty-cart="emptyCart" />
-        </section>
-        <!-- Form in cui inserirò le informazioni del cliente -->
-        <section id="checkout-info">
+    <div class="container">
+        <h1>Checkout</h1>
+        <!--Mostro il dettaglio del carrello solo 
+        se c'è almeno un piatto nel carrello-->
+        <div v-if="cartDishes.length">
+            <!-- Inserisco le informazioni del ristorante in cui sto effettuando l'ordine -->
+            <section id="checkout-restaurant-info">
+                <ul>
+                    <p>{{ restaurant.length }}</p>
+                    <li>Il tuo ordine presso {{ restaurant.restaurant_name }}</li>
+                    <li>{{ restaurant.city }}</li>
+                    <li>{{ restaurant.address }}</li>
+                    <li>{{ restaurant.cap }}</li>
+                    <li>{{ restaurant.phone }}</li>
+                    <li>{{ restaurant.image }}</li>
+                </ul>
+            </section>
+            <!-- Di seguito trovo le informazioni dei prodotti inseriti nel carrello -->
+            <section id="checkout-cart">
+                <CartDetail :cartDishes="cartDishes" @remove-from-cart="removeFromCart" @handle-dish="handleDish"
+                    @remove-row="removeRow" @empty-cart="emptyCart" />
+            </section>
+            <!-- Form in cui inserirò le informazioni del cliente -->
+            <section id="checkout-info">
 
-        </section>
-        <!-- Display del pagamento -->
-        <section id="checkout-payment">
-            <!-- Importo il componente del pagamento -->
-            <PaymentComponent :authorization="tokenApi" />
-        </section>
-    </div>
+            </section>
+            <!-- Display del pagamento -->
+            <section id="checkout-payment">
+                <!-- Importo il componente del pagamento -->
+                <PaymentComponent :authorization="tokenApi" />
+            </section>
+        </div>
 
-    <!--Altrimenti mostro il redirect ai ristoranti-->
-    <div v-else>
-        <span>Non ci sono articoli nel carrello </span>
-        <RouterLink :to="{ name: 'home' }">
-            <button class="btn btn-primary"><font-awesome-icon :icon="['fas', 'arrow-left']" /> Va ai
-                Ristoranti</button>
-        </RouterLink>
+        <!--Altrimenti mostro il redirect ai ristoranti-->
+        <div v-else>
+            <span>Non ci sono articoli nel carrello </span>
+            <RouterLink :to="{ name: 'home' }">
+                <button class="btn btn-primary"><font-awesome-icon :icon="['fas', 'arrow-left']" /> Va ai
+                    Ristoranti</button>
+            </RouterLink>
+        </div>
     </div>
 
 </template>
