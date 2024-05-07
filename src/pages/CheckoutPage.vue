@@ -95,10 +95,10 @@ export default {
     <section id="restaurant-show">
         <div class="container py-4">
 
-            <!-- Titolo e categorie -->
-            <div class="d-flex align-items-center">
-
-            </div>
+            <!-- Torna Indietro -->
+            <RouterLink :to="{ name: 'home' }" class="btn rounded-5 border-0 mt-2">
+                <font-awesome-icon :icon="['fas', 'arrow-left']" /> Torna indietro
+            </RouterLink>
 
             <!-- Piatti e carrello -->
             <div class="row mt-3">
