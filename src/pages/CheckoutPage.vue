@@ -29,7 +29,7 @@ export default {
             card_number: '',
             card_expire_date: '',
             cvv_code: '',
-            restaurant_id: store.cartDishes[0]?.id,
+            restaurant_id: store.cartDishes[0]?.restaurant_id,
             dishes: store.cartDishes,
             payment_method_nonce: 'fake-valid-nonce',
         },
@@ -201,6 +201,7 @@ export default {
                     console.log(response.data)
                 }).
                 catch(({ error, response }) => {
+                    localStorage.setItem('resultPage', JSON.stringify(response.data));
                     console.error(error);
                     console.log(response.data.errors);
                     this.$router.push({ name: 'result-page' })
