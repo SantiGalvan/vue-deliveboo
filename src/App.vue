@@ -96,7 +96,7 @@ export default {
 <template>
 
   <!-- Header -->
-  <AppHeader @toggle-cart="toggleCart" :cartDishes="cartDishes" />
+  <AppHeader :cartDishes="cartDishes" />
 
   <!-- Loader -->
   <AppLoader v-if="store.isLoading" />
