@@ -5,7 +5,6 @@ import { createApp } from 'vue'
 //Importiamo il router
 import { router } from './router'
 import App from './App.vue';
-import vueBraintree from 'vue-braintree';
 
 // Importiamo la libreria generica di FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core'
