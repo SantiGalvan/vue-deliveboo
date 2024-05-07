@@ -39,12 +39,11 @@ export default {
         <p>Indirizzo: <strong>{{ customer_address }}</strong></p>
         <p>Totale: <strong>{{ total }}</strong></p>
 
-        <div class="d-flex align-items-center gap-1 mb-2">
-            <img :src="apiResponse.success ? '/src/assets/img/check.png' : '/src/assets/img/cross.png'" alt="#">
-            <span>{{ apiResponse.message }}</span>
-        </div>
-        <p v-if="apiResponse.success">Abbiamo ricevuto l'ordine!A breve ti arriverà la consegna.</p>
+
+        <p>{{ apiResponse.message }}</p>
+        <p>Abbiamo ricevuto l'ordine!A breve ti arriverà la consegna.</p>
     </div>
+
 
 </template>
 
