@@ -27,14 +27,16 @@ export default {
                     <li>
                         <!-- L'icona del carrello si deve vedere solo se c'è un elemento al suo interno -->
                         <button data-bs-toggle="offcanvas" data-bs-target="#buttonCanvas" aria-controls="buttonCanvas"
-                            class="btn btn-light cart" type="button" @click="$emit('toggle-cart')">
+                            class="btn btn-restaurant rounded-pill py-2 px-3 cart" type="button"
+                            @click="$emit('toggle-cart')">
                             <img src="/src/assets/img/carrello.png" alt="carrello" class="img-fluid">
                             <span v-if="cartDishes.length">{{ cartDishes.length }}</span>
                         </button>
                     </li>
                     <!-- Registrati -->
                     <li>
-                        <a href="http://127.0.0.1:8000/" target="_blank">Registrati</a>
+                        <a href="http://127.0.0.1:8000/" class="btn btn-restaurant rounded-pill py-2 px-3"
+                            target="_blank">Registrati</a>
                     </li>
 
                 </ul>
