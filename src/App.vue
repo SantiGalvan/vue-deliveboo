@@ -108,8 +108,8 @@ export default {
   <!-- Main -->
   <main>
 
-    <RouterView @dish-cart="handleDish" @remove-from-cart="removeFromCart" @handle-dish="handleDish"
-      @remove-row="removeRow" @empty-cart="emptyCart" />
+    <RouterView :cartDishes="cartDishes" @dish-cart="handleDish" @remove-from-cart="removeFromCart"
+      @handle-dish="handleDish" @remove-row="removeRow" @empty-cart="emptyCart" />
 
 
     <!-- Footer -->
