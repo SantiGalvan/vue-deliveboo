@@ -302,7 +302,7 @@ export default {
 
 <template>
     <section id="restaurant-show">
-        <div class="container py-4">
+        <div class="container py-4" id="restaurant-show">
 
             <!-- Torna Indietro -->
             <RouterLink :to="{ name: 'home' }" class="btn rounded-5 border-0 mt-2">
@@ -311,7 +311,7 @@ export default {
 
             <!-- Piatti e carrello -->
             <div class="row mt-3">
-                <h1 class="text-center mb-5">{{ restaurant.restaurant_name }}</h1>
+                <h1 class="text-center mb-4">{{ restaurant.restaurant_name }}</h1>
 
                 <!-- Carrello -->
                 <div class="col-12 col-sm-12 col-md-12 col-lg-5 mb-6">
@@ -367,7 +367,7 @@ export default {
                         </div>
 
                         <!-- Bottone CheckOut lg -->
-                        <div class="d-flex align-items-center justify-content-around btn-container mb-2">
+                        <div class="d-flex align-items-center justify-content-around btn-container mb-1">
                             <p class="fs-5 mb-0 lh-1 fw-medium">Prezzo Totale: {{ calculateTotal }}€ </p>
                         </div>
 
@@ -375,12 +375,13 @@ export default {
                 </div>
 
                 <div class="col-12 col-sm-12 col-md-12 col-lg-6" id="checkout-info">
-                    <h3>Procedi al pagamento</h3>
+                    <h3 class="mb-2">Procedi al pagamento</h3>
                     <!--Form-->
                     <form class="form" @submit.prevent>
                         <!--Nome del cliente-->
                         <div class="col-12 mb-3">
-                            <label for="name" class="input_label">Nome*</label>
+                            <label for="name" class="input_label mb-0 lh-1 fw-medium">Nome<span
+                                    class="text-danger">*</span></label>
                             <input type="text" id="name" name="name" class="input_field form-control" placeholder="Nome"
                                 v-model="paymentDetails.name"
                                 :class="!this.paymentDetails.name || this.paymentDetails.name.length < 3 ? 'is-invalid' : 'is-valid'"
@@ -392,7 +393,8 @@ export default {
                         </div>
                         <!--Cognome-->
                         <div class="col-12 mb-3">
-                            <label for="lastname" class="input_label">Cognome*</label>
+                            <label for="lastname" class="input_label mb-0 lh-1 fw-medium">Cognome<span
+                                    class="text-danger">*</span></label>
                             <input type="text" id="lastname" name="lastname" class="input_field form-control"
                                 placeholder="Cognome" v-model="paymentDetails.lastname"
                                 :class="!this.paymentDetails.lastname || this.paymentDetails.lastname.length < 3 ? 'is-invalid' : 'is-valid'"
@@ -404,7 +406,8 @@ export default {
                         </div>
                         <!--Indirizzo-->
                         <div class="col-12 mb-3">
-                            <label for="address" class="input_label">Indirizzo*</label>
+                            <label for="address" class="input_label mb-0 lh-1 fw-medium">Indirizzo<span
+                                    class="text-danger">*</span></label>
                             <input type="text" id="address" name="address" class="input_field form-control"
                                 placeholder="Indirizzo" v-model="paymentDetails.address"
                                 :class="!this.paymentDetails.address || this.paymentDetails.address.length < 3 ? 'is-invalid' : 'is-valid'"
@@ -416,7 +419,8 @@ export default {
                         </div>
                         <!-- Numero di Telefono-->
                         <div class="col-12 mb-3">
-                            <label for="phone" class="input_label">Numero di Telefono*</label>
+                            <label for="phone" class="input_label mb-0 lh-1 fw-medium">Numero di Telefono<span
+                                    class="text-danger">*</span></label>
                             <input type="text" id="phone" name="phone" class="input_field form-control"
                                 placeholder="Numero di Telefono" v-model="paymentDetails.phone"
                                 :class="!this.paymentDetails.phone || this.paymentDetails.phone.length < 3 ? 'is-invalid' : 'is-valid'"
@@ -428,7 +432,8 @@ export default {
                         </div>
                         <!--Email-->
                         <div class="col-12 mb-3">
-                            <label for="email" class="input_label">Email*</label>
+                            <label for="email" class="input_label mb-0 lh-1 fw-medium">Email<span
+                                    class="text-danger">*</span></label>
                             <input type="text" id="email" name="email" class="input_field form-control"
                                 placeholder="E-mail" v-model="paymentDetails.email"
                                 :class="!this.paymentDetails.email || this.paymentDetails.email.length < 3 ? 'is-invalid' : 'is-valid'"
@@ -442,7 +447,8 @@ export default {
                         <h4>Inserisci i dati della tua carta</h4>
                         <!--Numero della Carta-->
                         <div class="col-12 mb-3">
-                            <label for="card_number" class="input_label">Numero Carta*</label>
+                            <label for="card_number" class="input_label mb-0 lh-1 fw-medium">Numero Carta<span
+                                    class="text-danger">*</span></label>
                             <input type="text" id="card_number" name="card_number" class="input_field form-control"
                                 placeholder="4356 0000 2222 4567" v-model="paymentDetails.card_number"
                                 :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'is-invalid' : 'is-valid'"
@@ -454,7 +460,8 @@ export default {
                         </div>
                         <!--Scadenza della Carta-->
                         <div class="col-12 mb-3">
-                            <label for="card_expire_date" class="input_label">Data Scadenza *</label>
+                            <label for="card_expire_date" class="input_label mb-0 lh-1 fw-medium">Data Scadenza
+                                <span class="text-danger">*</span></label>
                             <input type="text" id="card_expire_date" name="card_expire_date"
                                 class="input_field form-control" placeholder="01/27"
                                 v-model="paymentDetails.card_expire_date"
@@ -467,7 +474,8 @@ export default {
                         </div>
                         <!--Codice di Sicurezza-->
                         <div class="col-12 mb-3">
-                            <label for="cvv_code" class="input_label">CVV*</label>
+                            <label for="cvv_code" class="input_label mb-0 lh-1 fw-medium">CVV<span
+                                    class="text-danger">*</span></label>
                             <input type="text" id="cvv_code" name="cvv_code" class="input_field form-control"
                                 placeholder="CVV" v-model="paymentDetails.cvv_code"
                                 :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3 ? 'is-invalid' : 'is-valid'"
@@ -480,7 +488,12 @@ export default {
                         <input type="hidden" id="nonce" name="payment_method_nonce"
                             v-model="paymentDetails.payment_method_nonce" />
 
-                        <button @click="formValidation()">Paga</button>
+                        <div class="d-flex gap-3 align-items-center mt-1">
+                            <button class="btn rounded-pill border-0" @click="formValidation()">Paga</button>
+                            <p class="mb-0">I campi contrassegnati con <span
+                                    class="text-danger"><strong>*</strong></span> sono
+                                obbligatori</p>
+                        </div>
                     </form>
                 </div>
             </div>
