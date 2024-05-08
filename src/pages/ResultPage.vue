@@ -34,7 +34,7 @@ export default {
 
 <template>
 
-    <div class="container mt-5">
+    <div class="container checkout mt-5">
         <h2>Riepilogo Ordine: </h2>
         <hr>
         <p>Nome: <strong>{{ customer_name }}</strong></p>
@@ -51,8 +51,8 @@ export default {
         <p v-if="apiResponse.success">Abbiamo ricevuto l'ordine!A breve ti arriverà la consegna.</p>
 
         <RouterLink :to="{ name: 'home' }">
-            <button class="btn btn-primary">
-                Torna alla Home
+            <button class="btn rounded-pill">
+                <font-awesome-icon :icon="['fas', 'arrow-left']" /> Torna indietro
             </button>
         </RouterLink>
     </div>
@@ -60,8 +60,27 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.checkout {
+    padding: 50px;
+}
+
 img {
     width: 30px;
     height: 30px;
+}
+
+.btn {
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.7);
+    border: none;
+
+    background-color: #ffb10a;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+    &:hover {
+        background-color: #ffc342;
+        color: #fff;
+    }
 }
 </style>
