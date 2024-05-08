@@ -311,6 +311,7 @@ export default {
     color: #fff;
     font-weight: 600;
     text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.7);
+    border: none;
 
     background-color: #ffb10a;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
