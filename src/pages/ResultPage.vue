@@ -35,13 +35,15 @@ export default {
 <template>
 
     <div class="container mt-5">
+        <h2>Riepilogo Ordine: </h2>
+        <hr>
         <p>Nome: <strong>{{ customer_name }}</strong></p>
         <p>Cognome: <strong>{{ customer_lastname }}</strong></p>
         <p>Telefono: <strong>{{ customer_phone }}</strong></p>
         <p>Indirizzo: <strong>{{ customer_address }}</strong></p>
         <p>Totale: <strong>{{ total }}</strong></p>
 
-        <div class="d-flex align-items-center gap-1 mb-2">
+        <div class="d-flex align-items-center gap-1 my-4">
             <img :src="apiResponse.success ? '/src/assets/img/check.png' : '/src/assets/img/cross.png'" alt="#">
             <span>{{ apiResponse.message }}</span>
         </div>

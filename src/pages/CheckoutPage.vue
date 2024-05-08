@@ -19,6 +19,7 @@ export default {
         cartDishes: store.cartDishes,
         restaurant: [],
         token: '',
+        formNotValidated: '',
         isValid: false,
         paymentDetails: {
             name: '',
@@ -33,6 +34,8 @@ export default {
             dishes: store.cartDishes,
             payment_method_nonce: 'fake-valid-nonce',
         },
+
+        formValidationMessage : 'Attenzione! Alcuni campi sembrano errati o incompleti...',
 
         messages: {
             name_message: '',
@@ -90,20 +93,24 @@ export default {
             if (!this.paymentDetails.name || this.paymentDetails.name.length < 3) {
                 this.messages.name_message = 'Inserisci il nome.';
                 this.isValid = false;
+                console.log('isnamevalid',this.isValid)
             } else {
                 this.messages.name_message = 'Campo valido.';
                 this.isValid = true
+                console.log('isnamevalid',this.isValid)
             }
             return this.isValid;
         },
         //Validazione lato client del Cognome
-        isLstanameValid() {
+        isLastNameValid() {
             if (!this.paymentDetails.lastname || this.paymentDetails.lastname.length < 3) {
                 this.messages.lastname_message = 'Inserisci il cognome.';
                 this.isValid = false;
+                console.log('islastnamenamevalid',this.isValid)
             } else {
                 this.messages.lastname_message = 'Campo valido.';
                 this.isValid = true
+                console.log('islastnamenamevalid',this.isValid)
             }
             return this.isValid;
         },
@@ -112,9 +119,11 @@ export default {
             if (!this.paymentDetails.address || this.paymentDetails.address.length < 3) {
                 this.messages.address_message = 'Inserisci l\'indirizzo di spedizione.';
                 this.isValid = false;
+                console.log('isAddressValid',this.isValid)
             } else {
                 this.messages.address_message = 'Campo valido.';
                 this.isValid = true
+                console.log('isAddressValid',this.isValid)
             }
             return this.isValid;
         },
@@ -123,9 +132,11 @@ export default {
             if (!this.paymentDetails.phone || this.paymentDetails.phone.length < 3) {
                 this.messages.phone_message = 'Inserisci il numero di telefono.';
                 this.isValid = false;
+                console.log('isPhoneValid',this.isValid)
             } else {
                 this.messages.phone_message = 'Campo valido.';
                 this.isValid = true
+                console.log('isPhoneValid',this.isValid)
             }
             return this.isValid;
         },
@@ -134,82 +145,110 @@ export default {
             if (!this.paymentDetails.email || !this.paymentDetails.email.includes('@') || !this.paymentDetails.email.includes('.it') && !this.paymentDetails.email.includes('.com')) {
                 this.messages.email_message = 'Inserisci un indirizzo email valido.';
                 this.isValid = false;
+                console.log('isEmailValid',this.isValid)
             }
             else {
                 this.messages.email_message = 'Campo valido.';
                 this.isValid = true
+                console.log('isEmailValid',this.isValid)
             }
-            return this.Valid;
+            return this.isValid;
         },
         //Validazione lato client del numero della carta di credito
         isCardNumberValid() {
             if (!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16) {
-                this.messages.card_number_message = 'Il numero di carta è composto da 16 numeri.';
-                this.Valid = false;
+                this.messages.card_number_message = 'Il numero della carta dev\'essere di 16 cifre.';
+                this.isValid = false;
+                console.log('isCardNumberValid',this.isValid)
             } else {
                 this.messages.card_number_message = 'Campo valido.';
-                this.Valid = true;
+                this.isValid = true;
+                console.log('isCardNumberValid',this.isValid)
             }
-            return this.Valid;
+            return this.isValid;
         },
         //Validazione lato client della data di scadenza della carta di credito
         isExpireCardValid() {
             if (!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5) {
                 this.messages.card_expire_date_message = 'Inserisci una data di scadenza valida.';
-                this.Valid = false;
+                this.isValid = false;
+                console.log('isExpireCardValid',this.isValid)
             } else {
                 this.messages.card_expire_date_message = 'Campo valido.';
-                this.Valid = true;
-
+                this.isValid = true;
+                console.log('isExpireCardValid',this.isValid)
+                
             }
-            return this.Valid;
+            return this.isValid;
         },
         //Validazione lato client codice segreto della carta di credito
         isCvvValid() {
             if (!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3) {
                 this.messages.cvv_code_message = 'Inserisci un cvv valido.';
                 this.isValid = false;
+                console.log('isCvvValid',this.isValid)
             } else {
                 this.messages.cvv_code_message = 'Campo valido.';
                 this.isValid = true;
+                console.log('isCvvValid',this.isValid)
             }
             return this.isValid;
         },
 
-        generateToken() {
-            if (!this.isValid) return;
-            //Chiamata per generare il token
-            axios.get(`${tokenGenerateEndpoint}generate`).
-                then(res => {
-                    this.token = res.data.token;
-                }).
-                catch(err => {
-                    console.log(err)
-                }).
-                then(() => {
-                    if (this.token) this.makePayment()
-                })
+        //alla chiamata generate token faccio un double check dei campi, 
+        // se qualche campo contiene dei valori non consentiti il form restituirà un errore
+        formValidation() {
+
+            if (this.isNameValid() && this.isLastNameValid() && this.isAddressValid() 
+            && this.isPhoneValid() && this.isEmailValid() && this.isCardNumberValid() 
+            && this.isExpireCardValid() && this.isCvvValid()) {
+                console.log('entroooo');
+                this.generateToken();
+            } else {
+                console.error(this.formValidationMessage)
+                return;
+            }
         },
 
+        generateToken() {
+            store.isLoading= true;
+            //Chiamata per generare il token
+            axios.get(`${tokenGenerateEndpoint}generate`).
+            then(res => {
+                this.token = res.data.token;
+                console.log('entro in .then di generate token: token -> ',this.token);
+            })
+            .catch(err => {
+                console.log(err);
+                store.isLoading= false;
+            }).
+            then(() => {
+                if (this.token) this.makePayment();
+                else return store.isLoading= false;
+            })
+        },
+        
         makePayment() {
             //Chiamata per effettuare il pagamento
             axios.post(`${tokenGenerateEndpoint}make/payment`,
-                { ...this.paymentDetails },
-                { headers: { 'Content-type': 'multipart/form-data' } }).
-                then(response => {
-                    localStorage.setItem('resultPage', JSON.stringify(response.data));
-                    console.log(response.data)
-                }).
-                catch(({ error, response }) => {
-                    localStorage.setItem('resultPage', JSON.stringify(response.data));
-                    console.error(error);
-                    console.log(response.data.errors);
-                    this.$router.push({ name: 'result-page' })
-                }).
-                then(() => {
-                    store.cartDishes = [];
-                    this.$router.push({ name: 'result-page' })
-                })
+            { ...this.paymentDetails },
+            { headers: { 'Content-type': 'multipart/form-data' } }).
+            then(response => {
+                localStorage.setItem('resultPage', JSON.stringify(response.data));
+                console.log(response.data)
+            })
+            .catch(({ error, response }) => {
+                localStorage.setItem('resultPage', JSON.stringify(response.data));
+                console.error(error);
+                console.log(response.data.errors);
+                store.isLoading= false;
+                this.$router.push({ name: 'result-page' })
+            }).
+            then(() => {
+                store.cartDishes = [];
+                this.$router.push({ name: 'result-page' })
+                store.isLoading= false;
+            })
         }
     },
     // Watch per monitorare le modifiche di store.cartDishes
@@ -227,7 +266,8 @@ export default {
 
 <template>
     <div class="container">
-        <h1>Checkout</h1>
+        <h2 class="my-4">Checkout Ordine: </h2>
+        <hr>
         <!--Mostro il dettaglio del carrello solo 
         se c'è almeno un piatto nel carrello-->
         <div v-if="cartDishes.length">
@@ -282,8 +322,12 @@ export default {
                         <label for="address" class="input_label">Indirizzo*</label>
                         <input type="text" id="address" name="address" class="input_field form-control"
                             placeholder="Indirizzo" v-model="paymentDetails.address"
-                            :class="!this.paymentDetails.lastname || this.paymentDetails.lastname.length < 3 ? 'is-invalid' : 'is-valid'"
+                            :class="!this.paymentDetails.address || this.paymentDetails.address.length < 3 ? 'is-invalid' : 'is-valid'"
                             @keyup="isAddressValid">
+                        <div class="form-message" v-if="this.messages.address_message.length"
+                        :class="!this.paymentDetails.address || this.paymentDetails.address.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                            <p>{{ this.messages.address_message }}</p>
+                        </div>
                     </div>
                     <!-- Numero di Telefono-->
                     <div class="col-12 mb-3">
@@ -316,10 +360,10 @@ export default {
                         <label for="card_number" class="input_label">Numero Carta*</label>
                         <input type="text" id="card_number" name="card_number" class="input_field form-control"
                             placeholder="4356 0000 2222 4567" v-model="paymentDetails.card_number"
-                            :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length < 16 ? 'is-invalid' : 'is-valid'"
-                            @keyup="isCardNumberValid" value="11111111111111111">
+                            :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'is-invalid' : 'is-valid'"
+                            @keyup="isCardNumberValid" value="">
                         <div class="form-message" v-if="this.messages.card_number_message.length"
-                            :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                            :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'invalid-feedback' : 'valid-feedback'">
                             <p>{{ this.messages.card_number_message }}</p>
                         </div>
                     </div>
@@ -330,9 +374,9 @@ export default {
                             class="input_field form-control" placeholder="01/27"
                             v-model="paymentDetails.card_expire_date"
                             :class="!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5 ? 'is-invalid' : 'is-valid'"
-                            @keyup="isCardExpireValid" value="01/27">
+                            @keyup="isCardExpireValid" value="">
                         <div class="form-message" v-if="this.messages.card_expire_date_message.length"
-                            :class="!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                            :class="!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5 ? 'invalid-feedback' : 'valid-feedback'">
                             <p>{{ this.messages.card_expire_date_message }}</p>
                         </div>
                     </div>
@@ -342,16 +386,16 @@ export default {
                         <input type="text" id="cvv_code" name="cvv_code" class="input_field form-control"
                             placeholder="CVV" v-model="paymentDetails.cvv_code"
                             :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3 ? 'is-invalid' : 'is-valid'"
-                            @keyup="isCvvValid" value="123">
+                            @keyup="isCvvValid" value="">
                         <div class="form-message" v-if="this.messages.cvv_code_message.length"
-                            :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                            :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length !=3 ? 'invalid-feedback' : 'valid-feedback'">
                             <p>{{ this.messages.cvv_code_message }}</p>
                         </div>
                     </div>
                     <input type="hidden" id="nonce" name="payment_method_nonce"
                         v-model="paymentDetails.payment_method_nonce" />
 
-                    <button @click="generateToken()">Paga</button>
+                    <button @click="formValidation()">Paga</button>
                 </form>
             </section>
 
