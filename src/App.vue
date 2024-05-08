@@ -72,6 +72,13 @@ export default {
     }
 
   },
+  // Watch per monitorare le modifiche di store.cartDishes
+  watch: {
+      'store.cartDishes': function (newCartDishes) {
+        // Aggiorna cartDishes con i nuovi dati dello store
+        this.cartDishes = newCartDishes;
+      }
+  },
   created() {
     // Al caricamento della pagina sincronizzo i prodotti del carrello 
     // con quelli salvati in localstorage e store
