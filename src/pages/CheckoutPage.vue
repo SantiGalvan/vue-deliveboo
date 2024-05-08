@@ -253,7 +253,7 @@ export default {
                 this.$router.push({ name: 'result-page' })
                 store.isLoading= false;
             })
-        }
+        },
 
         formattedPrice(price) {
             return price.replace('.', ',')
@@ -308,10 +308,6 @@ export default {
             <RouterLink :to="{ name: 'home' }" class="btn rounded-5 border-0 mt-2">
                 <font-awesome-icon :icon="['fas', 'arrow-left']" /> Torna indietro
             </RouterLink>
-
-            <!--Mostro il dettaglio del carrello solo 
-            se c'è almeno un piatto nel carrello-->
-            <div v-if="cartDishes.length">
 
             <!-- Piatti e carrello -->
             <div class="row mt-3">
@@ -378,119 +374,116 @@ export default {
                     </div>
                 </div>
 
-                <!--TODO Col per il form futuro -->
                 <div class="col-12 col-sm-12 col-md-12 col-lg-6" id="checkout-info">
-                  <h3>Procedi al pagamento</h3>
-                  <!--Form-->
-                  <form class="form" @submit.prevent>
-                      <!--Nome del cliente-->
-                      <div class="col-12 mb-3">
-                          <label for="name" class="input_label">Nome*</label>
-                          <input type="text" id="name" name="name" class="input_field form-control" placeholder="Nome"
-                              v-model="paymentDetails.name"
-                              :class="!this.paymentDetails.name || this.paymentDetails.name.length < 3 ? 'is-invalid' : 'is-valid'"
-                              @keyup="isNameValid">
-                          <div class="form-message" v-if="this.messages.name_message.length"
-                              :class="!this.paymentDetails.name || this.paymentDetails.name.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
-                              <p>{{ this.messages.name_message }}</p>
-                          </div>
-                      </div>
-                      <!--Cognome-->
-                      <div class="col-12 mb-3">
-                          <label for="lastname" class="input_label">Cognome*</label>
-                          <input type="text" id="lastname" name="lastname" class="input_field form-control"
-                              placeholder="Cognome" v-model="paymentDetails.lastname"
-                              :class="!this.paymentDetails.lastname || this.paymentDetails.lastname.length < 3 ? 'is-invalid' : 'is-valid'"
-                              @keyup="isLastnameValid">
-                          <div class="form-message" v-if="this.messages.lastname_message.length"
-                              :class="!this.paymentDetails.lastname || this.paymentDetails.lastname.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
-                              <p>{{ this.messages.lastname_message }}</p>
-                          </div>
-                      </div>
-                      <!--Indirizzo-->
-                      <div class="col-12 mb-3">
-                          <label for="address" class="input_label">Indirizzo*</label>
-                          <input type="text" id="address" name="address" class="input_field form-control"
-                              placeholder="Indirizzo" v-model="paymentDetails.address"
-                              :class="!this.paymentDetails.address || this.paymentDetails.address.length < 3 ? 'is-invalid' : 'is-valid'"
-                              @keyup="isAddressValid">
-                          <div class="form-message" v-if="this.messages.address_message.length"
-                          :class="!this.paymentDetails.address || this.paymentDetails.address.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
-                              <p>{{ this.messages.address_message }}</p>
-                          </div>
-                      </div>
-                      <!-- Numero di Telefono-->
-                      <div class="col-12 mb-3">
-                          <label for="phone" class="input_label">Numero di Telefono*</label>
-                          <input type="text" id="phone" name="phone" class="input_field form-control"
-                              placeholder="Numero di Telefono" v-model="paymentDetails.phone"
-                              :class="!this.paymentDetails.phone || this.paymentDetails.phone.length < 3 ? 'is-invalid' : 'is-valid'"
-                              @keyup="isPhoneValid">
-                          <div class="form-message" v-if="this.messages.phone_message.length"
-                              :class="!this.paymentDetails.phone || this.paymentDetails.phone.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
-                              <p>{{ this.messages.phone_message }}</p>
-                          </div>
-                      </div>
-                      <!--Email-->
-                      <div class="col-12 mb-3">
-                          <label for="email" class="input_label">Email*</label>
-                          <input type="text" id="email" name="email" class="input_field form-control" placeholder="E-mail"
-                              v-model="paymentDetails.email"
-                              :class="!this.paymentDetails.email || this.paymentDetails.email.length < 3 ? 'is-invalid' : 'is-valid'"
-                              @keyup="isEmailValid">
-                          <div class="form-message" v-if="this.messages.email_message.length"
-                              :class="!this.paymentDetails.email || this.paymentDetails.email.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
-                              <p>{{ this.messages.email_message }}</p>
-                          </div>
-                      </div>
-                      <hr>
-                      <h4>Inserisci i dati della tua carta</h4>
-                      <!--Numero della Carta-->
-                      <div class="col-12 mb-3">
-                          <label for="card_number" class="input_label">Numero Carta*</label>
-                          <input type="text" id="card_number" name="card_number" class="input_field form-control"
-                              placeholder="4356 0000 2222 4567" v-model="paymentDetails.card_number"
-                              :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'is-invalid' : 'is-valid'"
-                              @keyup="isCardNumberValid" value="">
-                          <div class="form-message" v-if="this.messages.card_number_message.length"
-                              :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'invalid-feedback' : 'valid-feedback'">
-                              <p>{{ this.messages.card_number_message }}</p>
-                          </div>
-                      </div>
-                      <!--Scadenza della Carta-->
-                      <div class="col-12 mb-3">
-                          <label for="card_expire_date" class="input_label">Data Scadenza *</label>
-                          <input type="text" id="card_expire_date" name="card_expire_date"
-                              class="input_field form-control" placeholder="01/27"
-                              v-model="paymentDetails.card_expire_date"
-                              :class="!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5 ? 'is-invalid' : 'is-valid'"
-                              @keyup="isCardExpireValid" value="">
-                          <div class="form-message" v-if="this.messages.card_expire_date_message.length"
-                              :class="!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5 ? 'invalid-feedback' : 'valid-feedback'">
-                              <p>{{ this.messages.card_expire_date_message }}</p>
-                          </div>
-                      </div>
-                      <!--Codice di Sicurezza-->
-                      <div class="col-12 mb-3">
-                          <label for="cvv_code" class="input_label">CVV*</label>
-                          <input type="text" id="cvv_code" name="cvv_code" class="input_field form-control"
-                              placeholder="CVV" v-model="paymentDetails.cvv_code"
-                              :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3 ? 'is-invalid' : 'is-valid'"
-                              @keyup="isCvvValid" value="">
-                          <div class="form-message" v-if="this.messages.cvv_code_message.length"
-                              :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length !=3 ? 'invalid-feedback' : 'valid-feedback'">
-                              <p>{{ this.messages.cvv_code_message }}</p>
-                          </div>
-                      </div>
-                    </div>
-                    <input type="hidden" id="nonce" name="payment_method_nonce"
+                    <h3>Procedi al pagamento</h3>
+                    <!--Form-->
+                    <form class="form" @submit.prevent>
+                        <!--Nome del cliente-->
+                        <div class="col-12 mb-3">
+                            <label for="name" class="input_label">Nome*</label>
+                            <input type="text" id="name" name="name" class="input_field form-control" placeholder="Nome"
+                                v-model="paymentDetails.name"
+                                :class="!this.paymentDetails.name || this.paymentDetails.name.length < 3 ? 'is-invalid' : 'is-valid'"
+                                @keyup="isNameValid">
+                            <div class="form-message" v-if="this.messages.name_message.length"
+                                :class="!this.paymentDetails.name || this.paymentDetails.name.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                                <p>{{ this.messages.name_message }}</p>
+                            </div>
+                        </div>
+                        <!--Cognome-->
+                        <div class="col-12 mb-3">
+                            <label for="lastname" class="input_label">Cognome*</label>
+                            <input type="text" id="lastname" name="lastname" class="input_field form-control"
+                                placeholder="Cognome" v-model="paymentDetails.lastname"
+                                :class="!this.paymentDetails.lastname || this.paymentDetails.lastname.length < 3 ? 'is-invalid' : 'is-valid'"
+                                @keyup="isLastnameValid">
+                            <div class="form-message" v-if="this.messages.lastname_message.length"
+                                :class="!this.paymentDetails.lastname || this.paymentDetails.lastname.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                                <p>{{ this.messages.lastname_message }}</p>
+                            </div>
+                        </div>
+                        <!--Indirizzo-->
+                        <div class="col-12 mb-3">
+                            <label for="address" class="input_label">Indirizzo*</label>
+                            <input type="text" id="address" name="address" class="input_field form-control"
+                                placeholder="Indirizzo" v-model="paymentDetails.address"
+                                :class="!this.paymentDetails.address || this.paymentDetails.address.length < 3 ? 'is-invalid' : 'is-valid'"
+                                @keyup="isAddressValid">
+                            <div class="form-message" v-if="this.messages.address_message.length"
+                            :class="!this.paymentDetails.address || this.paymentDetails.address.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                                <p>{{ this.messages.address_message }}</p>
+                            </div>
+                        </div>
+                        <!-- Numero di Telefono-->
+                        <div class="col-12 mb-3">
+                            <label for="phone" class="input_label">Numero di Telefono*</label>
+                            <input type="text" id="phone" name="phone" class="input_field form-control"
+                                placeholder="Numero di Telefono" v-model="paymentDetails.phone"
+                                :class="!this.paymentDetails.phone || this.paymentDetails.phone.length < 3 ? 'is-invalid' : 'is-valid'"
+                                @keyup="isPhoneValid">
+                            <div class="form-message" v-if="this.messages.phone_message.length"
+                                :class="!this.paymentDetails.phone || this.paymentDetails.phone.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                                <p>{{ this.messages.phone_message }}</p>
+                            </div>
+                        </div>
+                        <!--Email-->
+                        <div class="col-12 mb-3">
+                            <label for="email" class="input_label">Email*</label>
+                            <input type="text" id="email" name="email" class="input_field form-control" placeholder="E-mail"
+                                v-model="paymentDetails.email"
+                                :class="!this.paymentDetails.email || this.paymentDetails.email.length < 3 ? 'is-invalid' : 'is-valid'"
+                                @keyup="isEmailValid">
+                            <div class="form-message" v-if="this.messages.email_message.length"
+                                :class="!this.paymentDetails.email || this.paymentDetails.email.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                                <p>{{ this.messages.email_message }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <h4>Inserisci i dati della tua carta</h4>
+                        <!--Numero della Carta-->
+                        <div class="col-12 mb-3">
+                            <label for="card_number" class="input_label">Numero Carta*</label>
+                            <input type="text" id="card_number" name="card_number" class="input_field form-control"
+                                placeholder="4356 0000 2222 4567" v-model="paymentDetails.card_number"
+                                :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'is-invalid' : 'is-valid'"
+                                @keyup="isCardNumberValid" value="">
+                            <div class="form-message" v-if="this.messages.card_number_message.length"
+                                :class="!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16 ? 'invalid-feedback' : 'valid-feedback'">
+                                <p>{{ this.messages.card_number_message }}</p>
+                            </div>
+                        </div>
+                        <!--Scadenza della Carta-->
+                        <div class="col-12 mb-3">
+                            <label for="card_expire_date" class="input_label">Data Scadenza *</label>
+                            <input type="text" id="card_expire_date" name="card_expire_date"
+                                class="input_field form-control" placeholder="01/27"
+                                v-model="paymentDetails.card_expire_date"
+                                :class="!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5 ? 'is-invalid' : 'is-valid'"
+                                @keyup="isCardExpireValid" value="">
+                            <div class="form-message" v-if="this.messages.card_expire_date_message.length"
+                                :class="!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5 ? 'invalid-feedback' : 'valid-feedback'">
+                                <p>{{ this.messages.card_expire_date_message }}</p>
+                            </div>
+                        </div>
+                        <!--Codice di Sicurezza-->
+                        <div class="col-12 mb-3">
+                            <label for="cvv_code" class="input_label">CVV*</label>
+                            <input type="text" id="cvv_code" name="cvv_code" class="input_field form-control"
+                                placeholder="CVV" v-model="paymentDetails.cvv_code"
+                                :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3 ? 'is-invalid' : 'is-valid'"
+                                @keyup="isCvvValid" value="">
+                            <div class="form-message" v-if="this.messages.cvv_code_message.length"
+                                :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length !=3 ? 'invalid-feedback' : 'valid-feedback'">
+                                <p>{{ this.messages.cvv_code_message }}</p>
+                            </div>
+                        </div>
+                        <input type="hidden" id="nonce" name="payment_method_nonce"
                         v-model="paymentDetails.payment_method_nonce" />
 
-                    <button @click="formValidation()">Paga</button>
-                </form>
-            </section>
+                        <button @click="formValidation()">Paga</button>
+                    </form>
+                </div>
             </div>
-          </div>
         </div>
     </section>
 </template>
