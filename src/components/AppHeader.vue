@@ -26,7 +26,7 @@ export default {
                     <li>
                         <RouterLink v-if="cartDishes.length" :to="{ name: 'checkout-page' }"
                             class=" btn-restaurant rounded-pill py-2 px-3 cart">
-                            <img src="/src/assets/img/carrello.png" alt="carrello" class="img-fluid">
+                            <img src="/src/assets/img/shopping-cart.png" alt="carrello" class="img-fluid">
                             <span>{{ cartDishes.length }}</span>
                         </RouterLink>
                     </li>
