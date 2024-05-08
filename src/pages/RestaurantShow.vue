@@ -352,7 +352,7 @@ export default {
 
 .cart-content {
     min-height: calc(400px - 180px);
-    max-height: calc(700px - 180px);
+    max-height: calc(600px - 180px);
     overflow: auto;
     overflow-x: hidden;
 }
