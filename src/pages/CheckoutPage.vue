@@ -39,7 +39,7 @@ export default {
             payment_method_nonce: 'fake-valid-nonce',
         },
 
-        formValidationMessage : 'Attenzione! Alcuni campi sembrano errati o incompleti...',
+        formValidationMessage: 'Attenzione! Alcuni campi sembrano errati o incompleti...',
 
         messages: {
             name_message: '',
@@ -53,7 +53,7 @@ export default {
         }
     }),
     methods: {
-    
+
         //Mando l'evento al componente padre tramite metodo
         handleDish(dish) {
             this.$emit('handle-dish', dish);
@@ -97,11 +97,11 @@ export default {
             if (!this.paymentDetails.name || this.paymentDetails.name.length < 3) {
                 this.messages.name_message = 'Inserisci il nome.';
                 this.isValid = false;
-                console.log('isnamevalid',this.isValid)
+                console.log('isnamevalid', this.isValid)
             } else {
                 this.messages.name_message = 'Campo valido.';
                 this.isValid = true
-                console.log('isnamevalid',this.isValid)
+                console.log('isnamevalid', this.isValid)
             }
             return this.isValid;
         },
@@ -110,11 +110,11 @@ export default {
             if (!this.paymentDetails.lastname || this.paymentDetails.lastname.length < 3) {
                 this.messages.lastname_message = 'Inserisci il cognome.';
                 this.isValid = false;
-                console.log('islastnamenamevalid',this.isValid)
+                console.log('islastnamenamevalid', this.isValid)
             } else {
                 this.messages.lastname_message = 'Campo valido.';
                 this.isValid = true
-                console.log('islastnamenamevalid',this.isValid)
+                console.log('islastnamenamevalid', this.isValid)
             }
             return this.isValid;
         },
@@ -123,11 +123,11 @@ export default {
             if (!this.paymentDetails.address || this.paymentDetails.address.length < 3) {
                 this.messages.address_message = 'Inserisci l\'indirizzo di spedizione.';
                 this.isValid = false;
-                console.log('isAddressValid',this.isValid)
+                console.log('isAddressValid', this.isValid)
             } else {
                 this.messages.address_message = 'Campo valido.';
                 this.isValid = true
-                console.log('isAddressValid',this.isValid)
+                console.log('isAddressValid', this.isValid)
             }
             return this.isValid;
         },
@@ -136,11 +136,11 @@ export default {
             if (!this.paymentDetails.phone || this.paymentDetails.phone.length < 3) {
                 this.messages.phone_message = 'Inserisci il numero di telefono.';
                 this.isValid = false;
-                console.log('isPhoneValid',this.isValid)
+                console.log('isPhoneValid', this.isValid)
             } else {
                 this.messages.phone_message = 'Campo valido.';
                 this.isValid = true
-                console.log('isPhoneValid',this.isValid)
+                console.log('isPhoneValid', this.isValid)
             }
             return this.isValid;
         },
@@ -149,12 +149,12 @@ export default {
             if (!this.paymentDetails.email || !this.paymentDetails.email.includes('@') || !this.paymentDetails.email.includes('.it') && !this.paymentDetails.email.includes('.com')) {
                 this.messages.email_message = 'Inserisci un indirizzo email valido.';
                 this.isValid = false;
-                console.log('isEmailValid',this.isValid)
+                console.log('isEmailValid', this.isValid)
             }
             else {
                 this.messages.email_message = 'Campo valido.';
                 this.isValid = true
-                console.log('isEmailValid',this.isValid)
+                console.log('isEmailValid', this.isValid)
             }
             return this.isValid;
         },
@@ -163,11 +163,11 @@ export default {
             if (!this.paymentDetails.card_number || this.paymentDetails.card_number.length != 16) {
                 this.messages.card_number_message = 'Il numero della carta dev\'essere di 16 cifre.';
                 this.isValid = false;
-                console.log('isCardNumberValid',this.isValid)
+                console.log('isCardNumberValid', this.isValid)
             } else {
                 this.messages.card_number_message = 'Campo valido.';
                 this.isValid = true;
-                console.log('isCardNumberValid',this.isValid)
+                console.log('isCardNumberValid', this.isValid)
             }
             return this.isValid;
         },
@@ -176,12 +176,12 @@ export default {
             if (!this.paymentDetails.card_expire_date || this.paymentDetails.card_expire_date.length != 5) {
                 this.messages.card_expire_date_message = 'Inserisci una data di scadenza valida.';
                 this.isValid = false;
-                console.log('isExpireCardValid',this.isValid)
+                console.log('isExpireCardValid', this.isValid)
             } else {
                 this.messages.card_expire_date_message = 'Campo valido.';
                 this.isValid = true;
-                console.log('isExpireCardValid',this.isValid)
-                
+                console.log('isExpireCardValid', this.isValid)
+
             }
             return this.isValid;
         },
@@ -190,11 +190,11 @@ export default {
             if (!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3) {
                 this.messages.cvv_code_message = 'Inserisci un cvv valido.';
                 this.isValid = false;
-                console.log('isCvvValid',this.isValid)
+                console.log('isCvvValid', this.isValid)
             } else {
                 this.messages.cvv_code_message = 'Campo valido.';
                 this.isValid = true;
-                console.log('isCvvValid',this.isValid)
+                console.log('isCvvValid', this.isValid)
             }
             return this.isValid;
         },
@@ -203,9 +203,9 @@ export default {
         // se qualche campo contiene dei valori non consentiti il form restituirà un errore
         formValidation() {
 
-            if (this.isNameValid() && this.isLastNameValid() && this.isAddressValid() 
-            && this.isPhoneValid() && this.isEmailValid() && this.isCardNumberValid() 
-            && this.isExpireCardValid() && this.isCvvValid()) {
+            if (this.isNameValid() && this.isLastNameValid() && this.isAddressValid()
+                && this.isPhoneValid() && this.isEmailValid() && this.isCardNumberValid()
+                && this.isExpireCardValid() && this.isCvvValid()) {
                 console.log('entroooo');
                 this.generateToken();
             } else {
@@ -215,44 +215,44 @@ export default {
         },
 
         generateToken() {
-            store.isLoading= true;
+            store.isLoading = true;
             //Chiamata per generare il token
             axios.get(`${tokenGenerateEndpoint}generate`).
-            then(res => {
-                this.token = res.data.token;
-                console.log('entro in .then di generate token: token -> ',this.token);
-            })
-            .catch(err => {
-                console.log(err);
-                store.isLoading= false;
-            }).
-            then(() => {
-                if (this.token) this.makePayment();
-                else return store.isLoading= false;
-            })
+                then(res => {
+                    this.token = res.data.token;
+                    console.log('entro in .then di generate token: token -> ', this.token);
+                })
+                .catch(err => {
+                    console.log(err);
+                    store.isLoading = false;
+                }).
+                then(() => {
+                    if (this.token) this.makePayment();
+                    else return store.isLoading = false;
+                })
         },
-        
+
         makePayment() {
             //Chiamata per effettuare il pagamento
             axios.post(`${tokenGenerateEndpoint}make/payment`,
-            { ...this.paymentDetails },
-            { headers: { 'Content-type': 'multipart/form-data' } }).
-            then(response => {
-                localStorage.setItem('resultPage', JSON.stringify(response.data));
-                console.log(response.data)
-            })
-            .catch(({ error, response }) => {
-                localStorage.setItem('resultPage', JSON.stringify(response.data));
-                console.error(error);
-                console.log(response.data.errors);
-                store.isLoading= false;
-                this.$router.push({ name: 'result-page' })
-            }).
-            then(() => {
-                store.cartDishes = [];
-                this.$router.push({ name: 'result-page' })
-                store.isLoading= false;
-            })
+                { ...this.paymentDetails },
+                { headers: { 'Content-type': 'multipart/form-data' } }).
+                then(response => {
+                    localStorage.setItem('resultPage', JSON.stringify(response.data));
+                    console.log(response.data)
+                })
+                .catch(({ error, response }) => {
+                    localStorage.setItem('resultPage', JSON.stringify(response.data));
+                    console.error(error);
+                    console.log(response.data.errors);
+                    store.isLoading = false;
+                    this.$router.push({ name: 'result-page' })
+                }).
+                then(() => {
+                    store.cartDishes = [];
+                    this.$router.push({ name: 'result-page' })
+                    store.isLoading = false;
+                })
         },
 
         formattedPrice(price) {
@@ -410,7 +410,7 @@ export default {
                                 :class="!this.paymentDetails.address || this.paymentDetails.address.length < 3 ? 'is-invalid' : 'is-valid'"
                                 @keyup="isAddressValid">
                             <div class="form-message" v-if="this.messages.address_message.length"
-                            :class="!this.paymentDetails.address || this.paymentDetails.address.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
+                                :class="!this.paymentDetails.address || this.paymentDetails.address.length < 3 ? 'invalid-feedback' : 'valid-feedback'">
                                 <p>{{ this.messages.address_message }}</p>
                             </div>
                         </div>
@@ -429,8 +429,8 @@ export default {
                         <!--Email-->
                         <div class="col-12 mb-3">
                             <label for="email" class="input_label">Email*</label>
-                            <input type="text" id="email" name="email" class="input_field form-control" placeholder="E-mail"
-                                v-model="paymentDetails.email"
+                            <input type="text" id="email" name="email" class="input_field form-control"
+                                placeholder="E-mail" v-model="paymentDetails.email"
                                 :class="!this.paymentDetails.email || this.paymentDetails.email.length < 3 ? 'is-invalid' : 'is-valid'"
                                 @keyup="isEmailValid">
                             <div class="form-message" v-if="this.messages.email_message.length"
@@ -473,12 +473,12 @@ export default {
                                 :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3 ? 'is-invalid' : 'is-valid'"
                                 @keyup="isCvvValid" value="">
                             <div class="form-message" v-if="this.messages.cvv_code_message.length"
-                                :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length !=3 ? 'invalid-feedback' : 'valid-feedback'">
+                                :class="!this.paymentDetails.cvv_code || this.paymentDetails.cvv_code.length != 3 ? 'invalid-feedback' : 'valid-feedback'">
                                 <p>{{ this.messages.cvv_code_message }}</p>
                             </div>
                         </div>
                         <input type="hidden" id="nonce" name="payment_method_nonce"
-                        v-model="paymentDetails.payment_method_nonce" />
+                            v-model="paymentDetails.payment_method_nonce" />
 
                         <button @click="formValidation()">Paga</button>
                     </form>
@@ -605,7 +605,7 @@ export default {
 
 .cart-content {
     min-height: calc(400px - 180px);
-    max-height: calc(700px - 180px);
+    max-height: calc(600px - 180px);
     overflow: auto;
     overflow-x: hidden;
 }
