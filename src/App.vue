@@ -1,6 +1,5 @@
 <script>
 import AppHeader from './components/AppHeader.vue'
-import CartCanvas from './components/CartCanvas.vue'
 import AppFooter from './components/AppFooter.vue'
 import { RouterView } from 'vue-router';
 import { store } from './data/store';
@@ -8,7 +7,7 @@ import { store } from './data/store';
 
 export default {
   name: 'PasqEat',
-  components: { AppHeader, CartCanvas, AppFooter },
+  components: { AppHeader, AppFooter },
   data: () => ({
     showCart: false,
     store,
@@ -74,10 +73,10 @@ export default {
   },
   // Watch per monitorare le modifiche di store.cartDishes
   watch: {
-      'store.cartDishes': function (newCartDishes) {
-        // Aggiorna cartDishes con i nuovi dati dello store
-        this.cartDishes = newCartDishes;
-      }
+    'store.cartDishes': function (newCartDishes) {
+      // Aggiorna cartDishes con i nuovi dati dello store
+      this.cartDishes = newCartDishes;
+    }
   },
   created() {
     // Al caricamento della pagina sincronizzo i prodotti del carrello 
@@ -107,10 +106,6 @@ export default {
 
   <!-- Loader -->
   <AppLoader v-if="store.isLoading" />
-
-  <!-- Cart Canvas -->
-  <!-- <CartCanvas @remove-from-cart="removeFromCart" @handle-dish="handleDish" @toggle-cart="toggleCart"
-    :showCart="showCart" :cartDishes="cartDishes" @remove-row="removeRow" @empty-cart="emptyCart" /> -->
 
   <!-- Main -->
   <main>
