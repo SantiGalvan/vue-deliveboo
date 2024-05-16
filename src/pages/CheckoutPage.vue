@@ -1,21 +1,12 @@
 <script>
-// Rimuovi questo import
-// import axios from axios
 import axios from 'axios';
-import CartDetail from '../components/cart/CartDetail.vue';
-import PaymentComponent from '../components/cart/PaymentComponent.vue';
-
-//registro lo store
 import { store } from '../data/store';
 
-// Dichiaro gli endpoint da utilizzare nelle chiamate
 const endpoint = 'http://localhost:8000/api/restaurants/restaurant';
 const tokenGenerateEndpoint = 'http://127.0.0.1:8000/api/orders/'
 
 export default {
     name: 'CheckoutPage',
-    components: { CartDetail, PaymentComponent },
-    // Cambia il nome della prop qui
     props: { showCart: Boolean },
     emits: ['toggle-cart', 'remove-from-cart', 'handle-dish', 'remove-row', "empty-cart"],
     data: () => ({
@@ -107,7 +98,6 @@ export default {
         },
 
         //Validazione lato client del Cognome
-        
         isLastnameValid() {
             // Inizia a validare solo se il campo non è vuoto
             if (this.paymentDetails.lastname) {
@@ -388,8 +378,10 @@ export default {
 
                 <div class="col-12 col-sm-12 col-md-12 col-lg-6" id="checkout-info">
                     <h3 class="mb-2">Procedi al pagamento</h3>
+
                     <!--Form-->
                     <form class="form" @submit.prevent>
+
                         <!--Nome del cliente-->
                         <div class="col-12 mb-3">
                             <label for="name" class="input_label mb-0 lh-1 fw-medium">Nome<span
@@ -403,6 +395,7 @@ export default {
                                 <p>{{ this.messages.name_message }}</p>
                             </div>
                         </div>
+
                         <!--Cognome-->
                         <div class="col-12 mb-3">
                             <label for="lastname" class="input_label mb-0 lh-1 fw-medium">Cognome<span
@@ -416,6 +409,7 @@ export default {
                                 <p>{{ this.messages.lastname_message }}</p>
                             </div>
                         </div>
+
                         <!--Indirizzo-->
                         <div class="col-12 mb-3">
                             <label for="address" class="input_label mb-0 lh-1 fw-medium">Indirizzo<span
@@ -429,6 +423,7 @@ export default {
                                 <p>{{ this.messages.address_message }}</p>
                             </div>
                         </div>
+
                         <!-- Numero di Telefono-->
                         <div class="col-12 mb-3">
                             <label for="phone" class="input_label mb-0 lh-1 fw-medium">Numero di Telefono<span
@@ -442,6 +437,7 @@ export default {
                                 <p>{{ this.messages.phone_message }}</p>
                             </div>
                         </div>
+
                         <!--Email-->
                         <div class="col-12 mb-3">
                             <label for="email" class="input_label">Email*</label>
@@ -456,6 +452,7 @@ export default {
                         </div>
                         <hr>
                         <h4>Inserisci i dati della tua carta</h4>
+
                         <!--Numero della Carta-->
                         <div class="col-12 mb-3">
                             <label for="card_number" class="input_label mb-0 lh-1 fw-medium">Numero Carta<span
@@ -469,6 +466,7 @@ export default {
                                 <p>{{ this.messages.card_number_message }}</p>
                             </div>
                         </div>
+
                         <!--Scadenza della Carta-->
                         <div class="col-12 mb-3">
                             <label for="card_expire_date" class="input_label mb-0 lh-1 fw-medium">Data Scadenza
@@ -483,6 +481,7 @@ export default {
                                 <p>{{ this.messages.card_expire_date_message }}</p>
                             </div>
                         </div>
+
                         <!--Codice di Sicurezza-->
                         <div class="col-12 mb-3">
                             <label for="cvv_code" class="input_label mb-0 lh-1 fw-medium">CVV<span
@@ -496,6 +495,7 @@ export default {
                                 <p>{{ this.messages.cvv_code_message }}</p>
                             </div>
                         </div>
+
                         <input type="hidden" id="nonce" name="payment_method_nonce"
                             v-model="paymentDetails.payment_method_nonce" />
 
